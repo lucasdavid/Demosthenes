@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="InitialSchema" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="InitialSchemaContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Departments" EntityType="InitialSchema.Department" />
+    <EntitySet Name="Professors" EntityType="InitialSchema.Professor" />
+    <AssociationSet Name="DepartmentProfessor" Association="InitialSchema.DepartmentProfessor">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Professor" EntitySet="Professors" />
+    </AssociationSet>
+    <EntitySet Name="Courses" EntityType="InitialSchema.Course" />
+    <AssociationSet Name="DepartmentCourse" Association="InitialSchema.DepartmentCourse">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Course" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="ProfessorDepartment" Association="InitialSchema.ProfessorDepartment">
+      <End Role="Professor" EntitySet="Professors" />
+      <End Role="Department" EntitySet="Departments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <NavigationProperty Name="Professors" Relationship="InitialSchema.DepartmentProfessor" FromRole="Department" ToRole="Professor" />
+    <NavigationProperty Name="Courses" Relationship="InitialSchema.DepartmentCourse" FromRole="Department" ToRole="Course" />
+    <NavigationProperty Name="Adviser" Relationship="InitialSchema.ProfessorDepartment" FromRole="Department" ToRole="Professor" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Professor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="SSN" Type="String" Nullable="false" />
+    <NavigationProperty Name="Department" Relationship="InitialSchema.DepartmentProfessor" FromRole="Professor" ToRole="Department" />
+    <NavigationProperty Name="AdvisedDepartments" Relationship="InitialSchema.ProfessorDepartment" FromRole="Professor" ToRole="Department" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <Association Name="DepartmentProfessor">
+    <Documentation>
+      <Summary>Department has many professors</Summary>
+    </Documentation>
+    <End Type="InitialSchema.Department" Role="Department" Multiplicity="1" />
+    <End Type="InitialSchema.Professor" Role="Professor" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" />
+    <Property Name="Description" Type="String" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Department" Relationship="InitialSchema.DepartmentCourse" FromRole="Course" ToRole="Department" />
+  </EntityType>
+  <Association Name="DepartmentCourse">
+    <End Type="InitialSchema.Department" Role="Department" Multiplicity="1" />
+    <End Type="InitialSchema.Course" Role="Course" Multiplicity="*" />
+  </Association>
+  <Association Name="ProfessorDepartment">
+    <Documentation>
+      <Summary>Adviser professor of department</Summary>
+      <LongDescription>Department has one adviser, which is a professor</LongDescription>
+    </Documentation>
+    <End Type="InitialSchema.Professor" Role="Professor" Multiplicity="1" />
+    <End Type="InitialSchema.Department" Role="Department" Multiplicity="*" />
+  </Association>
+</Schema>
