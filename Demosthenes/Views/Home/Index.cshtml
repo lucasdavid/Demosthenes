@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="jumbotron">
+    <h1>Demosthenes</h1>
+    <p class="lead">Academic management system.</p>
+    <p>
+        <a href="/Home/About" class="btn btn-primary btn-lg">Learn more &rarr;</a>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a href="/Account/Register" class="btn btn-success btn-lg">Register</a>
+        }
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Universities</h2>
+        <p>
+            Fast and scalable academic data management.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Professors</h2>
+        <p>
+            Simplicity and organization through your terms.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Students</h2>
+        <p>
+            Easy class enrollment and time manager.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
