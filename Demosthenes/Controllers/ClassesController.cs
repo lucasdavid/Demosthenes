@@ -7,13 +7,22 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Demosthenes.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Demosthenes.Controllers
 {
     public class ClassesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        protected UserManager<ApplicationUser> UserManager { get; set; }
+
+        ClassesController()
+        {
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        }
 
         // GET: Classes
         public async Task<ActionResult> Index()
@@ -41,7 +50,7 @@ namespace Demosthenes.Controllers
         public ActionResult Create()
         {
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Title");
-            ViewBag.ProfessorId = new SelectList(db.Courses, "Id", "Title");
+            ViewBag.ProfessorId = new SelectList(db.Professors, "Id", "Name");
             return View();
         }
 
@@ -50,7 +59,7 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term")] Class @class)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +69,7 @@ namespace Demosthenes.Controllers
             }
 
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Title", @class.CourseId);
-            ViewBag.ProfessorId = new SelectList(db.Courses, "Id", "Title", @class.ProfessorId);
+            ViewBag.ProfessorId = new SelectList(db.Professors, "Id", "Name", @class.ProfessorId);
             return View(@class);
         }
 
@@ -77,7 +86,7 @@ namespace Demosthenes.Controllers
                 return HttpNotFound();
             }
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Title", @class.CourseId);
-            ViewBag.ProfessorId = new SelectList(db.Courses, "Id", "Title", @class.ProfessorId);
+            ViewBag.ProfessorId = new SelectList(db.Professors, "Id", "Name", @class.ProfessorId);
             return View(@class);
         }
 
@@ -86,7 +95,7 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term")] Class @class)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +104,7 @@ namespace Demosthenes.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Title", @class.CourseId);
-            ViewBag.ProfessorId = new SelectList(db.Courses, "Id", "Title", @class.ProfessorId);
+            ViewBag.ProfessorId = new SelectList(db.Professors, "Id", "Name", @class.ProfessorId);
             return View(@class);
         }
 
@@ -123,6 +132,42 @@ namespace Demosthenes.Controllers
             db.Classes.Remove(@class);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> Enroll()
+        {
+            var classes = db.Classes.Include(c => c.Course).Include(c => c.Professor);
+            return View(await classes.ToListAsync());
+        }
+
+        // POST: Classes/Enroll/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Enroll([Bind(Include = "Id")] Class @class)
+        {
+            @class = await db.Classes.FindAsync(@class.Id);
+
+            if (@class.Enroll(await db.Students.FindAsync(User.Identity.GetUserId())))
+            {
+                db.Entry(@class).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Enroll");
+        }
+
+        // POST: Classes/Unenroll/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Unenroll([Bind(Include = "Id")] Class @class)
+        {
+            @class = await db.Classes.FindAsync(@class.Id);
+
+            @class.Students.Remove(await db.Students.FindAsync(User.Identity.GetUserId()));
+            db.Entry(@class).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("Enroll");
         }
 
         protected override void Dispose(bool disposing)

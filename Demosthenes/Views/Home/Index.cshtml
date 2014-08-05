@@ -7,29 +7,48 @@
     <p class="lead">Academic management system.</p>
     <p>
         <a href="/Home/About" class="btn btn-primary btn-lg">Learn more &rarr;</a>
-        @if (!User.Identity.IsAuthenticated)
+
+        @if (User.Identity.IsAuthenticated && ViewBag.OpenedClasses > 0)
+        {
+            @Html.ActionLink("Enroll at classes", "Enroll", "Classes", null, new { @class = "btn btn-lg btn-success" })
+        }
+        else
         {
             <a href="/Account/Register" class="btn btn-success btn-lg">Register</a>
         }
     </p>
 </div>
-
 <div class="row">
-    <div class="col-md-4">
+    @foreach (Demosthenes.Models.Post post in ViewBag.posts)
+    {
+        <div class="col-lg-6 col-md-12">
+            <h2>@Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)</h2>
+            <p>
+                <a href="#"><span class="glyphicon glyphicon-user"></span></a>
+                @post.Author.UserName,
+                <small>@post.DateCreated</small>.
+            </p>
+            <p>@post.Body</p>
+        </div>
+    }
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12 col-lg-12">
         <h2>Universities</h2>
         <p>
             Fast and scalable academic data management.
         </p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-12 col-lg-12">
         <h2>Professors</h2>
         <p>
             Simplicity and organization through your terms.
         </p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-12 col-lg-12">
         <h2>Students</h2>
         <p>
             Easy class enrollment and time manager.

@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Course.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Professor.Title)
+            @Html.DisplayNameFor(model => model.Professor.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Size)
@@ -26,6 +26,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Term)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enrollable)
+        </th>
         <th></th>
     </tr>
 
@@ -35,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.Course.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Professor.Title)
+            @Html.DisplayFor(modelItem => item.Professor.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Size)
@@ -45,6 +48,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Term)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Enrollable)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -1,31 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Demosthenes.Models
 {
-    public class Student
+    public class Student : ApplicationUser // Base.TimeStampsEntity
     {
-        public Student()
-        {
-            DateCreated = DateTime.Now;
-        }
-
-        [Key]
-        public int Id { get; set; }
-
-        //public int RA { get; set; }
-
+        [Display(Name = "StudentName", ResourceType = typeof(Resources.i18n.Models))]
         [Required]
         public string Name { get; set; }
 
+        [Display(Name = "StudentDateBorn", ResourceType = typeof(Resources.i18n.Models))]
         [Required]
         public DateTime DateBorn { get; set; }
 
-        public DateTime DateCreated { get; protected set; }
-
+        [Display(Name = "StudentClasses", ResourceType = typeof(Resources.i18n.Models))]
         public ICollection<Class> Classes { get; set; }
     }
 }

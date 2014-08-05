@@ -38,5 +38,7 @@ namespace Demosthenes.Models
         public System.Data.Entity.DbSet<Demosthenes.Models.Student> Students { get; set; }
 
         public System.Data.Entity.DbSet<Demosthenes.Models.Class> Classes { get; set; }
+
+        public System.Data.Entity.DbSet<Demosthenes.Models.Post> Posts { get; set; }
     }
 }

@@ -1,25 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Demosthenes.Models
+namespace Demosthenes.Models.ViewModels
 {
-    public class Professor : ApplicationUser
-    {
-        [Display(Name = "ProfessorName", ResourceType = typeof(Resources.i18n.Models))]
-        [Required]
-        public string Name { get; set; }
-
-        [Display(Name = "ProfessorSSN", ResourceType = typeof(Resources.i18n.Models))]
-        [Required]
-        public string SSN { get; set; }
-
-        [Display(Name = "ProfessorDepartmentId", ResourceType = typeof(Resources.i18n.Models))]
-        [ForeignKey("Department")]
-        public int DepartmentId { get; set; }
-        public Department Department { get; set; }
-    }
-
     public class ProfessorRegisterViewModel
     {
         [Required]

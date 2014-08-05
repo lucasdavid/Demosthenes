@@ -5,26 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Demosthenes.Models
 {
-    public class Department
+    public class Department : Base.TimeStampsEntity
     {
-        public Department()
-        {
-            DateCreated = DateTime.Now;
-        }
-
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "DepartmentName", ResourceType = typeof(Resources.i18n.Models))]
         [Required]
         public string Name { get; set; }
 
-        [ForeignKey("Adviser")]
-        public int? AdviserId { get; set; }
-        public Professor Adviser { get; set; }
-
+        [Display(Name = "DepartmentProfessors", ResourceType = typeof(Resources.i18n.Models))]
         public virtual ICollection<Professor> Professors { get; set; }
-
-        [Required]
-        public DateTime DateCreated { get; protected set; }
     }
 }

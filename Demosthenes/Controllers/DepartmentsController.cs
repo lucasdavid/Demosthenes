@@ -11,7 +11,6 @@ using Demosthenes.Models;
 
 namespace Demosthenes.Controllers
 {
-    [Authorize]
     public class DepartmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,8 +18,7 @@ namespace Demosthenes.Controllers
         // GET: Departments
         public async Task<ActionResult> Index()
         {
-            var departments = db.Departments.Include(d => d.Adviser);
-            return View(await departments.ToListAsync());
+            return View(await db.Departments.ToListAsync());
         }
 
         // GET: Departments/Details/5
@@ -41,7 +39,6 @@ namespace Demosthenes.Controllers
         // GET: Departments/Create
         public ActionResult Create()
         {
-            ViewBag.AdviserId = new SelectList(db.Professors, "Id", "Name");
             return View();
         }
 
@@ -50,7 +47,7 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,AdviserId")] Department department)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,DateCreated")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +56,6 @@ namespace Demosthenes.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AdviserId = new SelectList(db.Professors, "Id", "Name", department.AdviserId);
             return View(department);
         }
 
@@ -75,7 +71,6 @@ namespace Demosthenes.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AdviserId = new SelectList(db.Professors, "Id", "Name", department.AdviserId);
             return View(department);
         }
 
@@ -84,7 +79,7 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,AdviserId")] Department department)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,DateCreated")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +87,6 @@ namespace Demosthenes.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.AdviserId = new SelectList(db.Professors, "Id", "Name", department.AdviserId);
             return View(department);
         }
 

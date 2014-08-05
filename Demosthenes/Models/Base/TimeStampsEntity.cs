@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace Demosthenes.Models.Base
 {
-    public class TimeStampsEntity
+    public abstract class TimeStampsEntity
     {
-        TimeStampsEntity()
+        public TimeStampsEntity()
         {
             DateCreated = DateTime.Now;
         }
 
-        public DateTime DateCreated { get; set; }
-        public DateTime DateUpdated { get; set; }
+        [Required, ScaffoldColumn(false)]
+        public DateTime DateCreated { get; private set; }
     }
 }

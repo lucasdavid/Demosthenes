@@ -8,22 +8,30 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Demosthenes.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Demosthenes.Controllers
 {
     public class ProfessorsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserManager<Professor> UserManager { get; set; }
+
+        public ProfessorsController()
+        {
+            UserManager = new UserManager<Professor>(new UserStore<Professor>(db));
+        }
 
         // GET: Professors
         public async Task<ActionResult> Index()
         {
-            var professors = db.Professors.Include(p => p.Department);
-            return View(await professors.ToListAsync());
+            var users = db.Professors.Include("Department");
+            return View(await users.ToListAsync());
         }
 
         // GET: Professors/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -49,21 +57,32 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,SSN,DepartmentId")] Professor professor)
+        public async Task<ActionResult> Create(ProfessorRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Professors.Add(professor);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var user = new Professor()
+                {
+                    Name = model.Name, SSN = model.SSN,
+                    UserName = model.Email, Email = model.Email,
+                    DepartmentId = model.DepartmentId
+                };
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                
+                AddErrors(result);
             }
 
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", professor.DepartmentId);
-            return View(professor);
+            // TODO: model.DepartmentId is overlaping ViewBag.DepartmentId
+            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name");
+            return View(model);
         }
 
         // GET: Professors/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -83,7 +102,7 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,SSN,DepartmentId")] Professor professor)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,Name,SSN,DepartmentId")] Professor professor)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +115,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Professors/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -113,12 +132,20 @@ namespace Demosthenes.Controllers
         // POST: Professors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
             Professor professor = await db.Professors.FindAsync(id);
-            db.Professors.Remove(professor);
+            db.Users.Remove(professor);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
 
         protected override void Dispose(bool disposing)

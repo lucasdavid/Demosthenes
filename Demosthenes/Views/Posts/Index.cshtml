@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Demosthenes.Models.Student>
+﻿@model IEnumerable<Demosthenes.Models.Post>
 
 @{
     ViewBag.Title = "Index";
@@ -12,10 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Author.Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateBorn)
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Body)
         </th>
         <th></th>
     </tr>
@@ -23,10 +26,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.Author.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateBorn)
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Body)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
