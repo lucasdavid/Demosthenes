@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demosthenes.Tests", "Demost
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demosthenes.Resources", "Demosthenes.Resources\Demosthenes.Resources.csproj", "{D4790CC8-9562-4587-9E77-2BA47254794C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demosthenes.Core", "Demosthenes.Core\Demosthenes.Core.csproj", "{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D4790CC8-9562-4587-9E77-2BA47254794C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4790CC8-9562-4587-9E77-2BA47254794C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4790CC8-9562-4587-9E77-2BA47254794C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

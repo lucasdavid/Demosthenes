@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Demosthenes.Models
+namespace Demosthenes.Core.Models
 {
     public class Department : Base.TimeStampsEntity
     {
         [Key]
         public int Id { get; set; }
 
-        [Display(Name = "DepartmentName", ResourceType = typeof(Resources.i18n.Models))]
+        [Display(Name = "Name", ResourceType = typeof(Resources.i18n.Models))]
         [Required]
         public string Name { get; set; }
 

@@ -8,20 +8,27 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Demosthenes.Models;
+using Demosthenes.Core.Models;
+using Demosthenes.Core.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Demosthenes.Controllers
 {
     public class ClassesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db { get; set; }
+        private UserManager<Student> UserManager { get; set; }
 
-        protected UserManager<ApplicationUser> UserManager { get; set; }
-
-        ClassesController()
+        public ClassesController()
         {
-            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            db = new ApplicationDbContext();
+            UserManager = new UserManager<Student>(new UserStore<Student>(db));
+        }
+
+        public ClassesController(ApplicationDbContext _db, UserManager<Student> _userManager)
+        {
+            db = _db;
+            UserManager = _userManager;
         }
 
         // GET: Classes
@@ -47,10 +54,13 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Title");
+            ViewBag.CourseId    = new SelectList(db.Courses, "Id", "Title");
             ViewBag.ProfessorId = new SelectList(db.Professors, "Id", "Name");
+
+            var schedules = await db.Schedules.ToListAsync();
+            ViewBag.Schedules = schedules;
             return View();
         }
 
@@ -59,11 +69,17 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class,
+            [Bind(Include = "Schedules")] List<int> schedules)
         {
             if (ModelState.IsValid)
             {
+                // TODO: associate selected schedules to this class
+                // var schedules = db.Schedules.All(schedules)
+                // @class.Schedules.Add(schedules);
+
                 db.Classes.Add(@class);
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -134,20 +150,29 @@ namespace Demosthenes.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "student")]
         public async Task<ActionResult> Enroll()
         {
-            var classes = db.Classes.Include(c => c.Course).Include(c => c.Professor);
+            ViewBag.CurrentStudent = await db.Students.FindAsync(User.Identity.GetUserId());
+
+            var classes = db.Classes
+                .Include(c => c.Course)
+                .Include(c => c.Professor)
+                .Include(c => c.Students);
+
             return View(await classes.ToListAsync());
         }
 
         // POST: Classes/Enroll/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "student")]
         public async Task<ActionResult> Enroll([Bind(Include = "Id")] Class @class)
         {
             @class = await db.Classes.FindAsync(@class.Id);
 
-            if (@class.Enroll(await db.Students.FindAsync(User.Identity.GetUserId())))
+            var student = await db.Students.FindAsync(User.Identity.GetUserId());
+            if (@class.Enroll(student))
             {
                 db.Entry(@class).State = EntityState.Modified;
                 await db.SaveChangesAsync();
@@ -159,6 +184,7 @@ namespace Demosthenes.Controllers
         // POST: Classes/Unenroll/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "student")]
         public async Task<ActionResult> Unenroll([Bind(Include = "Id")] Class @class)
         {
             @class = await db.Classes.FindAsync(@class.Id);
@@ -168,6 +194,21 @@ namespace Demosthenes.Controllers
             await db.SaveChangesAsync();
 
             return RedirectToAction("Enroll");
+        }
+
+        // GET: Classes/Calendar
+        public async Task<ActionResult> Calendar(int? year, Term? term)
+        {
+            ViewBag.year = year = year ?? DateTime.Now.Year;
+            ViewBag.term = term = term ?? (Term)(DateTime.Now.Month / 4);
+
+            var id = User.Identity.GetUserId();
+            var classes = await db.Classes
+                          .Where(c => c.Students.Any(s => s.Id == id) && c.Year == year && c.Term == term)
+                          .Include(c => c.Course).Include(c => c.Professor).Include(c => c.Schedules)
+                          .ToListAsync();
+
+            return View(new CalendarViewModel(classes));
         }
 
         protected override void Dispose(bool disposing)

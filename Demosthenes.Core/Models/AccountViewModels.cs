@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Demosthenes.Models
+namespace Demosthenes.Core.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

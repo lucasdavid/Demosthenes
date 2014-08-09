@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using Demosthenes.Models;
+using Demosthenes.Core.Models;
 
 namespace Demosthenes
 {
@@ -30,9 +30,9 @@ namespace Demosthenes
             {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = false,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug in here.

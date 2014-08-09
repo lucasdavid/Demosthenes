@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -168,22 +169,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProfessorsController.cs" />
+    <Compile Include="Controllers\SchedulesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Base\TimeStampsEntity.cs" />
-    <Compile Include="Models\Class.cs" />
-    <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Post.cs" />
-    <Compile Include="Models\Professor.cs" />
-    <Compile Include="Models\Student.cs" />
-    <Compile Include="Models\Term.cs" />
-    <Compile Include="Models\ProfessorRegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -252,7 +243,6 @@
     <Content Include="Views\Departments\Edit.cshtml" />
     <Content Include="Views\Departments\Index.cshtml" />
     <Content Include="Views\Professors\Create.cshtml" />
-    <Content Include="Views\Professors\Delete.cshtml" />
     <Content Include="Views\Professors\Details.cshtml" />
     <Content Include="Views\Professors\Edit.cshtml" />
     <Content Include="Views\Professors\Index.cshtml" />
@@ -261,11 +251,6 @@
     <Content Include="Views\Classes\Details.cshtml" />
     <Content Include="Views\Classes\Edit.cshtml" />
     <Content Include="Views\Classes\Index.cshtml" />
-    <Content Include="Views\Students\Create.cshtml" />
-    <Content Include="Views\Students\Delete.cshtml" />
-    <Content Include="Views\Students\Details.cshtml" />
-    <Content Include="Views\Students\Edit.cshtml" />
-    <Content Include="Views\Students\Index.cshtml" />
     <Content Include="Views\Courses\Create.cshtml" />
     <Content Include="Views\Courses\Delete.cshtml" />
     <Content Include="Views\Courses\Details.cshtml" />
@@ -277,6 +262,16 @@
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Classes\Enroll.cshtml" />
+    <Content Include="Views\Students\Details.cshtml" />
+    <Content Include="Views\Students\Edit.cshtml" />
+    <Content Include="Views\Students\Index.cshtml" />
+    <Content Include="Views\Students\Create.cshtml" />
+    <Content Include="Views\Classes\Calendar.cshtml" />
+    <Content Include="Views\Schedules\Create.cshtml" />
+    <Content Include="Views\Schedules\Delete.cshtml" />
+    <Content Include="Views\Schedules\Details.cshtml" />
+    <Content Include="Views\Schedules\Edit.cshtml" />
+    <Content Include="Views\Schedules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -289,6 +284,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Demosthenes.Core\Demosthenes.Core.csproj">
+      <Project>{d104c79b-09f8-4509-bdff-c0b7a7e83dd2}</Project>
+      <Name>Demosthenes.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Demosthenes.Resources\Demosthenes.Resources.csproj">
       <Project>{d4790cc8-9562-4587-9e77-2ba47254794c}</Project>
       <Name>Demosthenes.Resources</Name>

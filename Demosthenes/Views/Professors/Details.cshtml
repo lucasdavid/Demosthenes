@@ -1,10 +1,8 @@
-﻿@model Demosthenes.Models.Professor
+﻿@model ProfessorViewModel
 
-@{
-    ViewBag.Title = "Details";
-}
-
-<h2>Details</h2>
+<h2>
+    @Html.DisplayFor(model => model.Name)
+</h2>
 
 <div>
     <h4>Professor</h4>
@@ -16,86 +14,15 @@
 
         <dd>
             @Html.DisplayFor(model => model.Email)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailConfirmed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailConfirmed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PasswordHash)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PasswordHash)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SecurityStamp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SecurityStamp)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumberConfirmed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TwoFactorEnabled)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TwoFactorEnabled)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LockoutEndDateUtc)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LockoutEnabled)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LockoutEnabled)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AccessFailedCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AccessFailedCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
+            @if (Model.EmailConfirmed)
+            {
+                <span class="label label-info">confirmed</span>
+            }
+            else
+            {
+                <span class="label label-warning">not confirmed</span>
+            }
         </dd>
 
         <dt>
@@ -115,16 +42,41 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+
+            @if (Model.PhoneNumberConfirmed)
+            {
+                <span class="label label-info">confirmed</span>
+            }
+            else
+            {
+                <span class="label label-warning">not confirmed</span>
+            }
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Department.Name)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Department.Name)
         </dd>
-
     </dl>
+
+    @using (Html.BeginForm("Delete", "Professors"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-actions text-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-link" })
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

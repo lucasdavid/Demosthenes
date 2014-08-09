@@ -1,4 +1,4 @@
-﻿@model Demosthenes.Models.Class
+﻿@model Demosthenes.Core.Models.Class
 
 @{
     ViewBag.Title = "Create";
@@ -6,10 +6,10 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Class</h4>
         <hr />
@@ -61,6 +61,19 @@
                     @Html.EditorFor(model => model.Enrollable)
                     @Html.ValidationMessageFor(model => model.Enrollable, "", new { @class = "text-danger" })
                 </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Schedules, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            <div class="btn-group col-md-10" data-toggle="buttons">
+                @for (int i = 0; i < ViewBag.Schedules.Count; i++)
+                {
+                    <label class="btn btn-primary btn-sm">
+                        <input name="Schedules[@i]" id="schedule" value="@ViewBag.Schedules[i].Id" type="checkbox"> @ViewBag.Schedules[i]
+                    </label>
+                }
             </div>
         </div>
 

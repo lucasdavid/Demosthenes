@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Demosthenes.Models.Base
+namespace Demosthenes.Core.Models.Base
 {
     public abstract class TimeStampsEntity
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Demosthenes.Models;
+using Demosthenes.Core.Models;
 
 namespace Demosthenes.Controllers
 {

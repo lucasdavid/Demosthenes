@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Demosthenes.Models
+namespace Demosthenes.Core.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        public string Name { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -29,16 +31,20 @@ namespace Demosthenes.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<Demosthenes.Models.Department> Departments { get; set; }
+        public System.Data.Entity.DbSet<Demosthenes.Core.Models.Department> Departments { get; set; }
 
-        public System.Data.Entity.DbSet<Demosthenes.Models.Professor> Professors { get; set; }
+        public System.Data.Entity.DbSet<Demosthenes.Core.Models.Professor> Professors { get; set; }
 
-        public System.Data.Entity.DbSet<Demosthenes.Models.Course> Courses { get; set; }
+        public System.Data.Entity.DbSet<Demosthenes.Core.Models.Course> Courses { get; set; }
 
-        public System.Data.Entity.DbSet<Demosthenes.Models.Student> Students { get; set; }
+        public System.Data.Entity.DbSet<Demosthenes.Core.Models.Student> Students { get; set; }
 
-        public System.Data.Entity.DbSet<Demosthenes.Models.Class> Classes { get; set; }
+        public System.Data.Entity.DbSet<Demosthenes.Core.Models.Class> Classes { get; set; }
 
-        public System.Data.Entity.DbSet<Demosthenes.Models.Post> Posts { get; set; }
+        public System.Data.Entity.DbSet<Demosthenes.Core.Models.Post> Posts { get; set; }
+
+        public System.Data.Entity.DbSet<Demosthenes.Core.ViewModels.StudentViewModel> StudentViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<Demosthenes.Core.Models.Schedule> Schedules { get; set; }
     }
 }

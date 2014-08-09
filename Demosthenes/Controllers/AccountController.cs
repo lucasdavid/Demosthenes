@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-using Demosthenes.Models;
+using Demosthenes.Core.Models;
 
 namespace Demosthenes.Controllers
 {

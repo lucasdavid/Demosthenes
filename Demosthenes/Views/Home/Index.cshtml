@@ -8,18 +8,18 @@
     <p>
         <a href="/Home/About" class="btn btn-primary btn-lg">Learn more &rarr;</a>
 
-        @if (User.Identity.IsAuthenticated && ViewBag.OpenedClasses > 0)
-        {
-            @Html.ActionLink("Enroll at classes", "Enroll", "Classes", null, new { @class = "btn btn-lg btn-success" })
-        }
-        else
+        @if (!User.Identity.IsAuthenticated)
         {
             <a href="/Account/Register" class="btn btn-success btn-lg">Register</a>
+        }
+        else if (ViewBag.EnrollableClasses > 0)
+        {
+            @Html.ActionLink("Enroll at classes", "Enroll", "Classes", null, new { @class = "btn btn-lg btn-success", title = "Some classes are opened for enrollment." })
         }
     </p>
 </div>
 <div class="row">
-    @foreach (Demosthenes.Models.Post post in ViewBag.posts)
+    @foreach (Demosthenes.Core.Models.Post post in ViewBag.posts)
     {
         <div class="col-lg-6 col-md-12">
             <h2>@Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)</h2>
@@ -39,20 +39,20 @@
         <p>
             Fast and scalable academic data management.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="#">Learn more &rarr;</a></p>
     </div>
     <div class="col-md-12 col-lg-12">
         <h2>Professors</h2>
         <p>
             Simplicity and organization through your terms.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="#">Learn more &rarr;</a></p>
     </div>
     <div class="col-md-12 col-lg-12">
         <h2>Students</h2>
         <p>
             Easy class enrollment and time manager.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="#">Learn more &rarr;</a></p>
     </div>
 </div>

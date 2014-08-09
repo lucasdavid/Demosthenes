@@ -1,28 +1,52 @@
 namespace Demosthenes.Migrations
 {
-    using Demosthenes.Models;
+    using Demosthenes.Core.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Demosthenes.Models.ApplicationDbContext>
+
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(Demosthenes.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
+            var roles       = PopulateRoles(context);
+
             var departments = PopulateDepartments(context);
             var professors  = PopulateProfessors(context, departments);
             var courses     = PopulateCourses(context, departments);
             var students    = PopulateStudents(context);
             var classes     = PopulateClasses(context, courses, professors, students);
-            //var posts       = PopulatePosts(context);
+            var posts       = PopulatePosts(context, professors);
+        }
+
+        private IdentityRole[] PopulateRoles(ApplicationDbContext context)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            IdentityRole[] roles = new IdentityRole[]
+            {
+                new IdentityRole("admin"),
+                new IdentityRole("student"),
+                new IdentityRole("professor")
+            };
+
+            foreach (IdentityRole role in roles)
+            {
+                if (!roleManager.RoleExists(role.Name))
+                {
+                    roleManager.Create(role);
+                }
+            }
+
+            return roles;
         }
 
         private Class[] PopulateClasses(ApplicationDbContext context, Course[] courses, Professor[] professors, Student[] students)
@@ -32,7 +56,7 @@ namespace Demosthenes.Migrations
             {
                 new Class
                 {
-                    Term = Models.Term.Fall, Year = DateTime.Now.Year, Size = 60,
+                    Term = Term.Fall, Year = DateTime.Now.Year, Size = 60,
                     Professor = professors[random.Next(professors.Length)],
                     Course = courses[random.Next(courses.Length)],
                     Enrollable = true
@@ -60,18 +84,30 @@ namespace Demosthenes.Migrations
 
         private Professor[] PopulateProfessors(ApplicationDbContext context, Department[] departments)
         {
+            var userManager = new UserManager<Professor>(new UserStore<Professor>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
             var professors = new Professor[]
             {
-                new Professor { Name = "John Paul", SSN = "102-25-3921", Department = departments[0] },
-                new Professor { Name = "Cristina Hulfman", SSN = "102-21-1877", Department = departments[1] },
-                new Professor { Name = "Christian Bale", SSN = "622-21-0381", Department = departments[1] },
-                new Professor { Name = "David Wilson", SSN = "902-81-8375", Department = departments[2] },
-                new Professor { Name = "Maria Galles", SSN = "392-71-6461", Department = departments[3] },
-                new Professor { Name = "Jason Bourne", SSN = "017-31-3315", Department = departments[4] },
-                new Professor { Name = "Hellen Page", SSN = "847-27-0981", Department = departments[3] }
+                new Professor { Email = "johnpaul@ufscar.edu", Name = "John Paul", SSN = "102-25-3921", Department = departments[0] },
+                new Professor { Email = "cris.h@ufscar.edu", Name = "Cristina Hulfman", SSN = "102-21-1877", Department = departments[1] },
+                new Professor { Email = "christian@ufscar.edu", Name = "Christian Bale", SSN = "622-21-0381", Department = departments[1] },
+                new Professor { Email = "david.wilson@ufscar.edu", Name = "David Wilson", SSN = "902-81-8375", Department = departments[2] },
+                new Professor { Email = "maria@ufscar.edu",Name = "Maria Galles", SSN = "392-71-6461", Department = departments[3] },
+                new Professor { Email = "jason@ufscar.edu", Name = "Jason Bourne", SSN = "017-31-3315", Department = departments[4] },
+                new Professor { Email = "hellen@ufscar.edu",Name = "Hellen Page", SSN = "847-27-0981", Department = departments[3] }
             };
 
-            context.Professors.AddOrUpdate(professors);
+            foreach (Professor professor in professors)
+            {
+                professor.UserName = professor.Email;
+                if (userManager.FindByEmail(professor.Email) == null)
+                {
+                    userManager.Create(professor, "password");
+                    userManager.AddToRole(professor.Id, "professor");
+                }
+            }
+
             return professors;
         }
 
@@ -97,6 +133,8 @@ namespace Demosthenes.Migrations
 
         private Student[] PopulateStudents(ApplicationDbContext context)
         {
+            var userManager = new UserManager<Student>(new UserStore<Student>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var students = new Student[10];
             var random = new Random();
 
@@ -105,16 +143,24 @@ namespace Demosthenes.Migrations
                 students[i] = new Student
                 {
                     Name = "Student " + i,
+                    Email = "student" + i + "@ufscar.edu",
+                    UserName = "student" + i + "@ufscar.edu",
                     DateBorn = DateTime.Now.AddYears(-random.Next(14, 50))
                 };
+
+                if (userManager.FindByEmail(students[i].Email) == null)
+                {
+                    userManager.Create(students[i], "password");
+                    userManager.AddToRole(students[i].Id, "student");
+                }
             }
 
-            context.Students.AddOrUpdate(students);
             return students;
         }
 
-        private Post[] PopulatePosts(ApplicationDbContext context)
+        private Post[] PopulatePosts(ApplicationDbContext context, Professor[] professors)
         {
+            var random = new Random();
             var posts = new Post[10];
 
             for (int i = 0; i < 10; i++)
@@ -123,7 +169,7 @@ namespace Demosthenes.Migrations
                 {
                     Title = "Our very " + i + "n post",
                     Body = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    Author = context.Users.First()
+                    Author = professors[random.Next(professors.Length)]
                 };
             }
 

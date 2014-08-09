@@ -1,33 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Demosthenes.Models;
+﻿using Demosthenes.Core.Models;
+using Demosthenes.Core.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Demosthenes.Controllers
 {
     public class ProfessorsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db { get; set; }
         private UserManager<Professor> UserManager { get; set; }
 
         public ProfessorsController()
         {
+            db = new ApplicationDbContext();
             UserManager = new UserManager<Professor>(new UserStore<Professor>(db));
+        }
+
+        public ProfessorsController(ApplicationDbContext dbContext, UserManager<Professor> userManager)
+        {
+            db = dbContext;
+            UserManager = userManager;
         }
 
         // GET: Professors
         public async Task<ActionResult> Index()
         {
-            var users = db.Professors.Include("Department");
-            return View(await users.ToListAsync());
+            var professors = await db.Professors.Include("Department").ToListAsync();
+            var viewModel = new List<ProfessorViewModel>();
+
+            foreach (Professor professor in professors)
+            {
+                viewModel.Add(new ProfessorViewModel(professor));
+            }
+
+            return View(viewModel);
         }
 
         // GET: Professors/Details/5
@@ -38,11 +49,13 @@ namespace Demosthenes.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Professor professor = await db.Professors.FindAsync(id);
+
             if (professor == null)
             {
                 return HttpNotFound();
             }
-            return View(professor);
+            // TODO: Department entity should eagerly load
+            return View(new ProfessorViewModel(professor));
         }
 
         // GET: Professors/Create
@@ -57,28 +70,21 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ProfessorRegisterViewModel model)
+        public async Task<ActionResult> Create(ProfessorViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = new Professor()
-                {
-                    Name = model.Name, SSN = model.SSN,
-                    UserName = model.Email, Email = model.Email,
-                    DepartmentId = model.DepartmentId
-                };
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                IdentityResult result = await UserManager.CreateAsync(new Professor(viewModel), viewModel.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index");
                 }
-                
+
                 AddErrors(result);
             }
 
-            // TODO: model.DepartmentId is overlaping ViewBag.DepartmentId
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name");
-            return View(model);
+            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", viewModel.DepartmentId);
+            return View(viewModel);
         }
 
         // GET: Professors/Edit/5
@@ -94,7 +100,7 @@ namespace Demosthenes.Controllers
                 return HttpNotFound();
             }
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", professor.DepartmentId);
-            return View(professor);
+            return View(new ProfessorEditViewModel(professor));
         }
 
         // POST: Professors/Edit/5
@@ -102,31 +108,17 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,Name,SSN,DepartmentId")] Professor professor)
+        public async Task<ActionResult> Edit(ProfessorEditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+                var professor = new Professor(viewModel);
                 db.Entry(professor).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", professor.DepartmentId);
-            return View(professor);
-        }
-
-        // GET: Professors/Delete/5
-        public async Task<ActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Professor professor = await db.Professors.FindAsync(id);
-            if (professor == null)
-            {
-                return HttpNotFound();
-            }
-            return View(professor);
+            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", viewModel.DepartmentId);
+            return View(viewModel);
         }
 
         // POST: Professors/Delete/5

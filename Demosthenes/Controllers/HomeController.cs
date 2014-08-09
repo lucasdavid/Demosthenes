@@ -1,15 +1,42 @@
-﻿using Demosthenes.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
+using Demosthenes.Core.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Demosthenes.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db { get; set; }
+        private UserManager<ApplicationUser> UserManager { get; set; }
+
+        public HomeController()
+        {
+            db = new ApplicationDbContext();
+            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        }
+
+        public HomeController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
+        {
+            db = dbContext;
+            UserManager = userManager;
+        }
 
         public ActionResult Index()
         {
-            ViewBag.OpenedClasses = 10;
+            ViewBag.CurrentUser = UserManager.FindById(User.Identity.GetUserId());
+            ViewBag.EnrollableClasses = db.Classes
+                .Where(m => m.Enrollable)
+                .ToList().Count;
+
             ViewBag.posts = db.Posts.Include("Author");
             return View();
         }

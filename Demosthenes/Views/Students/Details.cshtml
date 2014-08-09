@@ -1,4 +1,4 @@
-﻿@model Demosthenes.Models.Student
+﻿@model StudentViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -19,16 +19,58 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+            @if (Model.EmailConfirmed)
+            {
+                <span class="label label-info">confirmed</span>
+            }
+            else
+            {
+                <span class="label label-warning">not confirmed</span>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+            @if (Model.PhoneNumberConfirmed)
+            {
+                <span class="label label-info">confirmed</span>
+            }
+            else
+            {
+                <span class="label label-warning">not confirmed</span>
+            }
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.DateBorn)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.DateBorn)
         </dd>
-
     </dl>
+
+    @using (Html.BeginForm("Delete", "Students"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-actions text-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-link" })
+
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

@@ -55,3 +55,5 @@ C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthene
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\obj\Debug\Demosthenes.csprojResolveAssemblyReference.cache
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Resources.dll
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Resources.pdb
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Core.dll
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Core.pdb

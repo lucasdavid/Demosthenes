@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Demosthenes.Models
+namespace Demosthenes.Core.ViewModels
 {
-    public enum Term
+    class ClassViewModel
     {
-        Spring, Summer, Fall, Winter
     }
 }
