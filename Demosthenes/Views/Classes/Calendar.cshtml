@@ -1,0 +1,52 @@
+﻿@model Demosthenes.Core.ViewModels.CalendarViewModel
+
+<h2>
+    Calendar
+    <br /><small>
+        @ViewBag.term - @ViewBag.year
+    </small>
+</h2>
+
+<div class="col-md-2">
+    <h3>Enrolled classes</h3>
+    @foreach (Demosthenes.Core.Models.Class c in Model.AllClasses)
+    {
+        <div class="">
+            <strong>@c.Course.Title</strong>
+            <br />
+            @c.Professor.Name
+        </div>
+    }
+</div>
+<div class="col-md-10">
+    <table class="table table-striped table-responsive table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+
+                @foreach (string day in Enum.GetNames(typeof(DayOfWeek)))
+                {
+                    <th>@day</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 8; i < 22; i++)
+            {
+                <tr>
+                    <td class="text-right">@i:00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>

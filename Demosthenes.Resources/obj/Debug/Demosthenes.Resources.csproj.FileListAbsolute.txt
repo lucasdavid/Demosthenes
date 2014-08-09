@@ -1,0 +1,7 @@
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Resources\bin\Debug\Demosthenes.Resources.dll
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Resources\bin\Debug\Demosthenes.Resources.pdb
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Resources\obj\Debug\Demosthenes.Resources.csprojResolveAssemblyReference.cache
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Resources\obj\Debug\Demosthenes.Resources.csproj.GenerateResource.Cache
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Resources\obj\Debug\Demosthenes.Resources.dll
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Resources\obj\Debug\Demosthenes.Resources.pdb
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Resources\obj\Debug\Demosthenes.Resources.i18n.Models.resources

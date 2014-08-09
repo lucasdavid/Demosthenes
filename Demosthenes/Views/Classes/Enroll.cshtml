@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Demosthenes.Core.Models.Class>
+
+@{
+    ViewBag.Title = "Enroll";
+}
+
+<h2>Enroll</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Professor.Name)
+        </th>
+        <th>
+            Enroll
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Term)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Professor.Name)
+            </td>
+            <td>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"
+                         aria-valuenow="@item.Students.Count"
+                         aria-valuemin="0" aria-valuemax="@item.Size"
+                         style="width: @(100 * item.Students.Count / item.Size)%;">
+                        <span class="sr-only">@(100 * item.Students.Count / item.Size)% full</span>
+                        @(100 * item.Students.Count / item.Size)%
+                    </div>
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Term)
+            </td>
+            <td>
+                @if (!item.Enrollable)
+                {
+                    <input type="button" class="btn btn-danger btn-sm disabled" value="Closed" disabled="disabled" />
+                }
+                else if (item.Students.Contains(ViewBag.CurrentStudent))
+                {
+                    using (Html.BeginForm("Unenroll", "Classes"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input data-val="true"
+                               data-val-number="The field Id must be a number."
+                               data-val-required="The Id field is required."
+                               id="item_Id" name="Id" type="hidden" value="@item.Id">
+                        <input type="submit" value="Unenroll" class="btn btn-sm btn-warning" />
+                    }
+                }
+                else if (item.Students.Count >= item.Size)
+                {
+                    <input type="button" class="btn btn-warning btn-sm disabled" value="Enrollment limit exceded" disabled="disabled" />
+                }
+                else
+                {
+                    using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <input data-val="true"
+                               data-val-number="The field Id must be a number."
+                               data-val-required="The Id field is required."
+                               id="item_Id" name="Id" type="hidden" value="@item.Id">
+                        <input type="submit" value="Enroll" class="btn btn-sm btn-info" />
+                    }
+                }
+            </td>
+
+        </tr>
+    }
+
+</table>
