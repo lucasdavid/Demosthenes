@@ -87,7 +87,7 @@
     <Compile Include="Enums\Term.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
-    <Compile Include="ViewModels\ClassViewModel.cs" />
+    <Compile Include="ViewModels\ClassSchedulesViewModel.cs" />
     <Compile Include="ViewModels\ProfessorEditViewModel.cs" />
     <Compile Include="ViewModels\ProfessorViewModel.cs" />
     <Compile Include="ViewModels\StudentEditViewModel.cs" />

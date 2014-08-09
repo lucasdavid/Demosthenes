@@ -1,0 +1,46 @@
+﻿@model Demosthenes.Core.ViewModels.ClassSchedulesViewModel
+
+@{
+    ViewBag.Title = "Schedule";
+}
+
+<h2>
+    Schedule
+    <small>Class @Model.Id</small>
+</h2>
+
+@using (Html.BeginForm("Schedule", "Classes", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div>
+        @{ var i = 0; }
+        @foreach (DayOfWeek day in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
+        {
+            <div class="well">
+                <strong>@day</strong>
+                <br />
+                @while (i < ViewBag.schedules.Count && ViewBag.schedules[i].Day == day)
+                {
+                    <label class="btn-link">
+                        <input type="checkbox" name="model.Schedules[@i]" value="@ViewBag.schedules[i].Id"
+                               @*@( Model.Schedules.Contains(ViewBag.schedules[i].id) ? "checked" : "" )*@
+                               > @ViewBag.schedules[i++]
+                    </label>
+                    @:&nbsp;&nbsp;
+                }
+            </div>
+        }
+    </div>
+
+    <div class="text-right">
+        <input type="submit" value="Create" class="btn btn-default" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

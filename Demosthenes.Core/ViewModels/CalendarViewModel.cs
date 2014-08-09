@@ -9,12 +9,17 @@ namespace Demosthenes.Core.ViewModels
 {
     public class CalendarViewModel
     {
+        public List<Class> AllClasses { get; protected set; }
+        public Dictionary<DayOfWeek, List<Class>> DaysOfWeek { get; protected set; }
+
         public CalendarViewModel()
         {
             AllClasses = new List<Class>();
             DaysOfWeek = new Dictionary<DayOfWeek, List<Class>>();
         }
-        public CalendarViewModel(List<Class> classes) : this()
+
+        public CalendarViewModel(List<Class> classes)
+            : this()
         {
             AddClass(classes);
         }
@@ -50,8 +55,5 @@ namespace Demosthenes.Core.ViewModels
 
             return null;
         }
-
-        public List<Class> AllClasses { get; protected set; }
-        public Dictionary<DayOfWeek, List<Class>> DaysOfWeek { get; protected set; }
     }
 }

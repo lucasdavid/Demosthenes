@@ -11,7 +11,7 @@
     <h3>Enrolled classes</h3>
     @foreach (Demosthenes.Core.Models.Class c in Model.AllClasses)
     {
-        <div class="">
+        <div>
             <strong>@c.Course.Title</strong>
             <br />
             @c.Professor.Name
@@ -32,19 +32,20 @@
         </thead>
         <tbody>
 
-            @for (int i = 8; i < 22; i++)
-            {
-                <tr>
-                    <td class="text-right">@i:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            }
+
+            <tr>
+                <td class="text-right"></td>
+
+                @foreach (DayOfWeek day in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    <td>
+                        @foreach (Demosthenes.Core.Models.Class c in Model.DaysOfWeek[day])
+                        {
+                            <strong>@c.Course.Title</strong> @c.Professor.Name
+                        }
+                    </td>
+                }
+            </tr>
 
         </tbody>
     </table>
