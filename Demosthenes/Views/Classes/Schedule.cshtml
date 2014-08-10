@@ -6,7 +6,7 @@
 
 <h2>
     Schedule
-    <small>Class @Model.Id</small>
+    <small>@Model.Title<span>:</span> @Model.Id</small>
 </h2>
 
 @using (Html.BeginForm("Schedule", "Classes", FormMethod.Post))
@@ -26,8 +26,8 @@
                 @while (i < ViewBag.schedules.Count && ViewBag.schedules[i].Day == day)
                 {
                     <label class="btn-link">
-                        <input type="checkbox" name="model.Schedules[@i]" value="@ViewBag.schedules[i].Id"
-                               @*@( Model.Schedules.Contains(ViewBag.schedules[i].id) ? "checked" : "" )*@
+                        <input type="checkbox" name="Schedules" value="@ViewBag.schedules[i].Id"
+                               @( Model.Schedules.Contains(ViewBag.schedules[i].Id) ? "checked" : "" )
                                > @ViewBag.schedules[i++]
                     </label>
                     @:&nbsp;&nbsp;

@@ -17,8 +17,9 @@ namespace Demosthenes.Core.ViewModels
             : this()
         {
             Id = @class.Id;
+            Title = @class.Course.Title;
 
-            Schedules = new List<int>();
+            Schedules = new HashSet<int>();
             foreach (Schedule schedule in @class.Schedules)
             {
                 Schedules.Add(schedule.Id);
@@ -28,8 +29,10 @@ namespace Demosthenes.Core.ViewModels
         [Required]
         public int Id { get; set; }
 
+        public string Title { get; set; }
+
         [Required]
         [Display(Name = "ClassSchedules", ResourceType = typeof(Resources.i18n.Models))]
-        public List<int> Schedules { get; set; }
+        public ICollection<int> Schedules { get; set; }
     }
 }

@@ -66,17 +66,17 @@ namespace Demosthenes.Controllers
         }
 
         // POST: Professors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ProfessorViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await UserManager.CreateAsync(new Professor(viewModel), viewModel.Password);
+                var professor = new Professor(viewModel);
+                IdentityResult result = await UserManager.CreateAsync(professor, viewModel.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(professor.Id, "professor");
                     return RedirectToAction("Index");
                 }
 

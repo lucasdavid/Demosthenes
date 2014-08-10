@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<Demosthenes.Core.Models.Post>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Shared posts";
 }
 
-<h2>Index</h2>
+@Html.Partial("_Title")
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -23,23 +20,32 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Body)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Body)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+
+                @if (User.IsInRole("admin") || item.AuthorId == User.Identity.GetUserId())
+                {
+                    if (item.AuthorId == User.Identity.GetUserId())
+                    {
+                        <span>|</span> @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    }
+
+                    <span>|</span> @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
 
 </table>

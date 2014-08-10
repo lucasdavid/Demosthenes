@@ -8,11 +8,7 @@
     <p>
         <a href="/Home/About" class="btn btn-primary btn-lg">Learn more &rarr;</a>
 
-        @if (!User.Identity.IsAuthenticated)
-        {
-            <a href="/Account/Register" class="btn btn-success btn-lg">Register</a>
-        }
-        else if (ViewBag.EnrollableClasses > 0)
+        @if (User.Identity.IsAuthenticated && ViewBag.EnrollableClasses > 0)
         {
             @Html.ActionLink("Enroll at classes", "Enroll", "Classes", null, new { @class = "btn btn-lg btn-success", title = "Some classes are opened for enrollment." })
         }

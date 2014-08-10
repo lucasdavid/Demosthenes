@@ -9,7 +9,7 @@ namespace Demosthenes.Core.Models
         public Post()
             : base()
         {
-            Visible = false;
+            Visible = true;
         }
 
         [Key]
@@ -27,8 +27,8 @@ namespace Demosthenes.Core.Models
         public bool Visible { get; set; }
 
         [Display(Name = "AuthorId", ResourceType = typeof(Resources.i18n.Models))]
-        [Required, ForeignKey("Author")]
+        [ForeignKey("Author")]
         public string AuthorId { get; set; }
-        public ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Author { get; set; }
     }
 }

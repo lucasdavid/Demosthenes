@@ -44,7 +44,5 @@ namespace Demosthenes.Core.Models
         public System.Data.Entity.DbSet<Demosthenes.Core.Models.Post> Posts { get; set; }
 
         public System.Data.Entity.DbSet<Demosthenes.Core.Models.Schedule> Schedules { get; set; }
-
-        public System.Data.Entity.DbSet<Demosthenes.Core.ViewModels.ClassSchedulesViewModel> ClassSchedulesViewModels { get; set; }
     }
 }

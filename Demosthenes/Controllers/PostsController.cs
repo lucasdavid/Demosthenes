@@ -1,29 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using Demosthenes.Core.Models;
+using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Demosthenes.Core.Models;
 
 namespace Demosthenes.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin,professor")]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
+        [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
-            var posts = db.Posts.Include(p => p.Author);
+            var id = User.Identity.GetUserId();
+            var posts = db.Posts
+                .Where(p => p.Visible || p.AuthorId == id)
+                .OrderByDescending(p => p.DateCreated)
+                .Include(p => p.Author);
+
             return View(await posts.ToListAsync());
         }
 
         // GET: Posts/Details/5
+        [AllowAnonymous]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,31 +39,33 @@ namespace Demosthenes.Controllers
             {
                 return HttpNotFound();
             }
+            if (!post.Visible && post.AuthorId != User.Identity.GetUserId())
+            {
+                return new HttpUnauthorizedResult();
+            }
             return View(post);
         }
 
         // GET: Posts/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
         // POST: Posts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Body,AuthorId")] Post post)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Body")] Post post)
         {
             if (ModelState.IsValid)
             {
+                post.AuthorId = User.Identity.GetUserId();
+
                 db.Posts.Add(post);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", post.AuthorId);
             return View(post);
         }
 
@@ -70,44 +76,38 @@ namespace Demosthenes.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            
             Post post = await db.Posts.FindAsync(id);
             if (post == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", post.AuthorId);
+
+            if (post.AuthorId != User.Identity.GetUserId())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             return View(post);
         }
 
         // POST: Posts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Body,AuthorId")] Post post)
         {
+            if (post.AuthorId != User.Identity.GetUserId())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(post).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", post.AuthorId);
-            return View(post);
-        }
 
-        // GET: Posts/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Post post = await db.Posts.FindAsync(id);
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
             return View(post);
         }
 
@@ -117,9 +117,32 @@ namespace Demosthenes.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Post post = await db.Posts.FindAsync(id);
+
+            if (!User.IsInRole("admin") && post.AuthorId != User.Identity.GetUserId())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             db.Posts.Remove(post);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // TODO: implement this in the view.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Hide(int id)
+        {
+            var post = await db.Posts.FindAsync(id);
+
+            if (!User.IsInRole("admin") && post.AuthorId != User.Identity.GetUserId())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            post.Visible = false;
+            await db.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = post.Id });
         }
 
         protected override void Dispose(bool disposing)

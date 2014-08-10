@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Demosthenes.Core.Models;
 using Demosthenes.Core.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace Demosthenes.Controllers
 {
@@ -163,11 +164,12 @@ namespace Demosthenes.Controllers
         [Authorize(Roles = "student")]
         public async Task<ActionResult> Enroll([Bind(Include = "Id")] Class @class)
         {
-            @class = await db.Classes.FindAsync(@class.Id);
-
             var student = await db.Students.FindAsync(User.Identity.GetUserId());
-            if (@class.Enroll(student))
+            @class      = await db.Classes.FindAsync(@class.Id);
+            
+            if (@class.Enrollable && @class.Students.Count < @class.Size)
             {
+                @class.Students.Add(student);
                 db.Entry(@class).State = EntityState.Modified;
                 await db.SaveChangesAsync();
             }
@@ -218,11 +220,9 @@ namespace Demosthenes.Controllers
                 return HttpNotFound();
             }
 
-            var schedules = await db.Schedules
+            ViewBag.schedules = await db.Schedules
                 .OrderBy(s => s.Day)
                 .ToListAsync();
-
-            ViewBag.schedules = schedules;
 
             return View(new ClassSchedulesViewModel(@class));
         }
@@ -230,12 +230,12 @@ namespace Demosthenes.Controllers
         // POST: Classes/Schedule/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Schedule([Bind(Include = "Id")] ClassSchedulesViewModel model)
+        public async Task<ActionResult> Schedule([Bind(Include = "Id,Schedules")] ClassSchedulesViewModel model)
         {
             if (ModelState.IsValid)
             {
                 Class @class = await db.Classes.FindAsync(model.Id);
-
+                
                 @class.Schedules.Clear();
 
                 foreach (int scheduleId in model.Schedules)
@@ -247,7 +247,7 @@ namespace Demosthenes.Controllers
                 }
                 
                 await db.SaveChangesAsync();
-                return Redirect("Index");
+                return RedirectToAction("Index");
             }
 
             return View(model);

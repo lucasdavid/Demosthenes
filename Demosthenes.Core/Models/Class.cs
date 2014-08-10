@@ -6,18 +6,24 @@ namespace Demosthenes.Core.Models
 {
     public class Class
     {
+        public Class()
+        {
+            Students  = new HashSet<Student>();
+            Schedules = new HashSet<Schedule>();
+        }
+
         [Key]
         public int Id { get; set; }
 
         [Display(Name = "CourseId", ResourceType = typeof(Resources.i18n.Models))]
         [ForeignKey("Course")]
         public int? CourseId { get; set; }
-        public Course Course { get; set; }
+        public virtual Course Course { get; set; }
 
         [Display(Name = "ProfessorId", ResourceType = typeof(Resources.i18n.Models))]
         [ForeignKey("Professor")]
         public string ProfessorId { get; set; }
-        public Professor Professor { get; set; }
+        public virtual Professor Professor { get; set; }
 
         [Display(Name = "ClassSize", ResourceType = typeof(Resources.i18n.Models))]
         [Required]
@@ -40,16 +46,5 @@ namespace Demosthenes.Core.Models
 
         [Display(Name = "ClassStudents", ResourceType = typeof(Resources.i18n.Models))]
         public virtual ICollection<Student> Students { get; set; }
-
-        public bool Enroll(Student student)
-        {
-            if (Enrollable && Students.Count < Size)
-            {
-                Students.Add(student);
-                return true;
-            }
-
-            return false;
-        }
     }
 }

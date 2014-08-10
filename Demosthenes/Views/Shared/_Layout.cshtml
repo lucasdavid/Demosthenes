@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse">
+    <div class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,6 +32,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
                                 <li class="divider"></li>
+                                <li>@Html.ActionLink("Administrators", "Index", "Users")</li>
                                 <li>@Html.ActionLink("Professors", "Index", "Professors")</li>
                                 <li>@Html.ActionLink("Students", "Index", "Students")</li>
                                 <li class="divider"></li>
