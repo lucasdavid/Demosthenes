@@ -12,6 +12,7 @@ using System.Collections.Generic;
 
 namespace Demosthenes.Controllers
 {
+    [Authorize]
     public class ClassesController : Controller
     {
         private ApplicationDbContext db { get; set; }
@@ -30,6 +31,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Index()
         {
             var classes = db.Classes
@@ -56,6 +58,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             ViewBag.CourseId    = new SelectList(db.Courses, "Id", "Title");
@@ -69,6 +72,7 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Create([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class)
         {
             if (ModelState.IsValid)
@@ -85,6 +89,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,6 +111,7 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class)
         {
             if (ModelState.IsValid)
@@ -119,24 +125,10 @@ namespace Demosthenes.Controllers
             return View(@class);
         }
 
-        // GET: Classes/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Class @class = await db.Classes.FindAsync(id);
-            if (@class == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@class);
-        }
-
         // POST: Classes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Class @class = await db.Classes.FindAsync(id);
@@ -151,6 +143,8 @@ namespace Demosthenes.Controllers
             ViewBag.CurrentStudent = await db.Students.FindAsync(User.Identity.GetUserId());
 
             var classes = db.Classes
+                .Where(c => c.Enrollable == true)
+                .OrderBy(c => c.CourseId)
                 .Include(c => c.Course)
                 .Include(c => c.Professor)
                 .Include(c => c.Students);
@@ -193,6 +187,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes/Calendar
+        [Authorize(Roles = "student")]
         public async Task<ActionResult> Calendar(int? year, Term? term)
         {
             ViewBag.year = year = year ?? DateTime.Now.Year;
@@ -208,6 +203,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes/Schedule/5
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Schedule(int? id)
         {
             if (id == null)
@@ -230,6 +226,7 @@ namespace Demosthenes.Controllers
         // POST: Classes/Schedule/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Schedule([Bind(Include = "Id,Schedules")] ClassSchedulesViewModel model)
         {
             if (ModelState.IsValid)

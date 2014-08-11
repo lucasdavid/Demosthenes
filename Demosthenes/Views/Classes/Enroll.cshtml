@@ -2,40 +2,27 @@
 
 @{
     ViewBag.Title = "Enroll";
+    ViewBag.Lead = "at opened classes";
 }
 
-<h2>Enroll</h2>
+@Html.Partial("_Title")
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Course.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Professor.Name)
-        </th>
-        <th>
-            Enroll
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Year)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Term)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Professor.Name)
-            </td>
-            <td>
+@foreach (var item in Model)
+{
+    <div id="enrollable-class-@item.Id">
+        <h3>
+            @item.Course.Title
+            <small>@item.Id</small>
+        </h3>
+        <h4>
+            @item.Professor.Name
+            <small>@item.Professor.Email</small>
+        </h4>
+        <p>
+            @Html.DisplayFor(modelItem => item.Term), @Html.DisplayFor(modelItem => item.Year)
+        </p>
+        <div class="row">
+            <div class="col-xs-10">
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"
                          aria-valuenow="@item.Students.Count"
@@ -45,49 +32,46 @@
                         @(100 * item.Students.Count / item.Size)%
                     </div>
                 </div>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Term)
-            </td>
-            <td>
-                @if (!item.Enrollable)
-                {
-                    <input type="button" class="btn btn-danger btn-sm disabled" value="Closed" disabled="disabled" />
-                }
-                else if (item.Students.Contains(ViewBag.CurrentStudent))
-                {
-                    using (Html.BeginForm("Unenroll", "Classes"))
-                    {
-                        @Html.AntiForgeryToken()
-                        <input data-val="true"
-                               data-val-number="The field Id must be a number."
-                               data-val-required="The Id field is required."
-                               id="item_Id" name="Id" type="hidden" value="@item.Id">
-                        <input type="submit" value="Unenroll" class="btn btn-sm btn-warning" />
-                    }
-                }
-                else if (item.Students.Count >= item.Size)
-                {
-                    <input type="button" class="btn btn-warning btn-sm disabled" value="Enrollment limit exceded" disabled="disabled" />
-                }
-                else
-                {
-                    using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        <input data-val="true"
-                               data-val-number="The field Id must be a number."
-                               data-val-required="The Id field is required."
-                               id="item_Id" name="Id" type="hidden" value="@item.Id">
-                        <input type="submit" value="Enroll" class="btn btn-sm btn-info" />
-                    }
-                }
-            </td>
+            </div>
+            <div class="col-xs-2">
+                <span class="badge" title="Students currently enrolled">
+                    <strong>@item.Students.Count</strong>
+                </span>
+                
+            </div>
+        </div>
 
-        </tr>
-    }
-
-</table>
+        @if (!item.Enrollable)
+        {
+            <input type="button" class="btn btn-danger btn-sm disabled" value="Closed" disabled="disabled" />
+        }
+        else if (item.Students.Contains(ViewBag.CurrentStudent))
+        {
+            using (Html.BeginForm("Unenroll", "Classes"))
+            {
+                @Html.AntiForgeryToken()
+                <input data-val="true"
+                       data-val-number="The field Id must be a number."
+                       data-val-required="The Id field is required."
+                       id="item_Id" name="Id" type="hidden" value="@item.Id">
+                <input type="submit" value="Unenroll" class="btn btn-sm btn-warning" />
+            }
+        }
+        else if (item.Students.Count >= item.Size)
+        {
+            <input type="button" class="btn btn-warning btn-sm disabled" value="Enrollment limit exceded" disabled="disabled" />
+        }
+        else
+        {
+            using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <input data-val="true"
+                       data-val-number="The field Id must be a number."
+                       data-val-required="The Id field is required."
+                       id="item_Id" name="Id" type="hidden" value="@item.Id">
+                <input type="submit" value="Enroll" class="btn btn-sm btn-info" />
+            }
+        }
+    </div>
+}

@@ -9,13 +9,13 @@ namespace Demosthenes.Core.ViewModels
 {
     public class CalendarViewModel
     {
-        public List<Class> AllClasses { get; protected set; }
-        public Dictionary<DayOfWeek, List<Class>> DaysOfWeek { get; protected set; }
+        public List<Class> InsertedClasses { get; protected set; }
+        public Dictionary<DayOfWeek, List<Class>> ClassesOnDay { get; protected set; }
 
         public CalendarViewModel()
         {
-            AllClasses = new List<Class>();
-            DaysOfWeek = new Dictionary<DayOfWeek, List<Class>>();
+            InsertedClasses = new List<Class>();
+            ClassesOnDay = new Dictionary<DayOfWeek, List<Class>>();
         }
 
         public CalendarViewModel(List<Class> classes)
@@ -34,19 +34,37 @@ namespace Demosthenes.Core.ViewModels
 
         public void AddClass(Class @class)
         {
-            AllClasses.Add(@class);
+            if (InsertedClasses.Contains(@class))
+            {
+                throw new Exception("The class " + @class.Id + " was already inserted into the calendar");
+            }
+
+            InsertedClasses.Add(@class);
 
             foreach (Schedule schedule in @class.Schedules)
             {
-                var classesOfDay = DaysOfWeek[schedule.Day] ?? new List<Class>();
-                classesOfDay.Add(@class);
-                DaysOfWeek[schedule.Day] = classesOfDay;
+                GetClassesOnDay(schedule.Day).Add(@class);
             }
+        }
+
+        public List<Class> GetClassesOnDay(DayOfWeek day)
+        {
+            List<Class> classes;
+            if (ClassesOnDay.ContainsKey(day))
+            {
+                classes = ClassesOnDay[day];
+            }
+            else
+            {
+                classes = ClassesOnDay[day] = new List<Class>();
+            }
+
+            return classes;
         }
 
         public Class GetClass(DayOfWeek day, TimeSpan time)
         {
-            var classes = DaysOfWeek[day];
+            var classes = ClassesOnDay[day];
 
             foreach (Class @class in classes)
             {

@@ -1,76 +1,33 @@
 ﻿@model StudentViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Name;
+    ViewBag.Lead = "student";
 }
 
-<h2>Details</h2>
+@Html.Partial("_Title")
 
-<div>
-    <h4>Student</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+@Html.DisplayFor(model => model.Email)
+@if (Model.EmailConfirmed)
+{
+    <span class="label label-info">confirmed</span>
+}
+else
+{
+    <span class="label label-warning">not confirmed</span>
+}
+<br />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-            @if (Model.EmailConfirmed)
-            {
-                <span class="label label-info">confirmed</span>
-            }
-            else
-            {
-                <span class="label label-warning">not confirmed</span>
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-            @if (Model.PhoneNumberConfirmed)
-            {
-                <span class="label label-info">confirmed</span>
-            }
-            else
-            {
-                <span class="label label-warning">not confirmed</span>
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateBorn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateBorn)
-        </dd>
-    </dl>
-
-    @using (Html.BeginForm("Delete", "Students"))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-actions text-right">
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-link" })
-
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
-
-            <input type="submit" value="Delete" class="btn btn-danger" />
-        </div>
-    }
-</div>
-
+@Html.DisplayFor(model => model.PhoneNumber)
+@if (Model.PhoneNumberConfirmed)
+{
+    <span class="label label-info">confirmed</span>
+}
+else
+{
+    <span class="label label-warning">not confirmed</span>
+}
+<br />
+@Html.DisplayFor(model => model.DateBorn)
+<br />

@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<Demosthenes.Core.Models.Department>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Departments";
 }
-
-<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -17,17 +15,25 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @using (Html.BeginForm("Delete", "Departments", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("Id", item.Id)
+
+                    <a href="/Departments/Edit/@item.Id" class="btn btn-primary btn-sm"
+                       title="Edit @item.Name"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="javascript:document.getElementById('delete@(item.Id)Form').submit()" title="Delete @item.Name"
+                       class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                }
+            </td>
+        </tr>
+    }
 
 </table>

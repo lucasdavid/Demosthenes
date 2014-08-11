@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Demosthenes.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class StudentsController : Controller
     {
         private ApplicationDbContext db { get; set; }
@@ -103,8 +104,6 @@ namespace Demosthenes.Controllers
         }
 
         // POST: Students/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(StudentEditViewModel viewModel)

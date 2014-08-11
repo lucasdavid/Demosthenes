@@ -1,64 +1,87 @@
 ﻿@model IEnumerable<Demosthenes.Core.Models.Class>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Classes";
 }
 
-<h2>Index</h2>
+@Html.Partial("_Title")
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Course.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Professor.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Size)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Year)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Term)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Enrollable)
-        </th>
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Term)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                    @if (item.Enrollable)
+                    {
+                        <span class="label label-info">open</span>
+                    }
+                    else
+                    {
+                        <span class="label label-warning">closed</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Professor.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Term)
+                </td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Classes", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("Id", item.Id)
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Course.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Professor.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Size)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Year)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Term)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Enrollable)
-        </td>
-        <td>
-            @Html.ActionLink("Define schedule", "Schedule", new { id = item.Id }) |
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                        <div class="btn-group-sm">
 
+                            <a href="/Classes/Schedule/@item.Id" class="btn btn-default"
+                               title="Define schedule for class @item.Id"><span class="glyphicon glyphicon-calendar"></span></a>
+
+                            <a href="/Classes/Edit/@item.Id" class="btn btn-primary"
+                               title="Edit class @item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+
+                            <a href="javascript:document.getElementById('delete@(item.Id)Form').submit()" title="Delete class @item.Id"
+                               class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

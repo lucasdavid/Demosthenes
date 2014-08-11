@@ -11,6 +11,7 @@ using Demosthenes.Core.Models;
 
 namespace Demosthenes.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -22,21 +23,6 @@ namespace Demosthenes.Controllers
             return View(await courses.ToListAsync());
         }
 
-        // GET: Courses/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = await db.Courses.FindAsync(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
-        }
-
         // GET: Courses/Create
         public ActionResult Create()
         {
@@ -45,8 +31,6 @@ namespace Demosthenes.Controllers
         }
 
         // POST: Courses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Title,Details,DepartmentId")] Course course)
@@ -79,8 +63,6 @@ namespace Demosthenes.Controllers
         }
 
         // POST: Courses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Details,DepartmentId")] Course course)
@@ -92,21 +74,6 @@ namespace Demosthenes.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", course.DepartmentId);
-            return View(course);
-        }
-
-        // GET: Courses/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = await db.Courses.FindAsync(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
             return View(course);
         }
 

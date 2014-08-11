@@ -7,47 +7,16 @@
     </small>
 </h2>
 
-<div class="col-md-2">
-    <h3>Enrolled classes</h3>
-    @foreach (Demosthenes.Core.Models.Class c in Model.AllClasses)
+<div class="row">
+    @foreach (DayOfWeek day in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
     {
-        <div>
-            <strong>@c.Course.Title</strong>
-            <br />
-            @c.Professor.Name
+        <div class="col-lg-2 col-md-1">
+            @foreach (Demosthenes.Core.Models.Class c in Model.GetClassesOnDay(day))
+            {
+                <div class="col-sd-12">
+                    @c.Course.Title
+                </div>
+            }
         </div>
     }
-</div>
-<div class="col-md-10">
-    <table class="table table-striped table-responsive table-bordered">
-        <thead>
-            <tr>
-                <th></th>
-
-                @foreach (string day in Enum.GetNames(typeof(DayOfWeek)))
-                {
-                    <th>@day</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-
-
-            <tr>
-                <td class="text-right"></td>
-
-                @foreach (DayOfWeek day in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
-                {
-                    <td>
-                        @foreach (Demosthenes.Core.Models.Class c in Model.DaysOfWeek[day])
-                        {
-                            <strong>@c.Course.Title</strong> @c.Professor.Name
-                        }
-                    </td>
-                }
-            </tr>
-
-        </tbody>
-    </table>
-
 </div>

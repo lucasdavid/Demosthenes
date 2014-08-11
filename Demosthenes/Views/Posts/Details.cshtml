@@ -1,42 +1,20 @@
 ﻿@model Demosthenes.Core.Models.Post
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Title;
+    ViewBag.Lead = Model.Author.Email;
 }
 
-<h2>Details</h2>
+@Html.Partial("_Title")
 
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Author.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Author.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+<p class="text-justify">
+    @Html.DisplayFor(model => model.Body)
+    
+    @if (Model.AuthorId == User.Identity.GetUserId())
+    {
+        @:&nbsp;<a href="/Posts/Edit/@Model.Id" title="Edit post @Model.Title"><span class="glyphicon glyphicon-pencil"></span></a>
+    }
+</p>
+<p class="text-right">
+    <small>@Model.DateCreated</small>
 </p>

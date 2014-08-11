@@ -29,9 +29,7 @@ namespace Demosthenes.Core.Models
 
         public override string ToString()
         {
-            return Day.ToString() + ", from "
-                + Starting.Hours + ":" + Starting.Minutes + " to "
-                + Ending.Hours   + ":" + Ending.Minutes;
+            return Day.ToString() + ", from " + Starting + " to " + Ending;
         }
     }
 }

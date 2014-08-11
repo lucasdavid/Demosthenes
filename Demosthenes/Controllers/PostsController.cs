@@ -8,13 +8,12 @@ using System.Web.Mvc;
 
 namespace Demosthenes.Controllers
 {
-    [Authorize(Roles = "admin,professor")]
+    [Authorize]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
             var id = User.Identity.GetUserId();
@@ -27,7 +26,6 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Posts/Details/5
-        [AllowAnonymous]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +45,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Posts/Create
+        [Authorize(Roles = "admin,professor")]
         public ActionResult Create()
         {
             return View();
@@ -55,6 +54,7 @@ namespace Demosthenes.Controllers
         // POST: Posts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,professor")]
         public async Task<ActionResult> Create([Bind(Include = "Id,Title,Body")] Post post)
         {
             if (ModelState.IsValid)
@@ -70,6 +70,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize(Roles = "admin,professor")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,6 +95,7 @@ namespace Demosthenes.Controllers
         // POST: Posts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,professor")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Body,AuthorId")] Post post)
         {
             if (post.AuthorId != User.Identity.GetUserId())
@@ -114,6 +116,7 @@ namespace Demosthenes.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,professor")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Post post = await db.Posts.FindAsync(id);
@@ -131,6 +134,7 @@ namespace Demosthenes.Controllers
         // TODO: implement this in the view.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,professor")]
         public async Task<ActionResult> Hide(int id)
         {
             var post = await db.Posts.FindAsync(id);

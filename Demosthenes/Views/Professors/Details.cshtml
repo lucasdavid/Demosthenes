@@ -1,82 +1,43 @@
 ﻿@model ProfessorViewModel
 
-<h2>
-    @Html.DisplayFor(model => model.Name)
-</h2>
+@{
+    ViewBag.Title = Model.Name;
+    ViewBag.Lead = "professor";
+}
 
-<div>
-    <h4>Professor</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+@Html.Partial("_Title")
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
 
-            @if (Model.EmailConfirmed)
-            {
-                <span class="label label-info">confirmed</span>
-            }
-            else
-            {
-                <span class="label label-warning">not confirmed</span>
-            }
-        </dd>
+@Html.DisplayFor(model => model.Email)
+@if (Model.EmailConfirmed)
+{
+    <span class="label label-info">confirmed</span>
+}
+else
+{
+    <span class="label label-warning">not confirmed</span>
+}
+<br />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+@if (User.IsInRole("admin"))
+{
+    @Html.DisplayFor(model => model.SSN)
+    <br />
+}
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SSN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SSN)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-
-            @if (Model.PhoneNumberConfirmed)
-            {
-                <span class="label label-info">confirmed</span>
-            }
-            else
-            {
-                <span class="label label-warning">not confirmed</span>
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Department.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Department.Name)
-        </dd>
-    </dl>
-
-    @using (Html.BeginForm("Delete", "Professors"))
+@if (!Model.PhoneNumber.IsEmpty())
+{
+    @Html.DisplayFor(model => model.PhoneNumber)
+    if (Model.PhoneNumberConfirmed)
     {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-actions text-right">
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-link" })
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
-
-            <input type="submit" value="Delete" class="btn btn-danger" />
-        </div>
+        <span class="label label-info">confirmed</span>
     }
-</div>
+    else
+    {
+        <span class="label label-warning">not confirmed</span>
+    }
+    <br />
+}
+
+Department of @Html.DisplayFor(model => model.Department.Name)
+<br />

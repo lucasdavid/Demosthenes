@@ -6,46 +6,36 @@
 
 @Html.Partial("_Title")
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Author.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Body)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<div class="row">
+    @foreach (Demosthenes.Core.Models.Post post in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id })
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2>@Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)</h2>
+            <p>
+                <a href="#"><span class="glyphicon glyphicon-user"></span></a>
+                @post.Author.UserName,
+                <small>@post.DateCreated</small>.
+            </p>
+            <p>@post.Body</p>
 
-                @if (User.IsInRole("admin") || item.AuthorId == User.Identity.GetUserId())
+            @if (User.IsInRole("admin") || post.AuthorId == User.Identity.GetUserId())
+            {
+                using (Html.BeginForm("Delete", "Posts", FormMethod.Post, new { id = "delete" + post.Id + "Form" }))
                 {
-                    if (item.AuthorId == User.Identity.GetUserId())
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("Id", post.Id)
+
+                    if (post.AuthorId == User.Identity.GetUserId())
                     {
-                        <span>|</span> @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        <a class="btn btn-sm btn-primary" href="/Posts/Edit/@post.Id"
+                           title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span></a>
                     }
 
-                    <span>|</span> @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                }
-            </td>
-        </tr>
-    }
+                    <a href="javascript:document.getElementById('delete@(post.Id)Form').submit()"
+                       title="Delete @post.Title" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span></a>
 
-</table>
+                }
+            }
+        </div>
+    }
+</div>

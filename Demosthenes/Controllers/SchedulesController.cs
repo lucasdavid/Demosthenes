@@ -11,6 +11,7 @@ using Demosthenes.Core.Models;
 
 namespace Demosthenes.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class SchedulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -18,22 +19,8 @@ namespace Demosthenes.Controllers
         // GET: Schedules
         public async Task<ActionResult> Index()
         {
-            return View(await db.Schedules.ToListAsync());
-        }
-
-        // GET: Schedules/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Schedule schedule = await db.Schedules.FindAsync(id);
-            if (schedule == null)
-            {
-                return HttpNotFound();
-            }
-            return View(schedule);
+            var schedules = db.Schedules.OrderBy(s => s.Day);
+            return View(await schedules.ToListAsync());
         }
 
         // GET: Schedules/Create
@@ -43,8 +30,6 @@ namespace Demosthenes.Controllers
         }
 
         // POST: Schedules/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Day,Starting,Ending")] Schedule schedule)
@@ -75,8 +60,6 @@ namespace Demosthenes.Controllers
         }
 
         // POST: Schedules/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Day,Starting,Ending")] Schedule schedule)
@@ -90,28 +73,13 @@ namespace Demosthenes.Controllers
             return View(schedule);
         }
 
-        // GET: Schedules/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Schedule schedule = await db.Schedules.FindAsync(id);
-            if (schedule == null)
-            {
-                return HttpNotFound();
-            }
-            return View(schedule);
-        }
-
         // POST: Schedules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Schedule schedule = await db.Schedules.FindAsync(id);
-            db.Schedules.Remove(schedule);
+            //db.Schedules.Remove(schedule);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

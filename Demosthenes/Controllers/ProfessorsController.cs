@@ -4,12 +4,14 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Demosthenes.Controllers
 {
+    [Authorize]
     public class ProfessorsController : Controller
     {
         private ApplicationDbContext db { get; set; }
@@ -30,9 +32,12 @@ namespace Demosthenes.Controllers
         // GET: Professors
         public async Task<ActionResult> Index()
         {
-            var professors = await db.Professors.Include("Department").ToListAsync();
-            var viewModel = new List<ProfessorViewModel>();
+            var professors = await db.Professors
+                .OrderBy(p => p.DepartmentId)
+                .Include(p => p.Department)
+                .ToListAsync();
 
+            var viewModel = new List<ProfessorViewModel>();
             foreach (Professor professor in professors)
             {
                 viewModel.Add(new ProfessorViewModel(professor));
@@ -59,6 +64,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Professors/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name");
@@ -68,6 +74,7 @@ namespace Demosthenes.Controllers
         // POST: Professors/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Create(ProfessorViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -88,6 +95,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Professors/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -104,10 +112,9 @@ namespace Demosthenes.Controllers
         }
 
         // POST: Professors/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Edit(ProfessorEditViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -124,6 +131,7 @@ namespace Demosthenes.Controllers
         // POST: Professors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             Professor professor = await db.Professors.FindAsync(id);

@@ -12,7 +12,7 @@
 @using (Html.BeginForm("Schedule", "Classes", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    
+
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
 
@@ -20,27 +20,29 @@
         @{ var i = 0; }
         @foreach (DayOfWeek day in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
         {
-            <div class="well">
-                <strong>@day</strong>
+            <div>
+                <strong>
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    @day
+                </strong>
                 <br />
                 @while (i < ViewBag.schedules.Count && ViewBag.schedules[i].Day == day)
                 {
                     <label class="btn-link">
                         <input type="checkbox" name="Schedules" value="@ViewBag.schedules[i].Id"
-                               @( Model.Schedules.Contains(ViewBag.schedules[i].Id) ? "checked" : "" )
-                               > @ViewBag.schedules[i++]
-                    </label>
-                    @:&nbsp;&nbsp;
+                               @( Model.Schedules.Contains(ViewBag.schedules[i].Id) ? "checked" : "")
+                               >
+                        @ViewBag.schedules[i].Starting.ToString(@"hh\:mm")
+                            to @ViewBag.schedules[i++].Ending.ToString(@"hh\:mm")
+                        </label>
+                        @:&nbsp;&nbsp;
                 }
+                <br /><br />
             </div>
         }
     </div>
 
     <div class="text-right">
-        <input type="submit" value="Create" class="btn btn-default" />
+        <input type="submit" value="Define" class="btn btn-primary" />
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

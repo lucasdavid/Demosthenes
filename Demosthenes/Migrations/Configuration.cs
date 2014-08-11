@@ -16,13 +16,14 @@ namespace Demosthenes.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            var departments = PopulateDepartments(context);
-            var roles       = PopulateRoles(context);
-            var professors  = PopulateProfessors(context, departments);
-            var courses     = PopulateCourses(context, departments);
-            var students    = PopulateStudents(context);
-            var classes     = PopulateClasses(context, courses, professors, students);
-            var posts       = PopulatePosts(context, professors);
+            //var departments = PopulateDepartments(context);
+            //var roles       = PopulateRoles(context);
+            //var professors  = PopulateProfessors(context, departments);
+            //var courses     = PopulateCourses(context, departments);
+            //var students    = PopulateStudents(context);
+            //var schedules = PopulateSchedules(context);
+            //var classes     = PopulateClasses(context, courses, professors, students);
+            //var posts       = PopulatePosts(context, professors);
         }
 
         private Department[] PopulateDepartments(ApplicationDbContext context)
@@ -131,6 +132,12 @@ namespace Demosthenes.Migrations
                     Email = "hellen@ufscar.br",
                     UserName = "hellen@ufscar.br",
                     DateBorn = new DateTime(1990, 4, 1)
+                },
+                new Student
+                {
+                    Name = "John Snow",
+                    Email = "john@ufscar.br", UserName = "john@ufscar.br",
+                    DateBorn = new DateTime(1995, 12, 30)
                 }
             };
 
@@ -165,6 +172,68 @@ namespace Demosthenes.Migrations
             };
 
             return classes;
+        }
+
+        private Schedule[] PopulateSchedules(ApplicationDbContext context)
+        {
+            var schedules = new Schedule[]
+            {
+                new Schedule { Day = DayOfWeek.Sunday, Starting = new TimeSpan(8, 0, 0), Ending = new TimeSpan(10, 0, 0) },
+                new Schedule { Day = DayOfWeek.Sunday, Starting = new TimeSpan(10, 0, 0), Ending = new TimeSpan(12, 0, 0) },
+                new Schedule { Day = DayOfWeek.Sunday, Starting = new TimeSpan(14, 0, 0), Ending = new TimeSpan(16, 0, 0) },
+                new Schedule { Day = DayOfWeek.Sunday, Starting = new TimeSpan(16, 0, 0), Ending = new TimeSpan(18, 0, 0) },
+                new Schedule { Day = DayOfWeek.Sunday, Starting = new TimeSpan(19, 0, 0), Ending = new TimeSpan(21, 0, 0) },
+                new Schedule { Day = DayOfWeek.Sunday, Starting = new TimeSpan(21, 0, 0), Ending = new TimeSpan(23, 0, 0) },
+
+                new Schedule { Day = DayOfWeek.Monday, Starting = new TimeSpan(8, 0, 0), Ending = new TimeSpan(10, 0, 0) },
+                new Schedule { Day = DayOfWeek.Monday, Starting = new TimeSpan(10, 0, 0), Ending = new TimeSpan(12, 0, 0) },
+                new Schedule { Day = DayOfWeek.Monday, Starting = new TimeSpan(14, 0, 0), Ending = new TimeSpan(16, 0, 0) },
+                new Schedule { Day = DayOfWeek.Monday, Starting = new TimeSpan(16, 0, 0), Ending = new TimeSpan(18, 0, 0) },
+                new Schedule { Day = DayOfWeek.Monday, Starting = new TimeSpan(19, 0, 0), Ending = new TimeSpan(21, 0, 0) },
+                new Schedule { Day = DayOfWeek.Monday, Starting = new TimeSpan(21, 0, 0), Ending = new TimeSpan(23, 0, 0) },
+                
+                new Schedule { Day = DayOfWeek.Tuesday, Starting = new TimeSpan(8, 0, 0), Ending = new TimeSpan(10, 0, 0) },
+                new Schedule { Day = DayOfWeek.Tuesday, Starting = new TimeSpan(10, 0, 0), Ending = new TimeSpan(12, 0, 0) },
+                new Schedule { Day = DayOfWeek.Tuesday, Starting = new TimeSpan(14, 0, 0), Ending = new TimeSpan(16, 0, 0) },
+                new Schedule { Day = DayOfWeek.Tuesday, Starting = new TimeSpan(16, 0, 0), Ending = new TimeSpan(18, 0, 0) },
+                new Schedule { Day = DayOfWeek.Tuesday, Starting = new TimeSpan(19, 0, 0), Ending = new TimeSpan(21, 0, 0) },
+                new Schedule { Day = DayOfWeek.Tuesday, Starting = new TimeSpan(21, 0, 0), Ending = new TimeSpan(23, 0, 0) },
+
+                new Schedule { Day = DayOfWeek.Wednesday, Starting = new TimeSpan(8, 0, 0), Ending = new TimeSpan(10, 0, 0) },
+                new Schedule { Day = DayOfWeek.Wednesday, Starting = new TimeSpan(10, 0, 0), Ending = new TimeSpan(12, 0, 0) },
+                new Schedule { Day = DayOfWeek.Wednesday, Starting = new TimeSpan(14, 0, 0), Ending = new TimeSpan(16, 0, 0) },
+                new Schedule { Day = DayOfWeek.Wednesday, Starting = new TimeSpan(16, 0, 0), Ending = new TimeSpan(18, 0, 0) },
+                new Schedule { Day = DayOfWeek.Wednesday, Starting = new TimeSpan(19, 0, 0), Ending = new TimeSpan(21, 0, 0) },
+                new Schedule { Day = DayOfWeek.Wednesday, Starting = new TimeSpan(21, 0, 0), Ending = new TimeSpan(23, 0, 0) },
+
+                new Schedule { Day = DayOfWeek.Thursday, Starting = new TimeSpan(8, 0, 0), Ending = new TimeSpan(10, 0, 0) },
+                new Schedule { Day = DayOfWeek.Thursday, Starting = new TimeSpan(10, 0, 0), Ending = new TimeSpan(12, 0, 0) },
+                new Schedule { Day = DayOfWeek.Thursday, Starting = new TimeSpan(14, 0, 0), Ending = new TimeSpan(16, 0, 0) },
+                new Schedule { Day = DayOfWeek.Thursday, Starting = new TimeSpan(16, 0, 0), Ending = new TimeSpan(18, 0, 0) },
+                new Schedule { Day = DayOfWeek.Thursday, Starting = new TimeSpan(19, 0, 0), Ending = new TimeSpan(21, 0, 0) },
+                new Schedule { Day = DayOfWeek.Thursday, Starting = new TimeSpan(21, 0, 0), Ending = new TimeSpan(23, 0, 0) },
+
+                new Schedule { Day = DayOfWeek.Friday, Starting = new TimeSpan(8, 0, 0), Ending = new TimeSpan(10, 0, 0) },
+                new Schedule { Day = DayOfWeek.Friday, Starting = new TimeSpan(10, 0, 0), Ending = new TimeSpan(12, 0, 0) },
+                new Schedule { Day = DayOfWeek.Friday, Starting = new TimeSpan(14, 0, 0), Ending = new TimeSpan(16, 0, 0) },
+                new Schedule { Day = DayOfWeek.Friday, Starting = new TimeSpan(16, 0, 0), Ending = new TimeSpan(18, 0, 0) },
+                new Schedule { Day = DayOfWeek.Friday, Starting = new TimeSpan(19, 0, 0), Ending = new TimeSpan(21, 0, 0) },
+                new Schedule { Day = DayOfWeek.Friday, Starting = new TimeSpan(21, 0, 0), Ending = new TimeSpan(23, 0, 0) },
+
+                new Schedule { Day = DayOfWeek.Saturday, Starting = new TimeSpan(8, 0, 0), Ending = new TimeSpan(10, 0, 0) },
+                new Schedule { Day = DayOfWeek.Saturday, Starting = new TimeSpan(10, 0, 0), Ending = new TimeSpan(12, 0, 0) },
+                new Schedule { Day = DayOfWeek.Saturday, Starting = new TimeSpan(14, 0, 0), Ending = new TimeSpan(16, 0, 0) },
+                new Schedule { Day = DayOfWeek.Saturday, Starting = new TimeSpan(16, 0, 0), Ending = new TimeSpan(18, 0, 0) },
+                new Schedule { Day = DayOfWeek.Saturday, Starting = new TimeSpan(19, 0, 0), Ending = new TimeSpan(21, 0, 0) },
+                new Schedule { Day = DayOfWeek.Saturday, Starting = new TimeSpan(21, 0, 0), Ending = new TimeSpan(23, 0, 0) }
+            };
+
+            foreach (Schedule schedule in schedules)
+            {
+                context.Schedules.AddOrUpdate(schedule);
+            }
+
+            return schedules;
         }
 
         private Post[] PopulatePosts(ApplicationDbContext context, Professor[] professors)
