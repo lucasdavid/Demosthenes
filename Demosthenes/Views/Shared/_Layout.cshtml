@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - Demosthenes</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <div class="navbar navbar-default">
@@ -21,13 +20,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-
                     @if (User.IsInRole("admin"))
                     {
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Administration <span class="caret"></span>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Administration">
+                                <span class="glyphicon glyphicon-th-large"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
@@ -67,6 +64,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/app/ProgressBar.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

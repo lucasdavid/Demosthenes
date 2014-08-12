@@ -147,7 +147,8 @@ namespace Demosthenes.Controllers
                 .OrderBy(c => c.CourseId)
                 .Include(c => c.Course)
                 .Include(c => c.Professor)
-                .Include(c => c.Students);
+                .Include(c => c.Students)
+                .Include(c => c.Schedules);
 
             return View(await classes.ToListAsync());
         }
@@ -198,6 +199,14 @@ namespace Demosthenes.Controllers
                           .Where(c => c.Students.Any(s => s.Id == id) && c.Year == year && c.Term == term)
                           .Include(c => c.Course).Include(c => c.Professor).Include(c => c.Schedules)
                           .ToListAsync();
+
+            // getting possible starting times for schedules
+            var startingTimes = await db.Schedules
+                .GroupBy(s => s.Starting)
+                .Select(g => g.Key)
+                .ToListAsync();
+
+            ViewBag.startingTimes = startingTimes;
 
             return View(new CalendarViewModel(classes));
         }

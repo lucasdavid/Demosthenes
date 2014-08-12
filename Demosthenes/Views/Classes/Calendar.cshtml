@@ -1,22 +1,42 @@
 ﻿@model Demosthenes.Core.ViewModels.CalendarViewModel
 
-<h2>
-    Calendar
-    <br /><small>
-        @ViewBag.term - @ViewBag.year
-    </small>
-</h2>
+@{
+    ViewBag.Title = "Calendar";
+    ViewBag.Lead = ViewBag.Term + " - " + ViewBag.year;
+}
 
-<div class="row">
-    @foreach (DayOfWeek day in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
-    {
-        <div class="col-lg-2 col-md-1">
-            @foreach (Demosthenes.Core.Models.Class c in Model.GetClassesOnDay(day))
+@Html.Partial("_Title")
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+
+            @foreach (var day in (string[])Enum.GetNames(typeof(DayOfWeek)))
             {
-                <div class="col-sd-12">
-                    @c.Course.Title
-                </div>
+                <th>@day</th>
             }
-        </div>
-    }
-</div>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var time in ViewBag.startingTimes)
+        {
+            <tr>
+                <td>@time</td>
+
+                @foreach (var day in (DayOfWeek[])Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    <td>
+                        @{ var c = @Model.Class(day, time); }
+
+                        @if (c != null)
+                        {
+                            @c.Course.Title
+                            <span class="label label-default">@c.Id</span>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

@@ -29,7 +29,7 @@ namespace Demosthenes.Core.Models
 
         public override string ToString()
         {
-            return Day.ToString() + ", from " + Starting + " to " + Ending;
+            return Day.ToString() + ", from " + Starting.ToString(@"hh\:mm") + " to " + Ending.ToString(@"hh\:mm");
         }
     }
 }

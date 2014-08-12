@@ -19,11 +19,17 @@
             <small>@item.Professor.Email</small>
         </h4>
         <p>
-            @Html.DisplayFor(modelItem => item.Term), @Html.DisplayFor(modelItem => item.Year)
+            @foreach (Demosthenes.Core.Models.Schedule schedule in @item.Schedules)
+            {
+                <span class="label label-default">@schedule</span> 
+            }
+            <span class="label label-default">
+                @Html.DisplayFor(modelItem => item.Term), @Html.DisplayFor(modelItem => item.Year)
+            </span>
         </p>
         <div class="row">
             <div class="col-xs-10">
-                <div class="progress">
+                <div class="progress progress-striped active">
                     <div class="progress-bar" role="progressbar"
                          aria-valuenow="@item.Students.Count"
                          aria-valuemin="0" aria-valuemax="@item.Size"
@@ -37,7 +43,6 @@
                 <span class="badge" title="Students currently enrolled">
                     <strong>@item.Students.Count</strong>
                 </span>
-                
             </div>
         </div>
 
