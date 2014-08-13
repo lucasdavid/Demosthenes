@@ -68,6 +68,7 @@ namespace Demosthenes.Core.Models
                 throw new EnrollmentLimitOverflowException();
             }
 
+            // TODO: unit-test this.
             if (Schedules.Any(s =>
                 student.Classes.Any(c =>
                     c.Schedules.Any(s2 =>
