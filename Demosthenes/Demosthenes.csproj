@@ -193,7 +193,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\app\ProgressBar.js" />
+    <Content Include="Scripts\app\ajax\calendar.js" />
+    <Content Include="Scripts\app\effects\progress-bar.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -282,6 +283,10 @@
     <ProjectReference Include="..\Demosthenes.Core\Demosthenes.Core.csproj">
       <Project>{d104c79b-09f8-4509-bdff-c0b7a7e83dd2}</Project>
       <Name>Demosthenes.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Demosthenes.Infrastructure\Demosthenes.Infrastructure.csproj">
+      <Project>{4d9e8eb9-e223-4754-8c69-87ad4b984508}</Project>
+      <Name>Demosthenes.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Demosthenes.Resources\Demosthenes.Resources.csproj">
       <Project>{d4790cc8-9562-4587-9e77-2ba47254794c}</Project>

@@ -5,7 +5,20 @@
     ViewBag.Lead = "at opened classes";
 }
 
+@section scripts {
+    @Scripts.Render("~/Scripts/app/effects/progress-bar.js")
+    @Scripts.Render("~/Scripts/app/ajax/calendar.js")
+}
+
 @Html.Partial("_Title")
+
+<div id="calendar">
+    <div id="calendar-container"></div>
+    <button type="button" id="calendar-load-btn" data-loading-text="Loading..." class="btn btn-sm btn-link">
+        <span class="glyphicon glyphicon-cloud-download"></span> Loading calendar...
+    </button>
+    
+</div>
 
 @foreach (var item in Model)
 {

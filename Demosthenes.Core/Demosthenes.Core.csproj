@@ -74,7 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Base\TimeStampsEntity.cs" />
     <Compile Include="Models\Class.cs" />
     <Compile Include="Models\Course.cs" />
@@ -89,12 +89,19 @@
     <Compile Include="ViewModels\ApplicationUserViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\ClassSchedulesViewModel.cs" />
+    <Compile Include="ViewModels\ClassJsonViewModel.cs" />
+    <Compile Include="ViewModels\CourseJsonViewModel.cs" />
     <Compile Include="ViewModels\ProfessorEditViewModel.cs" />
     <Compile Include="ViewModels\ProfessorViewModel.cs" />
+    <Compile Include="ViewModels\ScheduleJsonViewModel.cs" />
     <Compile Include="ViewModels\StudentEditViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Demosthenes.Infrastructure\Demosthenes.Infrastructure.csproj">
+      <Project>{4d9e8eb9-e223-4754-8c69-87ad4b984508}</Project>
+      <Name>Demosthenes.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Demosthenes.Resources\Demosthenes.Resources.csproj">
       <Project>{d4790cc8-9562-4587-9e77-2ba47254794c}</Project>
       <Name>Demosthenes.Resources</Name>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demosthenes", "Demosthenes\Demosthenes.csproj", "{F0675C21-E2D6-48AB-B467-510C50D85C1B}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demosthenes.Resources", "Demosthenes.Resources\Demosthenes.Resources.csproj", "{D4790CC8-9562-4587-9E77-2BA47254794C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demosthenes.Core", "Demosthenes.Core\Demosthenes.Core.csproj", "{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demosthenes.Infrastructure", "Demosthenes.Infrastructure\Demosthenes.Infrastructure.csproj", "{4D9E8EB9-E223-4754-8C69-87AD4B984508}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D104C79B-09F8-4509-BDFF-C0B7A7E83DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D9E8EB9-E223-4754-8C69-87AD4B984508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D9E8EB9-E223-4754-8C69-87AD4B984508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D9E8EB9-E223-4754-8C69-87AD4B984508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D9E8EB9-E223-4754-8C69-87AD4B984508}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

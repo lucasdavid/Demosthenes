@@ -44,3 +44,5 @@ c:\users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthene
 c:\users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Tests\obj\Debug\Demosthenes.Tests.pdb
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Tests\bin\Debug\Demosthenes.Core.dll
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Tests\bin\Debug\Demosthenes.Core.pdb
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Tests\bin\Debug\Demosthenes.Infrastructure.dll
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Tests\bin\Debug\Demosthenes.Infrastructure.pdb

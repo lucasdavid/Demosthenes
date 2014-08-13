@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Demosthenes.Core.Models;
+using Demosthenes.Core.ViewModels;
+using Demosthenes.Infrastructure.Exceptions;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Demosthenes.Core.Models;
-using Demosthenes.Core.ViewModels;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
 
 namespace Demosthenes.Controllers
 {
@@ -42,20 +42,20 @@ namespace Demosthenes.Controllers
             return View(await classes.ToListAsync());
         }
 
-        // GET: Classes/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Class @class = await db.Classes.FindAsync(id);
-            if (@class == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@class);
-        }
+        //// GET: Classes/Details/5
+        //public async Task<ActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Class @class = await db.Classes.FindAsync(id);
+        //    if (@class == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(@class);
+        //}
 
         // GET: Classes/Create
         [Authorize(Roles = "admin")]
@@ -162,11 +162,27 @@ namespace Demosthenes.Controllers
             var student = await db.Students.FindAsync(User.Identity.GetUserId());
             @class      = await db.Classes.FindAsync(@class.Id);
             
-            if (@class.Enrollable && @class.Students.Count < @class.Size)
+            try
             {
-                @class.Students.Add(student);
+                @class.Enroll(student);
                 db.Entry(@class).State = EntityState.Modified;
                 await db.SaveChangesAsync();
+            }
+            catch (NonEnrollableClassException)
+            {
+                //
+            }
+            catch (EnrollmentLimitOverflowException)
+            {
+                //
+            }
+            catch (StudentAlreadyEnrolledException)
+            {
+                //
+            }
+            catch (ScheduleConflictException)
+            {
+                //
             }
 
             return RedirectToAction("Enroll");
@@ -191,24 +207,40 @@ namespace Demosthenes.Controllers
         [Authorize(Roles = "student")]
         public async Task<ActionResult> Calendar(int? year, Term? term)
         {
+            if (!Request.IsAjaxRequest())
+            {
+                return RedirectToAction("Enroll");
+            }
+
             ViewBag.year = year = year ?? DateTime.Now.Year;
             ViewBag.term = term = term ?? (Term)(DateTime.Now.Month / 4);
 
             var id = User.Identity.GetUserId();
             var classes = await db.Classes
-                          .Where(c => c.Students.Any(s => s.Id == id) && c.Year == year && c.Term == term)
-                          .Include(c => c.Course).Include(c => c.Professor).Include(c => c.Schedules)
+                .Where(c => c.Students.Any(s => s.Id == id) && c.Year == year && c.Term == term)
+                .Include(c => c.Course).Include(c => c.Schedules)
+                          .Select(c => new {
+                              Id = c.Id,
+                              CourseTitle = c.Course.Title,
+                              Schedules = c.Schedules.Select(s => new {
+                                  Id = s.Id,
+                                  Day = s.Day,
+                                  Starting = s.Starting,
+                                  Ending = s.Ending
+                              })
+                          })
                           .ToListAsync();
 
             // getting possible starting times for schedules
-            var startingTimes = await db.Schedules
+            var times = await db.Schedules
                 .GroupBy(s => s.Starting)
                 .Select(g => g.Key)
                 .ToListAsync();
 
-            ViewBag.startingTimes = startingTimes;
-
-            return View(new CalendarViewModel(classes));
+            return Json(new {
+                classes = classes,
+                times = times
+            }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Classes/Schedule/5
@@ -241,7 +273,7 @@ namespace Demosthenes.Controllers
             if (ModelState.IsValid)
             {
                 Class @class = await db.Classes.FindAsync(model.Id);
-                
+
                 @class.Schedules.Clear();
 
                 foreach (int scheduleId in model.Schedules)

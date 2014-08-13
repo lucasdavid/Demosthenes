@@ -27,3 +27,5 @@ C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthene
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Core\obj\Debug\Demosthenes.Core.csprojResolveAssemblyReference.cache
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Core\obj\Debug\Demosthenes.Core.dll
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Core\obj\Debug\Demosthenes.Core.pdb
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Core\bin\Debug\Demosthenes.Infrastructure.dll
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes.Core\bin\Debug\Demosthenes.Infrastructure.pdb

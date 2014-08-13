@@ -37,22 +37,6 @@ namespace Demosthenes.Core.ViewModels
 
         public void AddClass(Class @class)
         {
-            foreach (var classes in ClassesOnDay)
-            {
-                if (classes.ContainsValue(@class))
-                {
-                    throw new Exception("The class " + @class.Id + " was already inserted into the calendar");
-                }
-            }
-
-            foreach (Schedule schedule in @class.Schedules)
-            {
-                if (ClassesOnDay[(int)schedule.Day].ContainsKey(schedule.Starting))
-                {
-                    throw new Exception("The class " + @class + " cannot be insert into the calendar because another class has already been allocated at " + schedule);
-                }
-            }
-
             foreach (Schedule schedule in @class.Schedules)
             {
                 ClassesOnDay[(int)schedule.Day].Add(schedule.Starting, @class);

@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
+using Demosthenes.Infrastructure.Exceptions;
+using Demosthenes.Core;
 namespace Demosthenes.Core.Models
 {
     public class Class
     {
-        public Class()
-        {
-            Students  = new HashSet<Student>();
-            Schedules = new HashSet<Schedule>();
-        }
-
         [Key]
         public int Id { get; set; }
 
@@ -46,5 +44,39 @@ namespace Demosthenes.Core.Models
 
         [Display(Name = "ClassStudents", ResourceType = typeof(Resources.i18n.Models))]
         public virtual ICollection<Student> Students { get; set; }
+
+        public Class()
+        {
+            Students = new HashSet<Student>();
+            Schedules = new HashSet<Schedule>();
+        }
+
+        public void Enroll(Student student)
+        {
+            if (!Enrollable)
+            {
+                throw new NonEnrollableClassException();
+            }
+
+            if (Students.Contains(student))
+            {
+                throw new StudentAlreadyEnrolledException();
+            }
+
+            if (Students.Count == Size)
+            {
+                throw new EnrollmentLimitOverflowException();
+            }
+
+            if (Schedules.Any(s =>
+                student.Classes.Any(c =>
+                    c.Schedules.Any(s2 =>
+                        s.Starting < s2.Ending && s.Ending > s2.Starting))))
+            {
+                throw new ScheduleConflictException();
+            }
+
+            Students.Add(student);
+        }
     }
 }

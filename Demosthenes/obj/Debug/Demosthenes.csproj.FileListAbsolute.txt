@@ -57,3 +57,5 @@ C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthene
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Resources.pdb
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Core.dll
 C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Core.pdb
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Infrastructure.dll
+C:\Users\lucasdavid\documents\visual studio 2013\Projects\Demosthenes\Demosthenes\bin\Demosthenes.Infrastructure.pdb

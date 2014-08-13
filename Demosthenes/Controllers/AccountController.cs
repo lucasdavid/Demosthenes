@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using Demosthenes.Core.Models;
+using Demosthenes.Core.ViewModels;
 
 namespace Demosthenes.Controllers
 {
