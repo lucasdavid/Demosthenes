@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Demosthenes.Core.Models;
 
 namespace Demosthenes.Core.ViewModels
 {
@@ -9,5 +6,12 @@ namespace Demosthenes.Core.ViewModels
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
+        public CourseJsonViewModel() { }
+        public CourseJsonViewModel(Course course)
+        {
+            Id = course.Id;
+            Title = course.Title;
+        }
     }
 }

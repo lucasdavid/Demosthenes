@@ -11,7 +11,20 @@ namespace Demosthenes.Core.ViewModels
     {
         public int Id { get; set; }
         public CourseJsonViewModel Course { get; set; }
-
         public List<ScheduleJsonViewModel> Schedules { get; set; }
+
+        public ClassJsonViewModel() { }
+        
+        public ClassJsonViewModel(Class @class)
+        {
+            Id = @class.Id;
+            Course = new CourseJsonViewModel(@class.Course);
+            Schedules = new List<ScheduleJsonViewModel>();
+            foreach (var schedule in @class.Schedules)
+            {
+                Schedules.Add(new ScheduleJsonViewModel(schedule));
+            }
+        }
     }
 }
+C:\Users\lucasdavid\Documents\GitHub\Demosthenes\Demosthenes\Views\

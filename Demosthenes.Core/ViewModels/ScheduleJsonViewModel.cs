@@ -1,8 +1,5 @@
 ﻿using Demosthenes.Core.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Demosthenes.Core.ViewModels
 {
@@ -12,5 +9,14 @@ namespace Demosthenes.Core.ViewModels
         public DayOfWeek Day { get; set; }
         public TimeSpan Starting { get; set; }
         public TimeSpan Ending { get; set; }
+
+        public ScheduleJsonViewModel() { }
+        public ScheduleJsonViewModel(Schedule schedule)
+        {
+            Id = schedule.Id;
+            Day = schedule.Day;
+            Starting = schedule.Starting;
+            Ending = schedule.Ending;
+        }
     }
 }
