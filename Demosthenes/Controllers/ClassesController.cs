@@ -1,6 +1,6 @@
 ﻿using Demosthenes.Core.Models;
 using Demosthenes.Core.ViewModels;
-using Demosthenes.Infrastructure.Exceptions;
+using Demosthenes.Infrastructure.Exceptions.Enrollment;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -79,7 +79,6 @@ namespace Demosthenes.Controllers
             {
                 db.Classes.Add(@class);
                 await db.SaveChangesAsync();
-                // TODO: test this
                 return RedirectToAction("Schedule", new { id = @class.Id });
             }
 
@@ -195,10 +194,22 @@ namespace Demosthenes.Controllers
         public async Task<ActionResult> Unenroll([Bind(Include = "Id")] Class @class)
         {
             @class = await db.Classes.FindAsync(@class.Id);
+            var student = await db.Students.FindAsync(User.Identity.GetUserId());
 
-            @class.Students.Remove(await db.Students.FindAsync(User.Identity.GetUserId()));
-            db.Entry(@class).State = EntityState.Modified;
-            await db.SaveChangesAsync();
+            try
+            {
+                @class.Unenroll(student);
+                db.Entry(@class).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            catch (NonEnrollableClassException)
+            {
+                //
+            }
+            catch (StudentNotEnrolledException)
+            {
+                //
+            }
 
             return RedirectToAction("Enroll");
         }
@@ -212,9 +223,12 @@ namespace Demosthenes.Controllers
                 return RedirectToAction("Enroll");
             }
 
+            // if year not informed, get current year
             ViewBag.year = year = year ?? DateTime.Now.Year;
+            // if term not informed, get current term
             ViewBag.term = term = term ?? (Term)(DateTime.Now.Month / 4);
 
+            // get classes from @year and @term that were signed by the student @id
             var id = User.Identity.GetUserId();
             var classes = await db.Classes
                 .Where(c => c.Students.Any(s => s.Id == id) && c.Year == year && c.Term == term)

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Demosthenes.Infrastructure.Exceptions.Enrollment;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-using Demosthenes.Infrastructure.Exceptions;
-using Demosthenes.Core;
 namespace Demosthenes.Core.Models
 {
     public class Class
@@ -68,6 +66,7 @@ namespace Demosthenes.Core.Models
                 throw new EnrollmentLimitOverflowException();
             }
 
+            // TODO: unit-test this.
             if (Schedules.Any(s =>
                 student.Classes.Any(c =>
                     c.Schedules.Any(s2 =>
@@ -77,6 +76,21 @@ namespace Demosthenes.Core.Models
             }
 
             Students.Add(student);
+        }
+
+        public void Unenroll(Student student)
+        {
+            if (!Enrollable)
+            {
+                throw new NonEnrollableClassException();
+            }
+
+            if (!Students.Contains(student))
+            {
+                throw new StudentNotEnrolledException();
+            }
+
+            Students.Remove(student);
         }
     }
 }

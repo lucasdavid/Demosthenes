@@ -16,30 +16,14 @@ namespace Demosthenes.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            //var departments = PopulateDepartments(context);
-            //var roles       = PopulateRoles(context);
-            //var professors  = PopulateProfessors(context, departments);
-            //var courses     = PopulateCourses(context, departments);
-            //var students    = PopulateStudents(context);
-            //var schedules = PopulateSchedules(context);
-            //var classes     = PopulateClasses(context, courses, professors, students);
-            //var posts       = PopulatePosts(context, professors);
-        }
-
-        private Department[] PopulateDepartments(ApplicationDbContext context)
-        {
-            var departments = new Department[]
-            {
-                new Department { Name = "Computer Science" },
-                new Department { Name = "Psychology" },
-                new Department { Name = "Biology" },
-                new Department { Name = "Political Science" },
-                new Department { Name = "Mathematics" },
-                new Department { Name = "Computer Engineer" }
-            };
-
-            context.Departments.AddOrUpdate(departments);
-            return departments;
+            var roles       = PopulateRoles      (context);
+            var departments = PopulateDepartments(context);
+            var professors  = PopulateProfessors (context, departments);
+            var courses     = PopulateCourses    (context, departments);
+            var students    = PopulateStudents   (context);
+            var schedules   = PopulateSchedules  (context);
+            var classes     = PopulateClasses    (context, courses, professors, students);
+            var posts       = PopulatePosts      (context, professors);
         }
 
         private IdentityRole[] PopulateRoles(ApplicationDbContext context)
@@ -62,6 +46,22 @@ namespace Demosthenes.Migrations
             }
 
             return roles;
+        }
+
+        private Department[] PopulateDepartments(ApplicationDbContext context)
+        {
+            var departments = new Department[]
+            {
+                new Department { Name = "Computer Science" },
+                new Department { Name = "Psychology" },
+                new Department { Name = "Biology" },
+                new Department { Name = "Political Science" },
+                new Department { Name = "Mathematics" },
+                new Department { Name = "Computer Engineer" }
+            };
+
+            context.Departments.AddOrUpdate(departments);
+            return departments;
         }
 
         private Professor[] PopulateProfessors(ApplicationDbContext context, Department[] departments)
@@ -141,13 +141,19 @@ namespace Demosthenes.Migrations
                 }
             };
 
-            for (int i = 0; i < students.Length; i++)
+            if (userManager.FindByEmail(students[0].Email) == null)
+            {
+                userManager.Create(students[0], "password");
+                userManager.AddToRole(students[0].Id, "student");
+                userManager.AddToRole(students[0].Id, "admin");
+            }
+
+            for (int i = 1; i < students.Length; i++)
             {
                 if (userManager.FindByEmail(students[i].Email) == null)
                 {
                     userManager.Create(students[i], "password");
                     userManager.AddToRole(students[i].Id, "student");
-                    userManager.AddToRole(students[i].Id, "admin");
                 }
             }
 
@@ -156,7 +162,7 @@ namespace Demosthenes.Migrations
 
         private Class[] PopulateClasses(ApplicationDbContext context, Course[] courses, Professor[] professors, Student[] students)
         {
-            // TODO: work on this, populating schedules as well.
+            // TODO: improve classes populating, include schedules as well.
             var random = new Random();
             var classes = new Class[]
             {

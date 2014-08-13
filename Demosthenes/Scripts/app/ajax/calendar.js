@@ -86,12 +86,14 @@
         // # end of constructor region
     }
 
-    $(document).ready(function () {
-        var $calendarElement, $calendarLoadBtn, $calendarContainer;
+    function RequestCalendar() {
+        var $calendar, $calendarLoadBtn, $calendarContainer;
 
-        $calendarElement = $('#calendar');
-        $loadBtn = $('#calendar-load-btn');
+        $calendar  = $('#calendar');
+        $loadBtn   = $('#calendar-load-btn');
         $container = $('#calendar-container');
+
+        $loadBtn.button('loading')
 
         $.ajax({
             type: 'get',
@@ -99,17 +101,31 @@
         })
         .done(function (data) {
             $loadBtn.hide()
+            .children('#calendar-load-text')
+            .attr({
+                class: 'disabled',
+                disabled: 'disabled'
+            })
+            .html('Loading calendar...');
+
             $container
                 .hide()
                 .html(new Calendar(data.times, data.classes).ExportCalendar())
                 .show(500);
         })
         .fail(function (data) {
-            $container.html('<span class="label label-warning">Failed to load your calendar</span>');
+            $loadBtn.show();
         })
         .always(function () {
-            $loadBtn.button('reset')
+            $loadBtn.button('reset');
+        });
+    }
+
+    $(document).ready(function () {
+        $('#calendar-load-btn').click(function () {
+            RequestCalendar();
         });
 
+        RequestCalendar();
     });
 }());
