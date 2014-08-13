@@ -212,9 +212,12 @@ namespace Demosthenes.Controllers
                 return RedirectToAction("Enroll");
             }
 
+            // if year not informed, get current year
             ViewBag.year = year = year ?? DateTime.Now.Year;
+            // if term not informed, get current term
             ViewBag.term = term = term ?? (Term)(DateTime.Now.Month / 4);
 
+            // get classes from @year and @term that were signed by the student @id
             var id = User.Identity.GetUserId();
             var classes = await db.Classes
                 .Where(c => c.Students.Any(s => s.Id == id) && c.Year == year && c.Term == term)
