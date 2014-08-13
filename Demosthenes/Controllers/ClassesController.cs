@@ -1,6 +1,6 @@
 ﻿using Demosthenes.Core.Models;
 using Demosthenes.Core.ViewModels;
-using Demosthenes.Infrastructure.Exceptions;
+using Demosthenes.Infrastructure.Exceptions.Enrollment;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -79,7 +79,6 @@ namespace Demosthenes.Controllers
             {
                 db.Classes.Add(@class);
                 await db.SaveChangesAsync();
-                // TODO: test this
                 return RedirectToAction("Schedule", new { id = @class.Id });
             }
 
@@ -195,10 +194,22 @@ namespace Demosthenes.Controllers
         public async Task<ActionResult> Unenroll([Bind(Include = "Id")] Class @class)
         {
             @class = await db.Classes.FindAsync(@class.Id);
+            var student = await db.Students.FindAsync(User.Identity.GetUserId());
 
-            @class.Students.Remove(await db.Students.FindAsync(User.Identity.GetUserId()));
-            db.Entry(@class).State = EntityState.Modified;
-            await db.SaveChangesAsync();
+            try
+            {
+                @class.Unenroll(student);
+                db.Entry(@class).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            catch (NonEnrollableClassException)
+            {
+                //
+            }
+            catch (StudentNotEnrolledException)
+            {
+                //
+            }
 
             return RedirectToAction("Enroll");
         }

@@ -39,10 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\EnrollmentLimitOverflowException.cs" />
-    <Compile Include="Exceptions\NonEnrollableClassException.cs" />
-    <Compile Include="Exceptions\ScheduleConflictException.cs" />
-    <Compile Include="Exceptions\StudentAlreadyEnrolledException.cs" />
+    <Compile Include="Exceptions\Enrollment\EnrollmentLimitOverflowException.cs" />
+    <Compile Include="Exceptions\Enrollment\StudentNotEnrolledException.cs" />
+    <Compile Include="Exceptions\Enrollment\NonEnrollableClassException.cs" />
+    <Compile Include="Exceptions\Enrollment\ScheduleConflictException.cs" />
+    <Compile Include="Exceptions\Enrollment\StudentAlreadyEnrolledException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
