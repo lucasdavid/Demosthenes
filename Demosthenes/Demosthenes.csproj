@@ -194,7 +194,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\ajax\calendar.js" />
-    <Content Include="Scripts\app\effects\progress-bar.js" />
+    <Content Include="Scripts\app\elements\progress-bar.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -216,6 +216,11 @@ namespace Demosthenes.Controllers
                 //
             }
 
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new ClassJsonViewModel(@class));
+            }
+
             return RedirectToAction("Enroll");
         }
 

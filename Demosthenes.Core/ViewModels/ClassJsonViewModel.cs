@@ -27,4 +27,3 @@ namespace Demosthenes.Core.ViewModels
         }
     }
 }
-C:\Users\lucasdavid\Documents\GitHub\Demosthenes\Demosthenes\Views\
