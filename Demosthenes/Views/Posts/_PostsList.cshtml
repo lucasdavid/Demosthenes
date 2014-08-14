@@ -7,8 +7,7 @@
             <h2>@Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)</h2>
             <p>
                 <a href="#"><span class="glyphicon glyphicon-user"></span></a>
-                @post.Author.UserName,
-                <small>@post.DateCreated</small>.
+                @post.Author.UserName, <small>@post.DateCreated</small>.
             </p>
             <p>@post.Body</p>
 
@@ -25,8 +24,7 @@
                            title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span></a>
                     }
 
-                    <a href="#"
-                       title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                    <a href="#" title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span></a>
                 }
             }
         </div>

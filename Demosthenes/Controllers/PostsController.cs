@@ -16,11 +16,12 @@ namespace Demosthenes.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        public ActionResult Index(string search = null, int page = 1, int size = 10)
+        public ActionResult Index(string q = null, int page = 1, int size = 10)
         {
             var id = User.Identity.GetUserId();
+
             var posts = db.Posts
-                .Where(p => (p.Visible || p.AuthorId == id) && (search == null || p.Title.Contains(search) || p.Body.Contains(search)))
+                .Where(p => (p.Visible || p.AuthorId == id) && (q == null || p.Title.Contains(q) || p.Body.Contains(q)))
                 .OrderByDescending(p => p.DateCreated)
                 .Include(p => p.Author);
 
