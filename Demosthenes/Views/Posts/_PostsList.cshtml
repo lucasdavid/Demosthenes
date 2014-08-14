@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Demosthenes.Core.Models.Post>
+
+<div id="feed" class="row">
+    @foreach (Demosthenes.Core.Models.Post post in Model)
+    {
+        <div>
+            <h2>@Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)</h2>
+            <p>
+                <a href="#"><span class="glyphicon glyphicon-user"></span></a>
+                @post.Author.UserName,
+                <small>@post.DateCreated</small>.
+            </p>
+            <p>@post.Body</p>
+
+            @if (User.IsInRole("admin") || post.AuthorId == User.Identity.GetUserId())
+            {
+                using (Html.BeginForm("Delete", "Posts", FormMethod.Post, new { id = "delete" + post.Id + "Form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("Id", post.Id)
+
+                    if (post.AuthorId == User.Identity.GetUserId())
+                    {
+                        <a class="btn btn-sm btn-primary" href="/Posts/Edit/@post.Id"
+                           title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span></a>
+                    }
+
+                    <a href="#"
+                       title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                }
+            }
+        </div>
+    }
+</div>

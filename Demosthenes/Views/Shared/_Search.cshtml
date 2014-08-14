@@ -1,0 +1,18 @@
+﻿@using (Ajax.BeginForm(new AjaxOptions
+{
+    HttpMethod = "get",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "feed"
+}))
+{
+    <div class="row">
+        <div class="input-group col-lg-6">
+            <input type="text" class="form-control" name="search">
+            <span class="input-group-btn">
+                <a href="#" class="btn btn-info btn-submitter" role="button" title="Search by title and body content">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+            </span>
+        </div>
+    </div>
+}

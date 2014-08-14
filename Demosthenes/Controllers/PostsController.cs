@@ -1,10 +1,12 @@
 ﻿using Demosthenes.Core.Models;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Demosthenes.Controllers
 {
@@ -14,17 +16,20 @@ namespace Demosthenes.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        public async Task<ActionResult> Index(string? term, int? page, int? size)
+        public ActionResult Index(string search = null, int page = 1, int size = 10)
         {
             var id = User.Identity.GetUserId();
             var posts = db.Posts
-                .Where(p =>
-                    (p.Visible || p.AuthorId == id) && (p.Title.Contains(term.ToString()) || p.Body.Contains(term.ToString()))
-                )
+                .Where(p => (p.Visible || p.AuthorId == id) && (search == null || p.Title.Contains(search) || p.Body.Contains(search)))
                 .OrderByDescending(p => p.DateCreated)
                 .Include(p => p.Author);
 
-            return View(await posts.ToListAsync());
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_PostsList", posts.ToPagedList(page, size));
+            }
+
+            return View(posts.ToPagedList(page, size));
         }
 
         // GET: Posts/Details/5
@@ -79,7 +84,7 @@ namespace Demosthenes.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
+
             Post post = await db.Posts.FindAsync(id);
             if (post == null)
             {
