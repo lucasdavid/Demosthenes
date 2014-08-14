@@ -194,7 +194,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\ajax\calendar.js" />
+    <Content Include="Scripts\app\elements\danger-dialog.js" />
     <Content Include="Scripts\app\elements\progress-bar.js" />
+    <Content Include="Scripts\app\elements\btn-submitter.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -268,6 +270,7 @@
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Shared\_Title.cshtml" />
+    <Content Include="Views\Shared\_DangerDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

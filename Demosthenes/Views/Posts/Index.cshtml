@@ -1,9 +1,15 @@
 ﻿@model IEnumerable<Demosthenes.Core.Models.Post>
 
 @{
-    ViewBag.Title = "Shared posts";
+    ViewBag.Title = "Posts";
 }
 
+@section scripts {
+    @Scripts.Render("~/Scripts/app/elements/danger-dialog.js")
+    @Scripts.Render("~/Scripts/app/elements/btn-submitter.js")
+}
+
+@Html.Partial("_DangerDialog")
 @Html.Partial("_Title")
 
 <div class="row">
@@ -31,8 +37,8 @@
                            title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span></a>
                     }
 
-                    <a href="javascript:document.getElementById('delete@(post.Id)Form').submit()"
-                       title="Delete @post.Title" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                    <a href="#"
+                       title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span></a>
 
                 }
             }

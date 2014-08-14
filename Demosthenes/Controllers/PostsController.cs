@@ -14,11 +14,13 @@ namespace Demosthenes.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string? term, int? page, int? size)
         {
             var id = User.Identity.GetUserId();
             var posts = db.Posts
-                .Where(p => p.Visible || p.AuthorId == id)
+                .Where(p =>
+                    (p.Visible || p.AuthorId == id) && (p.Title.Contains(term.ToString()) || p.Body.Contains(term.ToString()))
+                )
                 .OrderByDescending(p => p.DateCreated)
                 .Include(p => p.Author);
 

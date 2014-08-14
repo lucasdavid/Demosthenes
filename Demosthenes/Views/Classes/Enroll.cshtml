@@ -10,6 +10,7 @@
     @Scripts.Render("~/Scripts/app/ajax/calendar.js")
 }
 
+@Html.Partial("_DangerDialog")
 @Html.Partial("_Title")
 
 <div id="calendar">
@@ -18,7 +19,6 @@
         <span class="glyphicon glyphicon-cloud-download"></span>
         <span id="calendar-load-text">Try again</span>
     </button>
-    
 </div>
 
 @foreach (var item in Model)

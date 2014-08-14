@@ -16,14 +16,14 @@ namespace Demosthenes.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            var roles       = PopulateRoles      (context);
-            var departments = PopulateDepartments(context);
-            var professors  = PopulateProfessors (context, departments);
-            var courses     = PopulateCourses    (context, departments);
-            var students    = PopulateStudents   (context);
-            var schedules   = PopulateSchedules  (context);
-            var classes     = PopulateClasses    (context, courses, professors, students);
-            var posts       = PopulatePosts      (context, professors);
+            //var roles       = PopulateRoles      (context);
+            //var departments = PopulateDepartments(context);
+            //var professors  = PopulateProfessors (context, departments);
+            //var courses     = PopulateCourses    (context, departments);
+            //var students    = PopulateStudents   (context);
+            //var schedules   = PopulateSchedules  (context);
+            //var classes     = PopulateClasses    (context, courses, professors, students);
+            var posts       = PopulatePosts      (context);
         }
 
         private IdentityRole[] PopulateRoles(ApplicationDbContext context)
@@ -242,7 +242,7 @@ namespace Demosthenes.Migrations
             return schedules;
         }
 
-        private Post[] PopulatePosts(ApplicationDbContext context, Professor[] professors)
+        private Post[] PopulatePosts(ApplicationDbContext context)
         {
             var random = new Random();
             var posts = new Post[10];
@@ -253,7 +253,7 @@ namespace Demosthenes.Migrations
                 {
                     Title = "Our very " + i + "n post",
                     Body = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    Author = professors[random.Next(professors.Length)]
+                    AuthorId = "2ca60ff4-ef8a-4870-a75c-bc032280c3c3"
                 };
             }
 
