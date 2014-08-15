@@ -1,10 +1,4 @@
-﻿@using (Ajax.BeginForm(new AjaxOptions
-{
-    HttpMethod = "get",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "feed"
-}))
-{
+﻿<form id="form-search" method="get">
     <div class="row">
         <div class="input-group col-lg-6">
             <input type="text" class="form-control" name="search">
@@ -15,4 +9,5 @@
             </span>
         </div>
     </div>
-}
+</form>
+<br /><br />

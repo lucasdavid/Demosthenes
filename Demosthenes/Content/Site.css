@@ -2,3 +2,11 @@
     border-bottom: 1px solid #ddd;
     box-shadow: 1px 1px 5px #eee;
 }
+
+.article {
+    margin-bottom: 5em;
+}
+
+footer {
+    margin-bottom: 1.5em;
+}

@@ -32,14 +32,7 @@ namespace Demosthenes.Controllers
 
         public ActionResult Index()
         {
-            var id = User.Identity.GetUserId();
-
-            ViewBag.CurrentUser       = UserManager.FindById(id);
-            ViewBag.EnrollableClasses = db.Classes.Where(m => m.Enrollable).Count();
-            ViewBag.posts             = db.Posts
-                .Where(p => p.Visible || p.AuthorId == id)
-                .OrderByDescending(p => p.DateCreated)
-                .Take(10).Include(p => p.Author);
+            ViewBag.AnyEnrollableClass = db.Classes.Any(m => m.Enrollable);
 
             return View();
         }

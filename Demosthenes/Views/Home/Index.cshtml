@@ -2,29 +2,25 @@
     ViewBag.Title = "Home";
 }
 
+@section scripts {
+    @Scripts.Render("~/Scripts/app/ajax/feed.js")
+}
+
 <div class="jumbotron">
     <h1>Demosthenes</h1>
     <p class="lead">Academic management system.</p>
     <p>
-        <a href="/Home/About" class="btn btn-primary btn-lg">Learn more &rarr;</a>
+        <a href="/Home/About" class="btn btn-default btn-lg">Learn more</a>
 
-        @if (User.Identity.IsAuthenticated && ViewBag.EnrollableClasses > 0)
+        @if (User.Identity.IsAuthenticated && ViewBag.AnyEnrollableClass)
         {
             @Html.ActionLink("Enroll at classes", "Enroll", "Classes", null, new { @class = "btn btn-lg btn-success", title = "Some classes are opened for enrollment." })
         }
     </p>
 </div>
-<div class="row">
-    @foreach (Demosthenes.Core.Models.Post post in ViewBag.posts)
-    {
-        <div class="col-lg-6 col-md-12">
-            <h2>@Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)</h2>
-            <p>
-                <a href="#"><span class="glyphicon glyphicon-user"></span></a>
-                @post.Author.UserName,
-                <small>@post.DateCreated</small>.
-            </p>
-            <p>@post.Body</p>
-        </div>
-    }
-</div>
+
+
+<div id="feed"></div>
+<span id="feed-loading">
+    <img src="~/Content/loading.gif" /> Loading posts...
+</span>

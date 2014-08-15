@@ -1,15 +1,24 @@
 ﻿@model IEnumerable<Demosthenes.Core.Models.Post>
 
-<div id="feed" class="row">
-    @foreach (Demosthenes.Core.Models.Post post in Model)
-    {
-        <div>
-            <h2>@Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)</h2>
+@foreach (Demosthenes.Core.Models.Post post in Model)
+{
+    <div class="row article">
+        <div class="col-md-3">
+            <a href="@Url.Action("Details", "Users", new { id = @post.AuthorId })">
+                <img class="media-object" src="~/Content/butters.jpg" alt="@Html.DisplayFor(m => post.Author.Name)" width="80" />
+            </a>
+            <label>
+                <strong>@Html.DisplayFor(m => post.Author.Name)</strong>,<br />
+                @Html.DisplayFor(m => post.DateCreated)
+            </label>
+        </div>
+        <div class="col-md-9">
+            <h3>
+                @Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)
+            </h3>
             <p>
-                <a href="#"><span class="glyphicon glyphicon-user"></span></a>
-                @post.Author.UserName, <small>@post.DateCreated</small>.
+                @post.Body, <small>@post.DateCreated</small>.
             </p>
-            <p>@post.Body</p>
 
             @if (User.IsInRole("admin") || post.AuthorId == User.Identity.GetUserId())
             {
@@ -20,7 +29,7 @@
 
                     if (post.AuthorId == User.Identity.GetUserId())
                     {
-                        <a class="btn btn-sm btn-primary" href="/Posts/Edit/@post.Id"
+                        <a class="btn btn-sm btn-default" href="/Posts/Edit/@post.Id"
                            title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span></a>
                     }
 
@@ -28,5 +37,5 @@
                 }
             }
         </div>
-    }
-</div>
+    </div>
+}
