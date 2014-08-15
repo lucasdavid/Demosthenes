@@ -245,9 +245,9 @@ namespace Demosthenes.Migrations
         private Post[] PopulatePosts(ApplicationDbContext context)
         {
             var random = new Random();
-            var posts = new Post[10];
+            var posts = new Post[100];
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < posts.Length; i++)
             {
                 posts[i] = new Post
                 {

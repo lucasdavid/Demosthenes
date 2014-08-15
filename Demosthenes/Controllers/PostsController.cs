@@ -27,7 +27,7 @@ namespace Demosthenes.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView("_PostsList", posts.ToPagedList(page, size));
+                return PartialView("_Feed", posts.ToPagedList(page, size));
             }
 
             return View(posts.ToPagedList(page, size));

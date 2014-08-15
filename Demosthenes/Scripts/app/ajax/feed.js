@@ -1,9 +1,11 @@
 ﻿(function () {
 
-    var $labelLoading = $('#feed-loading');
-    var $feed = $('#feed');
-
     function RequestFeed() {
+        var $labelloading, $feed;
+
+        $labelLoading = $('#feed-loading');
+        $feed         = $('#feed');
+
         $.ajax({
             type: 'get',
             url: '/Posts',
@@ -11,7 +13,7 @@
         .done(function (data) {
             $labelLoading.hide();
 
-            $feed.hide().html(data).show(500);
+            $feed.hide().html($(data).children()).fadeIn();
         });
     }
 

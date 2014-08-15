@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Demosthenes.Core.Models.Post>
+﻿@model IEnumerable<Post>
 
 @{
     ViewBag.Title = "Posts";
@@ -7,9 +7,13 @@
 @section scripts {
     @Scripts.Render("~/Scripts/app/elements/danger-dialog.js")
     @Scripts.Render("~/Scripts/app/elements/btn-submitter.js")
+    @Scripts.Render("~/Scripts/app/ajax/search.js")
 }
 
 @Html.Partial("_DangerDialog")
 @Html.Partial("_Title")
-@Html.Partial("_Search")
-@Html.Partial("_PostsList", Model)
+@Html.Partial("_Search", "/Posts")
+
+<div id="list-search">
+    @Html.Partial("_Feed", Model)
+</div>

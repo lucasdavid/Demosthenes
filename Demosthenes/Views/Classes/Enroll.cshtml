@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Demosthenes.Core.Models.Class>
+﻿@model IEnumerable<Class>
 
 @{
     ViewBag.Title = "Enroll";
@@ -33,7 +33,7 @@
             <small>@item.Professor.Email</small>
         </h4>
         <p>
-            @foreach (Demosthenes.Core.Models.Schedule schedule in @item.Schedules)
+            @foreach (Schedule schedule in @item.Schedules)
             {
                 <span class="label label-default">@schedule</span> 
             }

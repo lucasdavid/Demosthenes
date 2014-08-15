@@ -93,7 +93,7 @@
         $loadBtn   = $('#calendar-load-btn');
         $container = $('#calendar-container');
 
-        $loadBtn.button('loading')
+        $loadBtn.button('loading');
 
         $.ajax({
             type: 'get',

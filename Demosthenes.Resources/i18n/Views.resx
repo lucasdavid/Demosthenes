@@ -120,4 +120,7 @@
   <data name="DangerDialogTitle" xml:space="preserve">
     <value>Wait! You are about to executing an dangerous operation.</value>
   </data>
+  <data name="TryRefresh" xml:space="preserve">
+    <value>Sorry, an error has occured. Why don't you try to refresh the page?</value>
+  </data>
 </root>

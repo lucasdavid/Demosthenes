@@ -202,6 +202,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\ajax\calendar.js" />
     <Content Include="Scripts\app\ajax\feed.js" />
+    <Content Include="Scripts\app\ajax\search.js" />
     <Content Include="Scripts\app\elements\danger-dialog.js" />
     <Content Include="Scripts\app\elements\progress-bar.js" />
     <Content Include="Scripts\app\elements\btn-submitter.js" />
@@ -225,7 +226,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -279,8 +282,9 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Shared\_Title.cshtml" />
     <Content Include="Views\Shared\_DangerDialog.cshtml" />
-    <Content Include="Views\Posts\_PostsList.cshtml" />
     <Content Include="Views\Shared\_Search.cshtml" />
+    <Content Include="Views\Posts\_Feed.cshtml" />
+    <Content Include="Views\Shared\_PagedListPager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

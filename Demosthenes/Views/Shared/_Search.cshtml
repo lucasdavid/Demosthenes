@@ -1,7 +1,9 @@
-﻿<form id="form-search" method="get">
+﻿@model String
+
+<form id="form-search" method="get" action="@Model">
     <div class="row">
         <div class="input-group col-lg-6">
-            <input type="text" class="form-control" name="search">
+            <input type="text" class="form-control" name="q" id="q">
             <span class="input-group-btn">
                 <a href="#" class="btn btn-info btn-submitter" role="button" title="Search by title and body content">
                     <span class="glyphicon glyphicon-search"></span>
@@ -10,4 +12,3 @@
         </div>
     </div>
 </form>
-<br /><br />

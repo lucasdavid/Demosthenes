@@ -68,5 +68,14 @@ namespace Demosthenes.Resources.i18n {
                 return ResourceManager.GetString("DangerDialogTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, an error has occured. Why don&apos;t you try to refresh the page?.
+        /// </summary>
+        public static string TryRefresh {
+            get {
+                return ResourceManager.GetString("TryRefresh", resourceCulture);
+            }
+        }
     }
 }
