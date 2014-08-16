@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Class>
 
 @{
-    ViewBag.Title = "Enroll";
-    ViewBag.Lead = "at opened classes";
+    ViewBag.Title = "Enrollment";
+    ViewBag.Lead = "of " + User.Identity.GetUserName();
 }
 
 @section scripts {

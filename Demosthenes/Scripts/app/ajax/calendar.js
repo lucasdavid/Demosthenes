@@ -110,7 +110,7 @@
 
             $container
                 .hide()
-                .html(new Calendar(data.times, data.classes).ExportCalendar())
+                .append(new Calendar(data.times, data.classes).ExportCalendar())
                 .fadeIn();
             ;
 

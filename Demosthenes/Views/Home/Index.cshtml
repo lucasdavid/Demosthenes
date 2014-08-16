@@ -14,7 +14,7 @@
 
         @if (User.Identity.IsAuthenticated && ViewBag.AnyEnrollableClass)
         {
-            @Html.ActionLink("Enroll at classes", "Enroll", "Enrollment", null, new { @class = "btn btn-lg btn-success", title = "Some classes are opened for enrollment." })
+            @Html.ActionLink("Enroll at classes", "Index", "Enrollment", null, new { @class = "btn btn-lg btn-success", title = "Some classes are opened for enrollment." })
         }
     </p>
 </div>

@@ -1,10 +1,7 @@
 ﻿using Demosthenes.Core.Models;
-using Demosthenes.Core.ViewModels;
-using Demosthenes.Infrastructure.Exceptions.Enrollment;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -100,9 +97,9 @@ namespace Demosthenes.Controllers
             }
 
             // if year not informed, get current year
-            ViewBag.year = year = year ?? DateTime.Now.Year;
+            year = year ?? DateTime.Now.Year;
             // if term not informed, get current term
-            ViewBag.term = term = term ?? (Term)(DateTime.Now.Month / 4);
+            term = term ?? (Term)(DateTime.Now.Month / 4);
 
             // get classes from @year and @term that were signed by the student @id
             var id = User.Identity.GetUserId();
@@ -133,7 +130,9 @@ namespace Demosthenes.Controllers
             return Json(new
             {
                 classes = classes,
-                times = times
+                times = times,
+                year = year,
+                term = term.ToString()
             }, JsonRequestBehavior.AllowGet);
         }
     }
