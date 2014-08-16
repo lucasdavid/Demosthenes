@@ -23,7 +23,7 @@ namespace Demosthenes.Migrations
             //var students    = PopulateStudents   (context);
             //var schedules   = PopulateSchedules  (context);
             //var classes     = PopulateClasses    (context, courses, professors, students);
-            var posts       = PopulatePosts      (context);
+            //var posts       = PopulatePosts      (context);
         }
 
         private IdentityRole[] PopulateRoles(ApplicationDbContext context)

@@ -129,8 +129,8 @@
   <data name="ClassSize" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="ClassStudents" xml:space="preserve">
-    <value>Enrolled students</value>
+  <data name="ClassEnrollment" xml:space="preserve">
+    <value>Enrollment</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Password confirmed</value>

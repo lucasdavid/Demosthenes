@@ -268,7 +268,6 @@
     <Content Include="Views\Posts\Details.cshtml" />
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
-    <Content Include="Views\Classes\Enroll.cshtml" />
     <Content Include="Views\Students\Details.cshtml" />
     <Content Include="Views\Students\Edit.cshtml" />
     <Content Include="Views\Students\Index.cshtml" />
@@ -290,10 +289,10 @@
     <Content Include="Views\Shared\_AlertEmptySearch.cshtml" />
     <Content Include="Views\Shared\_AlertNoRecords.cshtml" />
     <Content Include="Views\Professors\_List.cshtml" />
+    <Content Include="Views\Enrollment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Enrollment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

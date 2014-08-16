@@ -1,8 +1,6 @@
-﻿using Demosthenes.Infrastructure.Exceptions.Enrollment;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace Demosthenes.Core.Models
 {
@@ -40,57 +38,13 @@ namespace Demosthenes.Core.Models
         [Display(Name = "ClassSchedules", ResourceType = typeof(Resources.i18n.Models))]
         public virtual ICollection<Schedule> Schedules { get; set; }
 
-        [Display(Name = "ClassStudents", ResourceType = typeof(Resources.i18n.Models))]
-        public virtual ICollection<Student> Students { get; set; }
+        [Display(Name = "ClassEnrollment", ResourceType = typeof(Resources.i18n.Models))]
+        public virtual ICollection<Enrollment> Enrollment { get; set; }
 
         public Class()
         {
-            Students = new HashSet<Student>();
+            Enrollment = new HashSet<Enrollment>();
             Schedules = new HashSet<Schedule>();
-        }
-
-        public void Enroll(Student student)
-        {
-            if (!Enrollable)
-            {
-                throw new NonEnrollableClassException();
-            }
-
-            if (Students.Contains(student))
-            {
-                throw new StudentAlreadyEnrolledException();
-            }
-
-            if (Students.Count == Size)
-            {
-                throw new EnrollmentLimitOverflowException();
-            }
-
-            // TODO: unit-test this.
-            if (Schedules.Any(s =>
-                student.Classes.Any(c =>
-                    c.Schedules.Any(s2 =>
-                        s.Starting < s2.Ending && s.Ending > s2.Starting))))
-            {
-                throw new ScheduleConflictException();
-            }
-
-            Students.Add(student);
-        }
-
-        public void Unenroll(Student student)
-        {
-            if (!Enrollable)
-            {
-                throw new NonEnrollableClassException();
-            }
-
-            if (!Students.Contains(student))
-            {
-                throw new StudentNotEnrolledException();
-            }
-
-            Students.Remove(student);
         }
     }
 }

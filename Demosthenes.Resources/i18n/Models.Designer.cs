@@ -79,6 +79,15 @@ namespace Demosthenes.Resources.i18n {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enrollment.
+        /// </summary>
+        public static string ClassEnrollment {
+            get {
+                return ResourceManager.GetString("ClassEnrollment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Schedules.
         /// </summary>
         public static string ClassSchedules {
@@ -93,15 +102,6 @@ namespace Demosthenes.Resources.i18n {
         public static string ClassSize {
             get {
                 return ResourceManager.GetString("ClassSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enrolled students.
-        /// </summary>
-        public static string ClassStudents {
-            get {
-                return ResourceManager.GetString("ClassStudents", resourceCulture);
             }
         }
         

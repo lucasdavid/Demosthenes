@@ -97,7 +97,7 @@
 
         $.ajax({
             type: 'get',
-            url: '/Classes/Calendar',
+            url: '/Enrollment/Calendar',
         })
         .done(function (data) {
             $loadBtn.hide()
@@ -111,7 +111,15 @@
             $container
                 .hide()
                 .html(new Calendar(data.times, data.classes).ExportCalendar())
-                .show(500);
+                .fadeIn();
+            ;
+
+            var $marginLefty = $container.next();
+            $marginLefty.animate({
+                marginLeft: parseInt($marginLefty.css('marginLeft'), 10) == 0 ?
+                  $marginLefty.outerWidth() :
+                  0
+            });
         })
         .fail(function (data) {
             $loadBtn.show();
