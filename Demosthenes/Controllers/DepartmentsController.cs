@@ -28,7 +28,7 @@ namespace Demosthenes.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView("_DepartmentsList", departments.ToPagedList(page, size));
+                return PartialView("_List", departments.ToPagedList(page, size));
             }
 
             return View(departments.ToPagedList(page, size));

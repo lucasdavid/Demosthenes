@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Demosthenes.Controllers
 {
@@ -30,20 +31,23 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Professors
-        public async Task<ActionResult> Index()
+        public ActionResult Index(string q = null, int page = 1, int size = 10)
         {
-            var professors = await db.Professors
-                .OrderBy(p => p.DepartmentId)
-                .Include(p => p.Department)
-                .ToListAsync();
+            var professors = db.Professors
+                            .Where(p => q == null || p.Name.Contains(q) || p.Email.Contains(q))
+                            .OrderBy(p => p.DepartmentId)
+                            .ThenBy(p => p.Name)
+                            .Include(p => p.Department)
+                            .ToPagedList(page, size);
 
-            var viewModel = new List<ProfessorViewModel>();
-            foreach (Professor professor in professors)
+            ViewBag.q = q;
+
+            if (Request.IsAjaxRequest())
             {
-                viewModel.Add(new ProfessorViewModel(professor));
+                return PartialView("_List", professors);
             }
 
-            return View(viewModel);
+            return View(professors);
         }
 
         // GET: Professors/Details/5

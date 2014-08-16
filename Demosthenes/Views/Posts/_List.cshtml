@@ -4,7 +4,7 @@
 
 @foreach (Post post in Model)
 {
-    <div class="row article">
+    <div class="row pagedListItem">
         <div class="col-md-3">
             <a href="@Url.Action("Details", "Users", new { id = @post.AuthorId })">
                 <img class="media-object" src="~/Content/butters.jpg"
@@ -31,10 +31,10 @@
                     if (post.AuthorId == User.Identity.GetUserId())
                     {
                         <a class="btn btn-sm btn-default" href="/Posts/Edit/@post.Id"
-                           title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span></a>
+                           title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span>Edit</a>
                     }
 
-                    <a href="#" title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                    <a href="#" title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span>Remove</a>
                 }
             }
         </div>

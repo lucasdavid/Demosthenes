@@ -1,0 +1,52 @@
+﻿@model IPagedList<Professor>
+
+@Html.Partial("_PagedListPager", Model)
+
+@if (Model.Count == 0)
+{
+    if (String.IsNullOrEmpty(ViewBag.q))
+    {
+        @Html.Partial("_AlertNoRecords", "professor")
+    }
+    else
+    {
+        @Html.Partial("_AlertEmptySearch", "professor")
+    }
+}
+
+@foreach (var item in Model)
+{
+    <div class="pagedListItem">
+        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+        <p>
+            @Html.DisplayFor(modelItem => item.Email)
+        </p>
+        <p>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </p>
+
+        @if (User.IsInRole("admin"))
+        {
+            <p>
+                @Html.DisplayFor(modelItem => item.SSN)
+            </p>
+        }
+
+        Department of @Html.DisplayFor(modelItem => item.Department.Name)
+        <br />
+
+        @if (User.IsInRole("admin"))
+        {
+            using (Html.BeginForm("Delete", "Professors", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("Id", item.Id)
+
+                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-default btn-sm"
+                   title="Edit @item.Name"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <a href="#" title="Delete @item.Name"
+                   class="btn btn-submitter btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span> Remove</a>
+            }
+        }
+    </div>
+}

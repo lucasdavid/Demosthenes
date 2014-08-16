@@ -168,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -288,9 +289,11 @@
     <Content Include="Views\Users\_List.cshtml" />
     <Content Include="Views\Shared\_AlertEmptySearch.cshtml" />
     <Content Include="Views\Shared\_AlertNoRecords.cshtml" />
+    <Content Include="Views\Professors\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Enrollment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
