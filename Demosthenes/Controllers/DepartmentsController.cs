@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Demosthenes.Core.Models;
 
 namespace Demosthenes.Controllers
@@ -17,9 +18,20 @@ namespace Demosthenes.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Departments
-        public async Task<ActionResult> Index()
+        public ActionResult Index(string q = null, int page = 1, int size = 10)
         {
-            return View(await db.Departments.ToListAsync());
+            var departments = db.Departments
+                .Where(d => q == null || d.Name.Contains(q))
+                .OrderBy(d => d.Name);
+
+            ViewBag.q = q;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_DepartmentsList", departments.ToPagedList(page, size));
+            }
+
+            return View(departments.ToPagedList(page, size));
         }
 
         // GET: Departments/Create

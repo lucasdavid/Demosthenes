@@ -1,0 +1,41 @@
+﻿@model IPagedList<Department>
+
+@Html.Partial("_PagedListPager", Model)
+
+@if (Model.Count == 0)
+{
+    if (String.IsNullOrEmpty(ViewBag.q))
+    {
+        @Html.Partial("_AlertNoRecords", "department")
+    }
+    else
+    {
+        @Html.Partial("_AlertEmptySearch", "department")
+    }
+}
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+        <p>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </p>
+
+        @using (Html.BeginForm("Delete", "Departments", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Id", item.Id)
+
+            <div class="btn-group">
+                <a href="/Departments/Edit/@item.Id" class="btn btn-default btn-sm"
+                   title="Edit @item.Name"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+            </div>
+
+            <div class="btn-group">
+                <a href="#" title="Delete @item.Name"
+                   class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
+            </div>
+        }
+    </div>
+}

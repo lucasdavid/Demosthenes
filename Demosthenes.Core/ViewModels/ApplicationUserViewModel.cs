@@ -14,6 +14,7 @@ namespace Demosthenes.Core.ViewModels
         public ApplicationUserViewModel(ApplicationUser applicationUser)
         {
             Id = applicationUser.Id;
+            Name = applicationUser.Name;
             Email = applicationUser.Email;
             Password = applicationUser.PasswordHash;
             ConfirmPassword = applicationUser.PasswordHash;
@@ -21,6 +22,10 @@ namespace Demosthenes.Core.ViewModels
 
         [Key]
         public string Id { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Required]
         [EmailAddress]

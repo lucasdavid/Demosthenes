@@ -1,48 +1,25 @@
-﻿@model IEnumerable<Demosthenes.Core.ViewModels.ApplicationUserViewModel>
+﻿@model IPagedList<ApplicationUserViewModel>
 
 @{
     ViewBag.Title = "Administrators";
 }
 
+@section scripts {
+    @Scripts.Render("~/Scripts/app/elements/btn-submitter.js")
+    @Scripts.Render("~/Scripts/app/ajax/search.js")
+}
+
 @Html.Partial("_Title")
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                #
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Email)
-                </td>
-                <td>
-                    @using (Html.BeginForm("Delete", "Users", FormMethod.Post, new { id = "delete" + user.Id + "Form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("Id", user.Id)
+<div class="row">
+    <div class="col-md-10">
+        @Html.Partial("_Search", "/Users")
+    </div>
+    <div class="col-md-2 text-right">
+        <a href="@Url.Action("Create")" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create administrator</a>
+    </div>
+</div>
 
-                        <a href="javascript:document.getElementById('delete@(user.Id)Form').submit()"
-                           class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
-                    }
-                </td>
-            </tr>
-
-        }
-    </tbody>
-</table>
+<div id="list-search">
+    @Html.Partial("_List", Model)
+</div>

@@ -25,9 +25,11 @@ namespace Demosthenes.Controllers
                 .OrderByDescending(p => p.DateCreated)
                 .Include(p => p.Author);
 
+            ViewBag.q = q;
+
             if (Request.IsAjaxRequest())
             {
-                return PartialView("_Feed", posts.ToPagedList(page, size));
+                return PartialView("_List", posts.ToPagedList(page, size));
             }
 
             return View(posts.ToPagedList(page, size));

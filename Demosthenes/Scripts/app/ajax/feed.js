@@ -13,7 +13,7 @@
         .done(function (data) {
             $labelLoading.hide();
 
-            $feed.hide().html($(data).children()).fadeIn();
+            $feed.hide().html(data).fadeIn();
         });
     }
 

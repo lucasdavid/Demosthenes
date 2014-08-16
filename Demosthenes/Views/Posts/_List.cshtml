@@ -1,0 +1,42 @@
+﻿@model IPagedList<Post>
+
+@Html.Partial("_PagedListPager", Model)
+
+@foreach (Post post in Model)
+{
+    <div class="row article">
+        <div class="col-md-3">
+            <a href="@Url.Action("Details", "Users", new { id = @post.AuthorId })">
+                <img class="media-object" src="~/Content/butters.jpg"
+                     alt="@Html.DisplayFor(m => post.Author.Name)" width="80" />
+            </a>
+            <label>
+                <strong>@Html.DisplayFor(m => post.Author.Name)</strong>,<br />
+                @Html.DisplayFor(m => post.DateCreated)
+            </label>
+        </div>
+        <div class="col-md-9">
+            <h3>
+                @Html.ActionLink(post.Title, "Details", "Posts", new { Id = post.Id }, null)
+            </h3>
+            <p>@post.Body</p>
+
+            @if (User.IsInRole("admin") || post.AuthorId == User.Identity.GetUserId())
+            {
+                using (Html.BeginForm("Delete", "Posts", FormMethod.Post, new { id = "delete" + post.Id + "Form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("Id", post.Id)
+
+                    if (post.AuthorId == User.Identity.GetUserId())
+                    {
+                        <a class="btn btn-sm btn-default" href="/Posts/Edit/@post.Id"
+                           title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span></a>
+                    }
+
+                    <a href="#" title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span></a>
+                }
+            }
+        </div>
+    </div>
+}

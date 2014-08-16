@@ -1,45 +1,25 @@
-﻿@model IEnumerable<Department>
+﻿@model IPagedList<Department>
 
 @{
     ViewBag.Title = "Departments";
 }
 
+@section scripts {
+    @Scripts.Render("~/Scripts/app/elements/btn-submitter.js")
+    @Scripts.Render("~/Scripts/app/ajax/search.js")
+}
+
 @Html.Partial("_Title")
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
 <div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-sm-4">
-            <div class="thumbnail">
-                @*<img data-src="holder.js/300x300" alt="...">*@
-                <div class="caption">
-                    <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-                    <p>
-                        @Html.DisplayFor(modelItem => item.DateCreated)
-                    </p>
+    <div class="col-md-10">
+        @Html.Partial("_Search", "/Departments")
+    </div>
+    <div class="col-md-2 text-right">
+        <a href="@Url.Action("Create")" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create department</a>
+    </div>
+</div>
 
-                    @using (Html.BeginForm("Delete", "Departments", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("Id", item.Id)
-
-                        <div class="btn-group btn-group-sm">
-                            <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-list"></span></a>
-                            <a href="/Departments/Edit/@item.Id" class="btn btn-default btn-sm" title="Edit @item.Name"><span class="glyphicon glyphicon-edit"></span></a>
-                        </div>
-
-                        <div class="btn-group btn-group-sm pull-right">
-                            <a href="javascript:document.getElementById('delete@(item.Id)Form').submit()" title="Delete @item.Name"
-                               class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-floppy-remove"></span></a>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    }
-
+<div id="list-search">
+    @Html.Partial("_DepartmentsList", Model)
 </div>

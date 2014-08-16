@@ -1,0 +1,33 @@
+﻿@model IPagedList<ApplicationUserViewModel>
+
+@Html.Partial("_PagedListPager", Model)
+
+@if (Model.Count == 0)
+{
+    if (String.IsNullOrEmpty(ViewBag.q))
+    {
+        @Html.Partial("_AlertNoRecords", "administration")
+    }
+    else
+    {
+        @Html.Partial("_AlertEmptySearch", "administration")
+    }
+}
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <h3>@Html.DisplayFor(m => item.Name) <small>@Html.DisplayFor(m => item.Id)</small></h3>
+        <p>
+            @Html.DisplayFor(m => item.Email)
+        </p>
+
+        @using (Html.BeginForm("Delete", "Users", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Id", item.Id)
+
+            <a href="#" class="btn btn-danger btn-sm btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Remove</a>
+        }
+    </div>
+}
