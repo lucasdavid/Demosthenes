@@ -57,14 +57,14 @@ namespace Demosthenes.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            
             Professor professor = await db.Professors.FindAsync(id);
-
             if (professor == null)
             {
                 return HttpNotFound();
             }
-            // TODO: Department entity should eagerly load
-            return View(new ProfessorViewModel(professor));
+            
+            return View(professor);
         }
 
         // GET: Professors/Create

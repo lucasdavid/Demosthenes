@@ -1,49 +1,29 @@
-﻿@model IEnumerable<StudentViewModel>
+﻿@model IPagedList<Student>
 
 @{
     ViewBag.Title = "Students";
     ViewBag.Lead = "";
 }
 
+@section scripts {
+    @Scripts.Render("~/Scripts/app/elements/btn-submitter.js")
+    @Scripts.Render("~/Scripts/app/ajax/search.js")
+}
+
 @Html.Partial("_Title")
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4">
-            <strong>
-                @Html.DisplayFor(modelItem => item.Name)
-            </strong>
-            <br />
-            @Html.DisplayFor(modelItem => item.Email)
-            <br />
+    <div class="col-md-10">
+        @Html.Partial("_Search", "/Students")
+    </div>
+    <div class="col-md-2 text-right">
+        @if (User.IsInRole("admin"))
+        {
+            <a href="@Url.Action("Create")" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create student</a>
+        }
+    </div>
+</div>
 
-            @if (User.IsInRole("admin") || User.IsInRole("professor"))
-            {
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-                <br />
-                @Html.DisplayFor(modelItem => item.DateBorn)
-                <br />
-            }
-            
-            @if (User.IsInRole("admin"))
-            {
-                using (Html.BeginForm("Delete", "Students", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("Id", item.Id)
-
-                    <a href="/Students/Edit/@item.Id" class="btn btn-primary btn-sm"
-                       title="Edit @item.Name"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="javascript:document.getElementById('delete@(item.Id)Form').submit()" title="Delete @item.Name"
-                       class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span></a>
-                }
-            }
-            <br />
-        </div>
-    }
-
+<div id="list-search">
+    @Html.Partial("_List", Model)
 </div>

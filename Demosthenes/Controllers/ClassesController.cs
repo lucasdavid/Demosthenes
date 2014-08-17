@@ -1,9 +1,8 @@
 ﻿using Demosthenes.Core.Models;
 using Demosthenes.Core.ViewModels;
-using Demosthenes.Infrastructure.Exceptions.Enrollment;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+using PagedList;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -12,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Demosthenes.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class ClassesController : Controller
     {
         private ApplicationDbContext db { get; set; }
@@ -31,15 +30,24 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult> Index()
+        public ActionResult Index(string q = null, int page = 1, int size = 10)
         {
             var classes = db.Classes
+                .Where(c => q == null || c.Course.Title.Contains(q) || c.Professor.Name.Contains(q))
                 .OrderBy(c => c.CourseId)
+                .ThenByDescending(c => c.Id)
                 .Include(c => c.Course)
-                .Include(c => c.Professor);
+                .Include(c => c.Professor)
+                .ToPagedList(page, size);
 
-            return View(await classes.ToListAsync());
+            ViewBag.q = q;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_List", classes);
+            }
+
+            return View(classes);
         }
 
         //// GET: Classes/Details/5
@@ -58,7 +66,6 @@ namespace Demosthenes.Controllers
         //}
 
         // GET: Classes/Create
-        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             ViewBag.CourseId    = new SelectList(db.Courses, "Id", "Title");
@@ -72,7 +79,6 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Create([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class)
         {
             if (ModelState.IsValid)
@@ -88,7 +94,6 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes/Edit/5
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -110,7 +115,6 @@ namespace Demosthenes.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CourseId,ProfessorId,Size,Year,Term,Enrollable")] Class @class)
         {
             if (ModelState.IsValid)
@@ -127,7 +131,6 @@ namespace Demosthenes.Controllers
         // POST: Classes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Class @class = await db.Classes.FindAsync(id);
@@ -137,7 +140,6 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Classes/Schedule/5
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Schedule(int? id)
         {
             if (id == null)
@@ -160,7 +162,6 @@ namespace Demosthenes.Controllers
         // POST: Classes/Schedule/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Schedule([Bind(Include = "Id,Schedules")] ClassSchedulesViewModel model)
         {
             if (ModelState.IsValid)

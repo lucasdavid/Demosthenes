@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using PagedList;
 
 namespace Demosthenes.Controllers
 {
@@ -28,20 +29,28 @@ namespace Demosthenes.Controllers
         }
 
         [Authorize(Roles = "student")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string q = null, int page = 1, int size = 10)
         {
             ViewBag.CurrentStudent = await db.Students.FindAsync(User.Identity.GetUserId());
 
             var classes = db.Classes
-                .Where(c => c.Enrollable == true)
+                .Where(c => c.Enrollable == true && (q == null || c.Course.Title.Contains(q) || c.Professor.Name.Contains(q)))
                 .OrderBy(c => c.CourseId)
-                .ThenBy(c => c.Course.Title)
+                .ThenByDescending(c => c.Id)
                 .Include(c => c.Course)
                 .Include(c => c.Professor)
                 .Include(c => c.Enrollment)
-                .Include(c => c.Schedules);
+                .Include(c => c.Schedules)
+                .ToPagedList(page, size);
 
-            return View(await classes.ToListAsync());
+            ViewBag.q = q;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_List", classes);
+            }
+
+            return View(classes);
         }
 
         // POST: Classes/Enroll/5

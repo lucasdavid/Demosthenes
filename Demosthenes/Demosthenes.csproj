@@ -213,6 +213,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="README.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\app\ajax\calendar.js" />
     <Content Include="Scripts\app\ajax\feed.js" />
@@ -308,6 +309,10 @@
     <Content Include="Views\Activities\Details.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\Students\_List.cshtml" />
+    <Content Include="Views\Courses\_List.cshtml" />
+    <Content Include="Views\Enrollment\_List.cshtml" />
+    <Content Include="Views\Classes\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

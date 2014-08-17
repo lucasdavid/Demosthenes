@@ -1,0 +1,44 @@
+﻿@model IPagedList<Class>
+
+@foreach (var item in Model)
+{
+    <div class="pagedListItem">
+        <h3>
+            @Html.DisplayFor(modelItem => item.Course.Title)
+            <small>
+                @item.Id
+            </small>
+        </h3>
+        <p>
+            @if (item.Enrollable)
+            { <span class="label label-info">open</span> }
+            else
+            { <span class="label label-warning">closed</span> }
+        </p>
+        
+        <h4>
+            @Html.DisplayFor(modelItem => item.Professor.Name)
+        </h4>
+        <p>
+            @Html.DisplayFor(modelItem => item.Size) places
+        </p>
+        <p>
+            @Html.DisplayFor(modelItem => item.Term), @Html.DisplayFor(modelItem => item.Year)
+        </p>
+
+        @using (Html.BeginForm("Delete", "Classes", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Id", item.Id)
+
+            <a href="/Classes/Schedule/@item.Id" class="btn btn-sm btn-default"
+               title="Define schedule for class @item.Id"><span class="glyphicon glyphicon-calendar"></span> Schedules</a>
+
+            <a href="/Classes/Edit/@item.Id" class="btn btn-sm btn-default"
+               title="Edit class @item.Id"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+             
+            <a href="#" title="Delete class @item.Id"
+               class="btn btn-danger btn-sm btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
+        }
+    </div>
+}

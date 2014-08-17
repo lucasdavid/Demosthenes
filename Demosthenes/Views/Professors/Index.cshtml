@@ -17,14 +17,12 @@
         @Html.Partial("_Search", "/Professors")
     </div>
     <div class="col-md-2 text-right">
-        <a href="@Url.Action("Create")" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create professor</a>
+        @if (User.IsInRole("admin"))
+        {
+            <a href="@Url.Action("Create")" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create professor</a>
+        }
     </div>
 </div>
-
-@if (User.IsInRole("admin"))
-{
-    <p>@Html.ActionLink("Create New", "Create")</p>
-}
 
 <div id="list-search">
     @Html.Partial("_List", Model)

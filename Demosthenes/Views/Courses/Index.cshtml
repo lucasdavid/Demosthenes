@@ -1,52 +1,29 @@
-﻿@model IEnumerable<Course>
+﻿@model IPagedList<Course>
 
 @{
     ViewBag.Title = "Courses";
 }
 
-@Html.Partial("_Title")
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Department.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Details)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Department.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Details)
-        </td>
-        <td>
-            @using (Html.BeginForm("Delete", "Courses", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Hidden("Id", item.Id)
-
-                <a href="/Courses/Edit/@item.Id" class="btn btn-primary btn-sm"
-                   title="Edit @item.Title"><span class="glyphicon glyphicon-edit"></span></a>
-                <a href="javascript:document.getElementById('delete@(item.Id)Form').submit()" title="Delete @item.Title"
-                   class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span></a>
-            }
-        </td>
-    </tr>
+@section scripts {
+    @Scripts.Render("~/Scripts/app/elements/btn-submitter.js")
+    @Scripts.Render("~/Scripts/app/ajax/search.js")
 }
 
-</table>
+@Html.Partial("_Title")
+
+<div class="row">
+    <div class="col-md-10">
+        @Html.Partial("_Search", "/Courses")
+    </div>
+    @if (User.IsInRole("admin"))
+    {
+        <div class="col-md-2 text-right">
+            <a href="@Url.Action("Create")" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create department</a>
+        </div>
+    }
+</div>
+
+<div id="list-search">
+    @Html.Partial("_List", Model)
+</div>
+

@@ -1,4 +1,4 @@
-﻿@model ProfessorViewModel
+﻿@model Professor
 
 @{
     ViewBag.Title = Model.Name;
@@ -6,7 +6,6 @@
 }
 
 @Html.Partial("_Title")
-
 
 @Html.DisplayFor(model => model.Email)
 @if (Model.EmailConfirmed)

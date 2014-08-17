@@ -17,7 +17,10 @@
 @foreach (var item in Model)
 {
     <div class="pagedListItem">
-        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+        <h3>
+            @Html.DisplayFor(modelItem => item.Name)
+            <small>Department of @Html.DisplayFor(modelItem => item.Department.Name)</small>
+        </h3>
         <p>
             @Html.DisplayFor(modelItem => item.Email)
         </p>
@@ -28,12 +31,11 @@
         @if (User.IsInRole("admin"))
         {
             <p>
-                @Html.DisplayFor(modelItem => item.SSN)
+                <span class="glyphicon glyphicon-eye-close" title="Only administrators can see this information"></span>
+                @Html.DisplayNameFor(m => item.SSN)
+                <strong>@Html.DisplayFor(modelItem => item.SSN)</strong>
             </p>
         }
-
-        Department of @Html.DisplayFor(modelItem => item.Department.Name)
-        <br />
 
         @if (User.IsInRole("admin"))
         {
@@ -43,9 +45,9 @@
                 @Html.Hidden("Id", item.Id)
 
                 <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-default btn-sm"
-                   title="Edit @item.Name"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                   title="Edit @item.Name"><span class="glyphicon glyphicon-edit"></span>Edit</a>
                 <a href="#" title="Delete @item.Name"
-                   class="btn btn-submitter btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span> Remove</a>
+                   class="btn btn-submitter btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span>Remove</a>
             }
         }
     </div>

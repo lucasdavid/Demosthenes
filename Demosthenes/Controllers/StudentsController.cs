@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Demosthenes.Core.Models;
+﻿using Demosthenes.Core.Models;
 using Demosthenes.Core.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Demosthenes.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, professor")]
     public class StudentsController : Controller
     {
         private ApplicationDbContext db { get; set; }
@@ -33,17 +31,21 @@ namespace Demosthenes.Controllers
         }
 
         // GET: Students
-        public async Task<ActionResult> Index()
+        public ActionResult Index(string q = null, int page = 1, int size = 10)
         {
-            var students = await db.Students.ToListAsync();
-            var viewModel = new List<StudentViewModel>();
+            var students = db.Students
+                            .Where(p => q == null || p.Name.Contains(q) || p.Email.Contains(q))
+                            .OrderBy(s => s.Name)
+                            .ToPagedList(page, size);
 
-            foreach (Student student in students)
+            ViewBag.q = q;
+            
+            if (Request.IsAjaxRequest())
             {
-                viewModel.Add(new StudentViewModel(student));
+                return PartialView("_List", students);
             }
 
-            return View(viewModel);
+            return View(students);
         }
 
         // GET: Students/Details/5
