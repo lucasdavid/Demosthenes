@@ -4,6 +4,7 @@ namespace Demosthenes.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
 
 
@@ -19,7 +20,7 @@ namespace Demosthenes.Migrations
             //var roles       = PopulateRoles      (context);
             //var departments = PopulateDepartments(context);
             //var professors  = PopulateProfessors (context, departments);
-            //var courses     = PopulateCourses    (context, departments);
+            var courses = PopulateCourses(context);
             //var students    = PopulateStudents   (context);
             //var schedules   = PopulateSchedules  (context);
             //var classes     = PopulateClasses    (context, courses, professors, students);
@@ -93,22 +94,25 @@ namespace Demosthenes.Migrations
             return professors;
         }
 
-        private Course[] PopulateCourses(ApplicationDbContext context, Department[] departments)
+        private Course[] PopulateCourses(ApplicationDbContext context)
         {
             var random = new Random();
 
-            var courses = new Course[]
-            {
-                new Course { Title = "Artificial Intelligence", Details = "", Department = departments[0] },
-                new Course { Title = "Introduction to Psychology 101", Details = "", Department = departments[1] },
-                new Course { Title = "Insectology", Details = "", Department = departments[2] },
-                new Course { Title = "International Diplomacy", Details = "", Department = departments[3] },
-                new Course { Title = "Calculus I", Details = "", Department = departments[4] },
-                new Course { Title = "Computer Architecture", Details = "", Department = departments[5] }
-            };
+            //var courses = new Course[]
+            //{
+            //    new Course { Title = "Artificial Intelligence", Details = "", DepartmentId = 1 },
+            //    new Course { Title = "Introduction to Psychology 101", Details = "", DepartmentId = 2 },
+            //    new Course { Title = "Insectology", Details = "", DepartmentId = 1 },
+            //    new Course { Title = "International Diplomacy", Details = "", DepartmentId = 1 },
+            //    new Course { Title = "Calculus I", Details = "", DepartmentId = 1 },
+            //    new Course { Title = "Computer Architecture", Details = "", DepartmentId = 1 }
+            //};
 
-            context.Courses.AddOrUpdate(courses);
-            return courses;
+            for (int i = 0; i < 20; i++)
+            {
+                context.Courses.AddOrUpdate(new Course { Title = "Course " + i, DepartmentId = 1 });
+            }
+            return null;
         }
 
         private Student[] PopulateStudents(ApplicationDbContext context)

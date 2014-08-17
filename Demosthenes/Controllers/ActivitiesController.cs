@@ -16,13 +16,6 @@ namespace Demosthenes.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Activities
-        public async Task<ActionResult> Index()
-        {
-            var activities = db.Activities.Include(a => a.Class);
-            return View(await activities.ToListAsync());
-        }
-
         // GET: Activities/Details/5
         public async Task<ActionResult> Details(int? id)
         {

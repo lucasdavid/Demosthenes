@@ -29,7 +29,6 @@ namespace Demosthenes.Core.Models
                 throw new StudentAlreadyEnrolledException();
             }
 
-            // TODO: unit-test this.
             if (student.Enrollment.Any(e =>
                 e.Class.Term == @class.Term && e.Class.Year == @class.Year
                 && e.Class.Schedules.Any(a =>
