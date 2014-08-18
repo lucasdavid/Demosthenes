@@ -30,11 +30,11 @@
 
                     if (post.AuthorId == User.Identity.GetUserId())
                     {
-                        <a class="btn btn-sm btn-default" href="/Posts/Edit/@post.Id"
+                        <a class="btn btn-default" href="/Posts/Edit/@post.Id"
                            title="Edit @post.Title"><span class="glyphicon glyphicon-edit"></span> Edit</a>
                     }
 
-                    <a href="#" title="Delete @post.Title" class="btn btn-sm btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Remove</a>
+                    <a href="#" title="Delete @post.Title" class="btn btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Remove</a>
                 }
             }
         </div>

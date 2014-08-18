@@ -30,10 +30,10 @@
             @Html.AntiForgeryToken()
             @Html.Hidden("Id", item.Id)
 
-            <a href="/Courses/Edit/@item.Id" class="btn btn-default btn-sm"
+            <a href="/Courses/Edit/@item.Id" class="btn btn-default"
                title="Edit @item.Title"><span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a href="#" title="Delete @item.Title"
-               class="btn btn-danger btn-sm btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
+               class="btn btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
         }
     </div>
 }

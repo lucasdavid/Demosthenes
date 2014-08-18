@@ -31,14 +31,14 @@
             @Html.AntiForgeryToken()
             @Html.Hidden("Id", item.Id)
 
-            <a href="/Classes/Schedule/@item.Id" class="btn btn-sm btn-default"
+            <a href="/Classes/Schedule/@item.Id" class="btn btn-default"
                title="Define schedule for class @item.Id"><span class="glyphicon glyphicon-calendar"></span> Schedules</a>
 
-            <a href="/Classes/Edit/@item.Id" class="btn btn-sm btn-default"
+            <a href="/Classes/Edit/@item.Id" class="btn btn-default"
                title="Edit class @item.Id"><span class="glyphicon glyphicon-edit"></span> Edit</a>
              
             <a href="#" title="Delete class @item.Id"
-               class="btn btn-danger btn-sm btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
+               class="btn btn-danger btn-submitter"><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
         }
     </div>
 }

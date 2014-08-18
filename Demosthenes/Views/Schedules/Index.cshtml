@@ -6,47 +6,53 @@
 
 @Html.Partial("_Title")
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Day)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Starting)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ending)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div class="text-right">
+    <a href="@Url.Action("Create")" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span>
+        Create schedule
+    </a>
+</div>
+<table class="table table-hover table-striped">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Day)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Starting)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ending)
-            </td>
-            <td>
-                @using (Html.BeginForm("Delete", "Schedules", FormMethod.Post, new { id = "delete" + @item.Id + "Form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("Id", item.Id)
-
-                    <a href="/Schedules/Edit/@item.Id" class="btn btn-primary btn-sm"
-                       title="Edit schedule"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="javascript:document.getElementById('delete@(item.Id)Form').submit()"
-                       title="Delete schedule" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-floppy-remove"></span></a>
-                }
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Day)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Starting)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ending)
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Day)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Starting)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ending)
+                </td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Schedules", FormMethod.Post, new { id = "delete" + @item.Id + "Form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("Id", item.Id)
+
+                        <a href="/Schedules/Edit/@item.Id" class="btn btn-default"
+                           title="Edit schedule"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                        <a href="#" title="Delete schedule" class="btn btn-danger btn-submitter"
+                           ><span class="glyphicon glyphicon-floppy-remove"></span> Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

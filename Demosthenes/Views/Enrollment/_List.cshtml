@@ -41,7 +41,7 @@
 
         @if (!item.Enrollable)
         {
-            <input type="button" class="btn btn-danger btn-sm disabled" value="Closed" disabled="disabled" />
+            <input type="button" class="btn btn-danger disabled" value="Closed" disabled="disabled" />
         }
         else if (item.Enrollment.Any(e => e.StudentId == User.Identity.GetUserId()))
         {
@@ -52,12 +52,12 @@
                        data-val-number="The field Id must be a number."
                        data-val-required="The Id field is required."
                        id="item_Id" name="Id" type="hidden" value="@item.Id">
-                <input type="submit" value="Unenroll" class="btn btn-sm btn-warning" />
+                <input type="submit" value="Unenroll" class="btn btn-warning" />
             }
         }
         else if (item.Enrollment.Count >= item.Size)
         {
-            <input type="button" class="btn btn-warning btn-sm disabled" value="Enrollment limit exceded" disabled="disabled" />
+            <input type="button" class="btn btn-warning disabled" value="Enrollment limit exceded" disabled="disabled" />
         }
         else
         {
@@ -68,7 +68,7 @@
                        data-val-number="The field Id must be a number."
                        data-val-required="The Id field is required."
                        id="item_Id" name="Id" type="hidden" value="@item.Id">
-                <input type="submit" value="Enroll" class="btn btn-sm btn-info" />
+                <input type="submit" value="Enroll" class="btn btn-info" />
             }
         }
     </div>

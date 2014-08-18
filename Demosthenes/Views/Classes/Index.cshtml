@@ -18,7 +18,10 @@
     @if (User.IsInRole("admin"))
     {
         <div class="col-md-2 text-right">
-            <a href="@Url.Action("Create")" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create department</a>
+            <a href="@Url.Action("Create")" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span>
+                Create class
+            </a>
         </div>
     }
 </div>
