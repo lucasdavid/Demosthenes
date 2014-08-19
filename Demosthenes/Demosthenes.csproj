@@ -329,10 +329,6 @@
       <Project>{d104c79b-09f8-4509-bdff-c0b7a7e83dd2}</Project>
       <Name>Demosthenes.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Demosthenes.Infrastructure\Demosthenes.Infrastructure.csproj">
-      <Project>{4d9e8eb9-e223-4754-8c69-87ad4b984508}</Project>
-      <Name>Demosthenes.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Demosthenes.Resources\Demosthenes.Resources.csproj">
       <Project>{d4790cc8-9562-4587-9e77-2ba47254794c}</Project>
       <Name>Demosthenes.Resources</Name>

@@ -74,9 +74,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\Enrollment\EnrollmentLimitOverflowException.cs" />
+    <Compile Include="Exceptions\Enrollment\NonEnrollableClassException.cs" />
+    <Compile Include="Exceptions\Enrollment\ScheduleConflictException.cs" />
+    <Compile Include="Exceptions\Enrollment\StudentAlreadyEnrolledException.cs" />
+    <Compile Include="Exceptions\Enrollment\StudentNotEnrolledException.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\Grade.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\UnitOfWork.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Base\TimeStampsEntity.cs" />
     <Compile Include="Models\Class.cs" />
@@ -101,10 +108,6 @@
     <Compile Include="ViewModels\StudentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Demosthenes.Infrastructure\Demosthenes.Infrastructure.csproj">
-      <Project>{4d9e8eb9-e223-4754-8c69-87ad4b984508}</Project>
-      <Name>Demosthenes.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Demosthenes.Resources\Demosthenes.Resources.csproj">
       <Project>{d4790cc8-9562-4587-9e77-2ba47254794c}</Project>
       <Name>Demosthenes.Resources</Name>
@@ -114,9 +117,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

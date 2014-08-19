@@ -1,4 +1,4 @@
-﻿using Demosthenes.Infrastructure.Exceptions.Enrollment;
+﻿using Demosthenes.Core.Exceptions.Enrollment;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

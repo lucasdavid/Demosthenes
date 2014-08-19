@@ -66,16 +66,7 @@ namespace Demosthenes.Controllers
             db.Enrollments.Add(enrollment);
             await db.SaveChangesAsync();
 
-            var classes = db.Classes
-                .Where(c => c.Enrollable == true)
-                .OrderBy(c => c.CourseId)
-                .ThenBy(c => c.Course.Title)
-                .Include(c => c.Course)
-                .Include(c => c.Professor)
-                .Include(c => c.Enrollment)
-                .Include(c => c.Schedules);
-
-            return View(await classes.ToListAsync());
+            return Redirect("Index");
         }
 
         // POST: Classes/Unenroll/5
