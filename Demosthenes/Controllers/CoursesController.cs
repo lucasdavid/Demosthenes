@@ -9,38 +9,39 @@ using System.Web;
 using System.Web.Mvc;
 using Demosthenes.Core.Models;
 using PagedList;
+using Demosthenes.Services;
 
 namespace Demosthenes.Controllers
 {
     [Authorize(Roles = "admin")]
     public class CoursesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly CourseService courses;
+        private readonly DepartmentService departments;
+
+        public CoursesController(CourseService _courses, DepartmentService _departments)
+        {
+            courses = _courses;
+            departments = _departments;
+        }
 
         // GET: Courses
-        public ActionResult Index(string q = null, int page = 1, int size = 10)
+        public async Task<ActionResult> Index(string q = null, int page = 1, int size = 10)
         {
-            var courses = db.Courses
-                .Where(c => q == null || c.Title.Contains(q) || c.Details.Contains(q) || c.Department.Name.Contains(q))
-                .OrderBy(c => c.DepartmentId)
-                .ThenBy(c => c.Title)
-                .Include(c => c.Department)
-                .ToPagedList(page, size);
-
             ViewBag.q = q;
+            var occurrences = await courses.SearchAsync(q);
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView("_List", courses);
+                return PartialView("_List", occurrences.ToPagedList(page, size));
             }
-
-            return View(courses);
+            return View(occurrences.ToPagedList(page, size));
         }
 
         // GET: Courses/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name");
+            ViewBag.DepartmentId = new SelectList(await departments.AllAsync(), "Id", "Name");
             return View();
         }
 
@@ -51,12 +52,11 @@ namespace Demosthenes.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Courses.Add(course);
-                await db.SaveChangesAsync();
+                await courses.AddAsync(course);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", course.DepartmentId);
+            ViewBag.DepartmentId = new SelectList(await departments.AllAsync(), "Id", "Name", course.DepartmentId);
             return View(course);
         }
 
@@ -67,12 +67,13 @@ namespace Demosthenes.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = await db.Courses.FindAsync(id);
+            Course course = await courses.FindAsync(id);
             if (course == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", course.DepartmentId);
+
+            ViewBag.DepartmentId = new SelectList(await departments.AllAsync(), "Id", "Name", course.DepartmentId);
             return View(course);
         }
 
@@ -83,11 +84,11 @@ namespace Demosthenes.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(course).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await courses.UpdateAsync(course);
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", course.DepartmentId);
+
+            ViewBag.DepartmentId = new SelectList(await departments.AllAsync(), "Id", "Name", course.DepartmentId);
             return View(course);
         }
 
@@ -96,9 +97,8 @@ namespace Demosthenes.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Course course = await db.Courses.FindAsync(id);
-            db.Courses.Remove(course);
-            await db.SaveChangesAsync();
+            Course course = await courses.FindAsync(id);
+            await courses.DeleteAsync(course);
             return RedirectToAction("Index");
         }
 
@@ -106,7 +106,8 @@ namespace Demosthenes.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                courses.Dispose();
+                departments.Dispose();
             }
             base.Dispose(disposing);
         }

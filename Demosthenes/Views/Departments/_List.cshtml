@@ -18,9 +18,6 @@
 {
     <div class="pagedListItem">
         <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-        <p>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </p>
 
         @using (Html.BeginForm("Delete", "Departments", FormMethod.Post, new { id = "delete" + item.Id + "Form" }))
         {

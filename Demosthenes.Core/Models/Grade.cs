@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Demosthenes.Core.Models
 {
-    public class Grade : Base.TimeStampsEntity
+    public class Grade
     {
         [Key]
         public int Id { get; set; }

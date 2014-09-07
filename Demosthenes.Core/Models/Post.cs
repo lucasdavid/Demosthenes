@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Demosthenes.Core.Models
 {
-    public class Post : Base.TimeStampsEntity
+    public class Post
     {
         public Post()
-            : base()
         {
             Visible = true;
         }
@@ -30,5 +29,8 @@ namespace Demosthenes.Core.Models
         [ForeignKey("Author")]
         public string AuthorId { get; set; }
         public virtual ApplicationUser Author { get; set; }
+
+        [ScaffoldColumn(false)]
+        public DateTime DateCreated { get; set; }
     }
 }

@@ -9,29 +9,32 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using Demosthenes.Core.Models;
+using Demosthenes.Services;
+using System.Data.SqlClient;
 
 namespace Demosthenes.Controllers
 {
     [Authorize(Roles = "admin")]
     public class DepartmentsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly DepartmentService service;
+
+        public DepartmentsController(DepartmentService _service)
+        {
+            service = _service;
+        }
 
         // GET: Departments
-        public ActionResult Index(string q = null, int page = 1, int size = 10)
+        public async Task<ActionResult> Index(string q = null, int page = 1, int size = 10)
         {
-            var departments = db.Departments
-                .Where(d => q == null || d.Name.Contains(q))
-                .OrderBy(d => d.Name);
-
             ViewBag.q = q;
-
+            var occurrences = await service.SearchAsync(q);
+            
             if (Request.IsAjaxRequest())
             {
-                return PartialView("_List", departments.ToPagedList(page, size));
+                return PartialView("_List", occurrences.ToPagedList(page, size));
             }
-
-            return View(departments.ToPagedList(page, size));
+            return View(occurrences.ToPagedList(page, size));
         }
 
         // GET: Departments/Create
@@ -43,12 +46,11 @@ namespace Demosthenes.Controllers
         // POST: Departments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,DateCreated")] Department department)
+        public async Task<ActionResult> Create(Department department)
         {
             if (ModelState.IsValid)
             {
-                db.Departments.Add(department);
-                await db.SaveChangesAsync();
+                await service.AddAsync(department);
                 return RedirectToAction("Index");
             }
 
@@ -62,7 +64,7 @@ namespace Demosthenes.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Department department = await db.Departments.FindAsync(id);
+            Department department = await service.FindAsync(id);
             if (department == null)
             {
                 return HttpNotFound();
@@ -73,12 +75,11 @@ namespace Demosthenes.Controllers
         // POST: Departments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,DateCreated")] Department department)
+        public async Task<ActionResult> Edit(Department department)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(department).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await service.UpdateAsync(department);
                 return RedirectToAction("Index");
             }
             return View(department);
@@ -89,9 +90,15 @@ namespace Demosthenes.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Department department = await db.Departments.FindAsync(id);
-            db.Departments.Remove(department);
-            await db.SaveChangesAsync();
+            try
+            {
+                await service.DeleteAsync(id);
+            }
+            catch (SqlException)
+            {
+                return RedirectToAction("Index");
+            }
+            
             return RedirectToAction("Index");
         }
 
@@ -99,7 +106,7 @@ namespace Demosthenes.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                service.Dispose();
             }
             base.Dispose(disposing);
         }

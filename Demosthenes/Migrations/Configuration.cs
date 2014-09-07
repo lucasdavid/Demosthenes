@@ -17,14 +17,14 @@ namespace Demosthenes.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            //var roles       = PopulateRoles      (context);
-            //var departments = PopulateDepartments(context);
-            //var professors  = PopulateProfessors (context, departments);
+            var roles       = PopulateRoles      (context);
+            var departments = PopulateDepartments(context);
+            var professors  = PopulateProfessors (context, departments);
             var courses = PopulateCourses(context);
-            //var students    = PopulateStudents   (context);
-            //var schedules   = PopulateSchedules  (context);
-            //var classes     = PopulateClasses    (context, courses, professors, students);
-            //var posts       = PopulatePosts      (context);
+            var students    = PopulateStudents   (context);
+            var schedules   = PopulateSchedules  (context);
+            var classes     = PopulateClasses    (context, courses, professors, students);
+            var posts       = PopulatePosts      (context);
         }
 
         private IdentityRole[] PopulateRoles(ApplicationDbContext context)

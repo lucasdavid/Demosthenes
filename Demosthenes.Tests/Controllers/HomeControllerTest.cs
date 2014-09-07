@@ -23,6 +23,7 @@ namespace Demosthenes.Tests.Controllers
 
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result.ViewBag.AnyEnrollableClass, typeof(bool));
         }
 
         [TestMethod]
@@ -35,7 +36,7 @@ namespace Demosthenes.Tests.Controllers
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]

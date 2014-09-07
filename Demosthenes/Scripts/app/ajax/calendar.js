@@ -1,9 +1,6 @@
 ﻿(function () {
 
-    // possible days that appear in the calendar, matching the enum DayOfWeek
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-    function Calendar(times, classes) {
+    function Calendar(times, classes, days) {
         this.ClassesOnDay = [];
         /**
          * Add classes into the schedule.
@@ -110,7 +107,7 @@
 
             $container
                 .hide()
-                .append(new Calendar(data.times, data.classes).ExportCalendar())
+                .append(new Calendar(data.times, data.classes, data.days).ExportCalendar())
                 .fadeIn();
             ;
 

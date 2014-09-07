@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Demosthenes.Core.Models
 {
-    public class Course : Base.TimeStampsEntity
+    public class Course
     {
         [Key]
         public int Id { get; set; }

@@ -15,19 +15,12 @@ namespace Demosthenes.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db { get; set; }
+        private ApplicationDbContext db = new ApplicationDbContext();
         private UserManager<ApplicationUser> UserManager { get; set; }
 
         public HomeController()
         {
-            db = new ApplicationDbContext();
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-        }
-
-        public HomeController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
-        {
-            db = dbContext;
-            UserManager = userManager;
         }
 
         public ActionResult Index()
