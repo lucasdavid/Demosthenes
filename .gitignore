@@ -53,3 +53,5 @@ _ReSharper*/
 *.cache
 *.dll
 *.pdb
+
+packages/**
