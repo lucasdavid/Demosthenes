@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Demosthenes.Core")]
+[assembly: AssemblyTitle("Demosthenes.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Demosthenes.Core")]
+[assembly: AssemblyProduct("Demosthenes.Data")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5b9a1bf5-3216-4f3a-b036-fb9105d278b2")]
+[assembly: Guid("ce1c38a5-fd57-474b-8c6d-9d43ebe02c93")]
 
 // Version information for an assembly consists of the following four values:
 //
