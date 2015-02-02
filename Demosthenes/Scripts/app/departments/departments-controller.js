@@ -25,5 +25,4 @@ app.controller('DepartmentsController', ['$scope', 'resolvedDepartments', 'Depar
 
         $scope.clear();
         $scope.departments = resolvedDepartments;
-
     }]);

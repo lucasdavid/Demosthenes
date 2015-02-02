@@ -16,6 +16,11 @@ app.config(['$routeProvider',
             }).
             when('/departments/:id', {
                 templateUrl: '/Templates/departments/department.html',
-                controller: 'DepartmentsDetailsController'
+                controller: 'DepartmentsDetailsController',
+                resolve: {
+                    resolvedDepartment: ['Departments', '$route', function (Departments, $route) {
+                        return Departments.get({ Id: $route.current.params.id });
+                    }]
+                }
             });
     }])
