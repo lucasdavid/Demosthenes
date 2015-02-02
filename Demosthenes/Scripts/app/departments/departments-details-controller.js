@@ -1,10 +1,10 @@
 ﻿'use strict';
 
-app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routeParams', 'Departments',
-    function ($scope, $location, $routeParams, Departments) {
+app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routeParams', 'resolvedDepartment', 'Departments',
+    function ($scope, $location, $routeParams, resolvedDepartment, Departments) {
         console.log('Loading department-details-controller with id ' + $routeParams.id);
 
-        $scope.department = Departments.get({ Id: $routeParams.id });
+        $scope.department = resolvedDepartment;
         
         $scope.update = function () {
             var department         = $scope.department;
