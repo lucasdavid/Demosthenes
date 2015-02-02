@@ -1,0 +1,90 @@
+﻿
+<h2>
+    <a href="#departments"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    {{ professor.Name }}<br />
+    <small>
+        Professor at {{ professor.Department.Name }} department.
+    </small>
+</h2>
+
+<div role="tabpanel">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="" data-target="#home" aria-controls="home" role="tab" data-toggle="tab">News feed</a>
+        </li>
+        <li role="presentation"><a href="" data-target="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</a></li>
+        <li role="presentation"><a href="" data-target="#courses" aria-controls="courses" role="tab" data-toggle="tab">Courses</a></li>
+        <li role="presentation"><a href="" data-target="#students" aria-controls="students" role="tab" data-toggle="tab">Students</a></li>
+        <li role="presentation"><a href="" data-target="#management" aria-controls="management" role="tab" data-toggle="tab">Management</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="home">
+            <h3>News feed</h3>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="bio">
+            <h3>Bio</h3>
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="courses">
+            <h3>Courses</h3>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="professors">
+            <h3>Professors</h3>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="students">
+            <h3>Students</h3>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="events">
+            <h3>Events</h3>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="companies">
+            <h3>Companies</h3>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="management">
+            <h3>Management</h3>
+            <div class="well">
+                <form ng-valid ng-submit="update()" class="form-inline">
+                    <fieldset>
+                        <legend>Update department name</legend>
+
+                        <div class="form-group">
+                            <input type="text" ng-model="updatedDepartment" placeholder="Department name..." class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                Update
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="well">
+                <form>
+                    <fieldset>
+                        <legend>Delete department</legend>
+
+                        <div class="form-group">
+                            <input placeholder="Type department name to confirm deletion..." ng-model="deletedDepartment" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <button ng-click="delete()" class="btn btn-danger" ng-class="{'disabled': deletedDepartment!==department.Name}">
+                                <span class="glyphicon glyphicon-remove"></span> Delete
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a href="#professors" class="btn btn-default">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        List of all professors
+    </a>
+</div>
