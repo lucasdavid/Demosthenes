@@ -2,113 +2,122 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using PagedList;
-using Demosthenes.Core.Models;
-using Demosthenes.Services;
-using System.Data.SqlClient;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
+using Demosthenes.Core;
+using Demosthenes.Data;
+using Demosthenes.ViewModels;
 
 namespace Demosthenes.Controllers
 {
-    [Authorize(Roles = "admin")]
-    public class DepartmentsController : Controller
+    public class DepartmentsController : ApiController
     {
-        private readonly DepartmentService service;
+        private DemosthenesContext db = new DemosthenesContext();
 
-        public DepartmentsController(DepartmentService _service)
+        // GET: api/Departments
+        public IQueryable<Department> GetDepartments()
         {
-            service = _service;
+            return db.Departments;
         }
 
-        // GET: Departments
-        public async Task<ActionResult> Index(string q = null, int page = 1, int size = 10)
+        // GET: api/Departments/5
+        [ResponseType(typeof(Department))]
+        public async Task<IHttpActionResult> GetDepartment(int id)
         {
-            ViewBag.q = q;
-            var occurrences = await service.SearchAsync(q);
-            
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView("_List", occurrences.ToPagedList(page, size));
-            }
-            return View(occurrences.ToPagedList(page, size));
-        }
-
-        // GET: Departments/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Departments/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Department department)
-        {
-            if (ModelState.IsValid)
-            {
-                await service.AddAsync(department);
-                return RedirectToAction("Index");
-            }
-
-            return View(department);
-        }
-
-        // GET: Departments/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Department department = await service.FindAsync(id);
+            Department department = await db.Departments.FindAsync(id);
             if (department == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(department);
+
+            return Ok(department);
         }
 
-        // POST: Departments/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Department department)
+        // PUT: api/Departments/5
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutDepartment(UpdateDepartmentViewModel viewmodel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await service.UpdateAsync(department);
-                return RedirectToAction("Index");
+                return BadRequest(ModelState);
             }
-            return View(department);
-        }
 
-        // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
+            var department  = await db.Departments.FindAsync(viewmodel.Id);
+            department.Name = viewmodel.Name;
+
+            db.Entry(department).State = EntityState.Modified;
+
             try
             {
-                await service.DeleteAsync(id);
+                await db.SaveChangesAsync();
             }
-            catch (SqlException)
+            catch (DbUpdateConcurrencyException)
             {
-                return RedirectToAction("Index");
+                if (!DepartmentExists(department.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
-            
-            return RedirectToAction("Index");
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // POST: api/Departments
+        [ResponseType(typeof(Department))]
+        public async Task<IHttpActionResult> PostDepartment(DepartmentNameViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var department = db.Departments.Add(new Department
+            {
+                Name = viewModel.Name
+            });
+
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = department.Id }, department);
+        }
+
+        // DELETE: api/Departments/5
+        [ResponseType(typeof(Department))]
+        public async Task<IHttpActionResult> DeleteDepartment(int id)
+        {
+            Department department = await db.Departments.FindAsync(id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            db.Departments.Remove(department);
+            await db.SaveChangesAsync();
+
+            return Ok(department);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                service.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool DepartmentExists(int id)
+        {
+            return db.Departments.Count(e => e.Id == id) > 0;
         }
     }
 }

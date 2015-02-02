@@ -1,5 +1,0 @@
-﻿@model IPagedList
-
-<div class="pagedList">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.PageNumbersOnly)
-</div>

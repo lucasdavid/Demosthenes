@@ -1,14 +1,14 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="demosthenesApp">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Demosthenes</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-default">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,55 +16,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Demosthenes", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="#/" class="navbar-brand">Demosthenes</a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse pull-right">
                 <ul class="nav navbar-nav">
-                    @if (User.IsInRole("admin"))
-                    {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Administration">
-                                <span class="glyphicon glyphicon-th-large"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Administrators", "Index", "Users")</li>
-                                <li>@Html.ActionLink("Professors", "Index", "Professors")</li>
-                                <li>@Html.ActionLink("Students", "Index", "Students")</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Departments", "Index", "Departments")</li>
-                                <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Classes", "Index", "Classes")</li>
-                                <li>@Html.ActionLink("Schedules", "Index", "Schedules")</li>
-                            </ul>
-                        </li>
-                    }
+                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <br />
+    
+    <div class="container-fluid">
         @RenderBody()
+
         <hr />
         <footer>
-            <div class="row">
-                <div class="col-xs-6">
-                    @Html.ActionLink("About", "About", "Home")
-                    | @Html.ActionLink("Contact", "Contact", "Home")
-                </div>
-                <div class="col-xs-6 text-right">
-                    &copy; @DateTime.Now.Year - Demosthenes
-                </div>
-            </div>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
+    @Scripts.Render("~/bundles/angular")
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -1,12 +1,4 @@
-﻿.navbar {
-    border-bottom: 1px solid #ddd;
-    box-shadow: 1px 1px 5px #eee;
-}
-
-.pagedListItem {
-    margin-bottom: 5em;
-}
-
-footer {
-    margin-bottom: 1.5em;
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
