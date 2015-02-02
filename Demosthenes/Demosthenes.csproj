@@ -213,6 +213,7 @@
     <Compile Include="ViewModels\AccountBindingModels.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\DepartmentsViewModels.cs" />
+    <Compile Include="ViewModels\ProfessorViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -1063,6 +1064,7 @@
     <Content Include="Templates\departments\index.html" />
     <Content Include="Templates\home\index.html" />
     <Content Include="Templates\professors\index.html" />
+    <Content Include="Templates\professors\professor.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

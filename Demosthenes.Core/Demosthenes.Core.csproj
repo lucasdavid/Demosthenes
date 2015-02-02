@@ -80,8 +80,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountBindingModels.cs" />
-    <Compile Include="AccountViewModels.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Interfaces\IDateTrackable.cs" />

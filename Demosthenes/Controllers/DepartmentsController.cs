@@ -20,9 +20,9 @@ namespace Demosthenes.Controllers
         private DemosthenesContext db = new DemosthenesContext();
 
         // GET: api/Departments
-        public IQueryable<Department> GetDepartments()
+        public async Task<ICollection<Department>> GetDepartments()
         {
-            return db.Departments;
+            return await db.Departments.ToArrayAsync();
         }
 
         // GET: api/Departments/5

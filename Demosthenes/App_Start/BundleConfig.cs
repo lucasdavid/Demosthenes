@@ -32,6 +32,7 @@ namespace Demosthenes
                 "~/Scripts/angular-resource.js",
                 "~/Scripts/app/demosthenesApp.js",
                 "~/Scripts/app/departments/departments-*",
+                "~/Scripts/app/professors/professors-*",
                 "~/Scripts/app/home/home-*"));
         }
     }

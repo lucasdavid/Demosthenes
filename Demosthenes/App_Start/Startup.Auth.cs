@@ -9,7 +9,6 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Demosthenes.Providers;
-using Demosthenes.Models;
 using Demosthenes.Data;
 
 namespace Demosthenes
