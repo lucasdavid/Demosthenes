@@ -1,7 +1,7 @@
 ﻿'use strict';
 
-app.controller('ProfessorsController', ['$scope', 'resolvedProfessors', 'Professors',
-    function ($scope, resolvedProfessors, Professors) {
+app.controller('ProfessorsController', ['$scope', 'resolvedProfessors', 'Professors', 'resolvedDepartments', 'Validator',
+    function ($scope, resolvedProfessors, Professors, resolvedDepartments, Validator) {
 
         console.log('Loading professor-controller.');
 
@@ -12,18 +12,23 @@ app.controller('ProfessorsController', ['$scope', 'resolvedProfessors', 'Profess
                 $scope.clear();
 
                 $scope.professors = Professors.query();
+                $scope.displayCreateForm = false;
             },
             function (data) {
                 console.log(data);
-                toastr.error('Something went wrong when trying to save ' + $scope.newProfessor.Name + '.', 'Opps!');
+                
+                Validator.
+                    take(data).
+                    toastWarnings().
+                    otherwiseToastDefaultError();
             });
         }
 
         $scope.clear = function () {
-            $scope.newProfessor = { Name: null }
+            $scope.newProfessor = { Email: null, Name: null, Password: null, ConfirmPassword: null }
         }
 
         $scope.clear();
         $scope.professors = resolvedProfessors;
-
+        $scope.departments = resolvedDepartments;
     }]);

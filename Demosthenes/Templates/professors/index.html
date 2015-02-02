@@ -3,19 +3,78 @@
     <h2>Professors</h2>
 
     <div class="text-right">
-        <form ng-submit="create()" class="form-inline">
-            <div class="form-group">
-                <input type="text" ng-model="newprofessor.Name" class="form-control" placeholder="professor name..." />
+        
+    </div><br />
+    
+    <div ng-show="displayCreateForm">
+        <div class="well">
+            <div class="text-right">
+                <button ng-click="displayCreateForm = false" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Create</button>
-            </div>
-        </form>
+            <form ng-submit="create()">
+                <fieldset>
+                    <legend>Register a new professor</legend>
+
+                    <div class="form-group">
+                        <label for="newProfessorEmail">Email</label>
+                        <input type="email" ng-model="newProfessor.Email" class="form-control" id="newProfessorEmail" />
+                    </div>
+                    <div class="form-group">
+                        <label for="newProfessorName">Name</label>
+                        <input type="text" ng-model="newProfessor.Name" class="form-control" id="newProfessorName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="newProfessorPassword">Password</label>
+                        <input type="password" ng-model="newProfessor.Password" class="form-control" id="newProfessorPassword" />
+                    </div>
+                    <div class="form-group">
+                        <label for="newProfessorConfirmPassword">Confirm password</label>
+                        <input type="password" ng-model="newProfessor.ConfirmPassword" class="form-control" id="newProfessorConfirmPassword" />
+                    </div>
+                    <div class="form-group">
+                        <label for="newProfessorDepartmentId">Department</label>
+                        <select ng-model="newProfessor.DepartmentId" class="form-control">
+                            <option ng-repeat="department in departments" value="{{ department.Id }}">{{ department.Name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
     </div>
-    <br />
 
     <div class="row">
-        <div ng-repeat="professor in professors" class="col-md-3 col-sm-4">
+        <div class="col-sm-6">
+            <form class="">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                                Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button ng-click="displayCreateForm = true" ng-show="!displayCreateForm" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Create</button>
+        </div>
+    </div>
+
+    <div ng-show="!professors.length" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>Empty!</h4> Not a single professor was registered in your database yet.
+    </div>
+    <div class="row">
+        <div ng-repeat="professor in professors | filter:search" class="col-md-3 col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -25,10 +84,17 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <a href="#professors/{{ professor.Id }}" class="btn btn-default">
-                        <span class="glyphicon glyphicon-globe"></span>
-                        Details
-                    </a>
+                    <p>
+                        <strong>Email:</strong> <a href="mailto:{{ professor.Email }}">{{ professor.Email }}</a><br />
+                        <strong>Department:</strong> {{ professor.Department.Name }}
+                    </p>
+                    <p>
+                        <a href="#professors/{{ professor.Id }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-globe"></span>
+                            Details
+                        </a>
+                    </p>
+                    
                 </div>
             </div>
         </div>

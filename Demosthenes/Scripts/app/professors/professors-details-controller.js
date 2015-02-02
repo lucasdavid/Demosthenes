@@ -1,10 +1,13 @@
 ﻿'use strict';
 
-app.controller('ProfessorsDetailsController', ['$scope', '$location', '$routeParams', 'Professors',
-    function ($scope, $location, $routeParams, Professors) {
+app.controller('ProfessorsDetailsController', ['$scope', '$location', '$routeParams', 'resolvedProfessor', 'Professors',
+    function ($scope, $location, $routeParams, resolvedProfessor, Professors) {
         console.log('Loading professor-details-controller with id ' + $routeParams.id);
 
-        $scope.professor = Professors.get({ Id: $routeParams.id });
+        $scope.professor = resolvedProfessor;
+        setTimeout(function () {
+            console.log($scope.professor.toJSON());
+        }, 1000);
         
         $scope.update = function () {
             var professor         = $scope.professor;

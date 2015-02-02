@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.config(['$routeProvider',
-    function ($routeProvider, $locationProvider) {
+    function ($routeProvider) {
         console.log('Loading professors-route.');
 
         $routeProvider.
@@ -11,11 +11,19 @@ app.config(['$routeProvider',
                 resolve: {
                     resolvedProfessors: ['Professors', function (Professors) {
                         return Professors.query().$promise;
-                    }]
+                    }],
+                    resolvedDepartments: ['Departments', function (Departments) {
+                        return Departments.query().$promise;
+                    }],
                 }
             }).
             when('/professors/:id', {
-                templateUrl: '/Templates/professors/department.html',
-                controller: 'ProfessorsDetailsController'
+                templateUrl: '/Templates/professors/professor.html',
+                controller: 'ProfessorsDetailsController',
+                resolve: {
+                    resolvedProfessor: ['Professors', '$route', function (Professors, $route) {
+                        return Professors.get({ Id: $route.current.params.id });
+                    }]
+                }
             });
     }])
