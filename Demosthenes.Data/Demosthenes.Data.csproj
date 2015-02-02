@@ -53,14 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DemosthenesContext.cs" />
-    <Compile Include="Migrations\201502012327470_InitialCreate.cs" />
-    <Compile Include="Migrations\201502012327470_InitialCreate.Designer.cs">
-      <DependentUpon>201502012327470_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502020120061_Initial.cs" />
-    <Compile Include="Migrations\201502020120061_Initial.Designer.cs">
-      <DependentUpon>201502020120061_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,14 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repositories\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201502012327470_InitialCreate.resx">
-      <DependentUpon>201502012327470_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502020120061_Initial.resx">
-      <DependentUpon>201502020120061_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Demosthenes.Core\Demosthenes.Core.csproj">

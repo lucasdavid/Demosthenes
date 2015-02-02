@@ -16,5 +16,7 @@ namespace Demosthenes.Core
             // Add custom user claims here
             return userIdentity;
         }
+
+        public string Name { get; set; }
     }
 }

@@ -54,6 +54,7 @@ namespace Demosthenes.Data
             return new DemosthenesContext();
         }
 
-        public System.Data.Entity.DbSet<Demosthenes.Core.Department> Departments { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Professor> Professors { get; set; }
     }
 }

@@ -202,6 +202,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfessorsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -273,6 +274,10 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\demosthenesApp.js" />
+    <Content Include="Scripts\app\professors\professors-controller.js" />
+    <Content Include="Scripts\app\professors\professors-details-controller.js" />
+    <Content Include="Scripts\app\professors\professors-resource.js" />
+    <Content Include="Scripts\app\professors\professors-route.js" />
     <Content Include="Scripts\app\departments\departments-details-controller.js" />
     <Content Include="Scripts\app\departments\departments-controller.js" />
     <Content Include="Scripts\app\departments\departments-resource.js" />
@@ -1057,6 +1062,7 @@
     <Content Include="Templates\departments\department.html" />
     <Content Include="Templates\departments\index.html" />
     <Content Include="Templates\home\index.html" />
+    <Content Include="Templates\professors\index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
