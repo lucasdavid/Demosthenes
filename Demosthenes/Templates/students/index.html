@@ -1,0 +1,85 @@
+﻿<div class="container">
+    <h1>Students</h1>
+
+    <div ng-show="displayCreateForm">
+        <div class="well">
+            <div class="text-right">
+                <button ng-click="displayCreateForm = false" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form ng-submit="create()">
+                <fieldset>
+                    <legend>Register a new student</legend>
+
+                    <div class="form-group">
+                        <input type="email" ng-model="newStudent.Email" class="form-control" placeholder="Email" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="newStudent.Name" class="form-control" placeholder="Name" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="newStudent.PhoneNumber" class="form-control" placeholder="Phone number" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" ng-model="newStudent.Password" class="form-control" placeholder="Password" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" ng-model="newStudent.ConfirmPassword" class="form-control" placeholder="Confirm password" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                                Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button ng-click="displayCreateForm = true" ng-show="!displayCreateForm" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Create</button>
+        </div>
+    </div>
+
+    <div ng-show="!students.length" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>Empty!</h4> Not a single student was registered in our database yet.
+    </div>
+    <div class="row">
+        <div ng-repeat="student in students | filter:search" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    <a href="#students/{{ student.Id }}">
+                        {{ student.Name }}
+                    </a>
+                </h3>
+                <p>
+                    <strong>Email:</strong> <a href="mailto:{{ student.Email }}">{{ student.Email }}</a><br />
+                    <strong>Phone:</strong> {{ student.PhoneNumber }}
+                </p>
+                <p>
+                    <a href="#students/{{ student.Id }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                        Details
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

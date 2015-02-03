@@ -1,0 +1,90 @@
+﻿<div class="container">
+    <h1>
+        <a href="#students"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        {{ student.Name }}<br />
+        <small>
+            Student.
+        </small>
+    </h1>
+
+    <div id="home">
+        <h2 class="page-header">News feed</h2>
+
+        <div ng-show="!student.Posts" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ student.Name }} hasn't posted anything recently.</p>
+        </div>
+    </div>
+    <div id="bio">
+        <h2 class="page-header">Biography</h2>
+        <div class="row">
+            <div class="col-sm-4 col-md-2">
+                <div class="well">
+                    <img src="/Content/Images/default-user-2.png" alt="{{ student.Name }}'s profile picture" class="img-responsive" />
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-4">
+                <h3>
+                    {{ student.Name }}<br />
+                    <small>Student.</small>
+                </h3>
+                <p>
+                    <strong>Email:</strong> <a href="mailto:{{ student.Email }}">{{ student.Email }}</a>
+                </p>
+                <p ng-show="student.PhoneNumber">
+                    <strong>Phone number:</strong> {{ student.PhoneNumber }}.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="classes">
+        <h2 class="page-header">Classes</h2>
+        <div ng-show="!student.Classes" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ student.Name }} didn't participate in any classes lately.</p>
+        </div>
+    </div>
+    
+    <div id="management">
+        <h2 class="page-header">Management</h2>
+        <div class="well">
+            <form ng-valid ng-submit="update()">
+                <fieldset>
+                    <legend>Update student</legend>
+
+                    <div class="form-group">
+                        <input type="text" ng-model="student.Name" placeholder="Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="student.Email" placeholder="Email" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="student.PhoneNumber" placeholder="Phone number" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            Update
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="well">
+            <form>
+                <fieldset>
+                    <legend>Delete student</legend>
+
+                    <div class="form-group">
+                        <input placeholder="Type the student's name to confirm deletion..." ng-model="deletedStudent" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="delete()" class="btn btn-danger" ng-class="{'disabled': deletedStudent!==student.Name}">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
