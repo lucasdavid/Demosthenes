@@ -8,21 +8,38 @@
     <div id="courses">
         <h2 class="page-header">Courses</h2>
 
+        <div ng-show="!department.Courses" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any courses yet.</p>
+        </div>
+
         <div class="row">
-            <div ng-repeat="course in courses">
-                <h3>{{ course.Title }}</h3>
-                <p>
-                    <a href="#" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-zoom-in"></span>
-                        Details
-                    </a>
-                </p>
+            <div ng-repeat="course in department.Courses" class="col-sm-4">
+                <div class="well">
+                    <h3>
+                        <a href="#courses/{{ course.Id }}">{{ course.Title }}</a>
+                    </h3>
+                    <p>
+                        <strong>Credits:</strong> {{ course.Credits }}
+                    </p>
+                    <p>
+                        <a href="#" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                            Details
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="professors">
         <h2 class="page-header">Professors</h2>
+        
+        <div ng-show="!department.Professors" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any professors yet.</p>
+        </div>
 
         <div class="row">
             <div ng-repeat="professor in department.Professors | filter:search" class="col-sm-4">
@@ -48,12 +65,27 @@
     </div>
     <div id="students">
         <h2 class="page-header">Students</h2>
+
+        <div ng-show="!department.Students" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any students yet.</p>
+        </div>
     </div>
     <div id="events">
         <h2 class="page-header">Events</h2>
+
+        <div ng-show="!department.Events" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any events yet.</p>
+        </div>
     </div>
     <div id="companies">
         <h2 class="page-header">Companies</h2>
+
+        <div ng-show="!department.Companies" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any companies yet.</p>
+        </div>
     </div>
     <div id="management">
         <h2 class="page-header">Management</h2>

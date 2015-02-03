@@ -7,11 +7,11 @@ app.controller('DepartmentsController', ['$scope', 'Validator', 'resolvedDepartm
 
         $scope.create = function () {
             Departments.save($scope.newDepartment,
-            function (data) {
+            function (department) {
                 toastr.success('Department "' + $scope.newDepartment.Name + '" saved!', 'Success!');
                 $scope.clear();
 
-                $scope.departments = Departments.query();
+                $scope.departments.push(department);
             },
             function (data) {
                 console.log(data);

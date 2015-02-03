@@ -59,7 +59,6 @@ namespace Demosthenes.Controllers
                 return NotFound();
             }
 
-            // fields that should be updated
             department.Name = viewmodel.Name;
             department.Lead = viewmodel.Lead;
 
