@@ -81,8 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Course.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Interfaces\IDateTrackable.cs" />
+    <Compile Include="Student.cs" />
     <Compile Include="Professor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
