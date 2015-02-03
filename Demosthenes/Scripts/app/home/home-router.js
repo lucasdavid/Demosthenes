@@ -2,7 +2,7 @@
 
 app.config(['$routeProvider',
     function ($routeProvider, $locationProvider) {
-        console.log('Loading home-route');
+        console.log('Loading home-route.');
 
         $routeProvider.
             when('/', {

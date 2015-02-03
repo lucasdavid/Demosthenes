@@ -33,6 +33,8 @@ namespace Demosthenes
                 "~/Scripts/app/demosthenesApp.js",
                 "~/Scripts/app/departments/departments-*",
                 "~/Scripts/app/professors/professors-*",
+                "~/Scripts/app/students/students-*",
+                "~/Scripts/app/courses/courses-*",
                 "~/Scripts/app/home/home-*"));
         }
     }
