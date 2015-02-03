@@ -14,7 +14,7 @@ app.config(['$routeProvider',
                     }],
                     resolvedDepartments: ['Departments', function (Departments) {
                         return Departments.query().$promise;
-                    }],
+                    }]
                 }
             }).
             when('/professors/:id', {
@@ -23,6 +23,9 @@ app.config(['$routeProvider',
                 resolve: {
                     resolvedProfessor: ['Professors', '$route', function (Professors, $route) {
                         return Professors.get({ Id: $route.current.params.id });
+                    }],
+                    resolvedDepartments: ['Departments', function (Departments) {
+                        return Departments.query().$promise;
                     }]
                 }
             });
