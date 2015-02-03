@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demosthenes.Core
 {
@@ -17,6 +18,9 @@ namespace Demosthenes.Core
             return userIdentity;
         }
 
+        [Required]
+        [MinLength(2)]
+        [MaxLength(255)]
         public string Name { get; set; }
     }
 }
