@@ -37,11 +37,11 @@
             </div>
         </div>
     </div>
-    <div id="courses">
-        <h2 class="page-header">Courses</h2>
-        <div ng-show="!professor.Courses" class="alert alert-info alert-dismissible" role="alert">
+    <div id="classes">
+        <h2 class="page-header">Classes</h2>
+        <div ng-show="!professor.Classes" class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4>Nothing here!</h4><p>Looks like {{ professor.Name }} hasn't lectured any courses lately.</p>
+            <h4>Nothing here!</h4><p>Looks like {{ professor.Name }} hasn't lectured any classes lately.</p>
         </div>
     </div>
     <div id="students">
@@ -56,7 +56,7 @@
         <div class="well">
             <form ng-valid ng-submit="update()">
                 <fieldset>
-                    <legend>Update professor's name</legend>
+                    <legend>Update professor</legend>
 
                     <div class="form-group">
                         <input type="text" ng-model="professor.Name" placeholder="Name" class="form-control" />

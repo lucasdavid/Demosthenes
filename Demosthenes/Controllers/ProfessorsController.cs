@@ -1,12 +1,10 @@
 ﻿using Demosthenes.Core;
-using Demosthenes.Data;
+using Demosthenes.Services;
 using Demosthenes.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -19,13 +17,12 @@ namespace Demosthenes.Controllers
     public class ProfessorsController : ApiController
     {
         private ApplicationUserManager _userManager;
-        private DemosthenesContext db = new DemosthenesContext();
+        private ProfessorService       _professors;
 
-        public ProfessorsController() { }
-
-        public ProfessorsController(ApplicationUserManager userManager)
+        public ProfessorsController(ApplicationUserManager userManager, ProfessorService professors)
         {
             UserManager = userManager;
+            _professors = professors;
         }
 
         public ApplicationUserManager UserManager
@@ -43,15 +40,14 @@ namespace Demosthenes.Controllers
         // GET: api/Professors
         public async Task<ICollection<Professor>> GetProfessors()
         {
-            var professors = await db.Professors.ToListAsync();
-            return professors;
+            return await _professors.All();
         }
 
         // GET: api/Professors/5
         [ResponseType(typeof(Professor))]
         public async Task<IHttpActionResult> GetProfessor(string id)
         {
-            Professor professor = await db.Professors.FindAsync(id);
+            var professor = await _professors.Find(id);
             if (professor == null)
             {
                 return NotFound();
@@ -71,7 +67,7 @@ namespace Demosthenes.Controllers
 
             try
             {
-                var professor = await db.Professors.FindAsync(model.Id);
+                var professor = await _professors.Find(model.Id);
                 
                 professor.SSN          = model.SSN;
                 professor.Name         = model.Name;
@@ -79,12 +75,11 @@ namespace Demosthenes.Controllers
                 professor.PhoneNumber  = model.PhoneNumber;
                 professor.DepartmentId = model.DepartmentId;
 
-                db.Entry(professor).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await _professors.Update(professor);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProfessorExists(model.Id))
+                if (!_professors.Exists(model.Id))
                 {
                     return NotFound();
                 }
@@ -130,15 +125,13 @@ namespace Demosthenes.Controllers
         [ResponseType(typeof(Professor))]
         public async Task<IHttpActionResult> DeleteProfessor(string id)
         {
-            Professor professor = await db.Professors.FindAsync(id);
+            Professor professor = await _professors.Find(id);
             if (professor == null)
             {
                 return NotFound();
             }
 
-            db.Users.Remove(professor);
-            await db.SaveChangesAsync();
-
+            await _professors.Delete(professor);
             return Ok(professor);
         }
 
@@ -146,14 +139,9 @@ namespace Demosthenes.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _professors.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool ProfessorExists(string id)
-        {
-            return db.Users.Count(e => e.Id == id) > 0;
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace Demosthenes.Core
 {
+    [Table("Professors")]
     public class Professor : ApplicationUser
     {
+        [Required]
+        [RegularExpression(@"\d{3}-\d{3}-\d{4}")]
         public string SSN { get; set; }
 
         [ForeignKey("Department")]

@@ -7,11 +7,11 @@ app.controller('ProfessorsController', ['$scope', 'resolvedProfessors', 'Profess
 
         $scope.create = function () {
             Professors.save($scope.newProfessor,
-            function (data) {
+            function (professor) {
                 toastr.success('Professor "' + $scope.newProfessor.Name + '" saved!', 'Success!');
                 $scope.clear();
 
-                $scope.professors = Professors.query();
+                $scope.professors.push(professor);
                 $scope.displayCreateForm = false;
             },
             function (data) {

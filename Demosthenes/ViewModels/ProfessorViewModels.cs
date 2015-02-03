@@ -10,7 +10,8 @@ namespace Demosthenes.ViewModels
     {
         [Required]
         [Display(Name = "Social Security Number")]
-        [RegularExpression(@"\d{3}-\d{3}-\d{4}")]
+        [RegularExpression(@"\d{3}-\d{3}-\d{4}",
+            ErrorMessage = "Social Security Number must be informed as the following patter: ddd-ddd-dddd")]
         public string SSN { get; set; }
 
         [Required]
