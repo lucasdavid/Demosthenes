@@ -43,7 +43,8 @@ namespace Demosthenes.Controllers
         // GET: api/Professors
         public async Task<ICollection<Professor>> GetProfessors()
         {
-            return await db.Professors.ToListAsync();
+            var professors = await db.Professors.ToListAsync();
+            return professors;
         }
 
         // GET: api/Professors/5
@@ -61,7 +62,7 @@ namespace Demosthenes.Controllers
 
         // PUT: api/Professors/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutProfessor(UpdateBindingModel model)
+        public async Task<IHttpActionResult> PutProfessor(ProfessorUpdateViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -71,6 +72,13 @@ namespace Demosthenes.Controllers
             try
             {
                 var professor = await db.Professors.FindAsync(model.Id);
+                
+                professor.SSN          = model.SSN;
+                professor.Name         = model.Name;
+                professor.UserName     = professor.Email = model.Email;
+                professor.PhoneNumber  = model.PhoneNumber;
+                professor.DepartmentId = model.DepartmentId;
+
                 db.Entry(professor).State = EntityState.Modified;
                 await db.SaveChangesAsync();
             }
@@ -98,7 +106,15 @@ namespace Demosthenes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var professor = new Professor { UserName = model.Email, Email = model.Email, Name = model.Name, DepartmentId = model.DepartmentId };
+            var professor = new Professor
+            {
+                UserName = model.Email,
+                Email    = model.Email,
+                Name     = model.Name,
+                SSN      = model.SSN,
+                PhoneNumber = model.PhoneNumber,
+                DepartmentId = model.DepartmentId
+            };
 
             IdentityResult result = await UserManager.CreateAsync(professor, model.Password);
 
