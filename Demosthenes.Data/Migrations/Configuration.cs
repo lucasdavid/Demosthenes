@@ -15,12 +15,12 @@ namespace Demosthenes.Data.Migrations
 
         protected override void Seed(Demosthenes.Data.DemosthenesContext context)
         {
-            context.Departments.AddOrUpdate(d => d.Name,
-                new Department { Name = "Computer Science" },
-                new Department { Name = "Computer Enginner" },
-                new Department { Name = "Psychology" },
-                new Department { Name = "Biology" },
-                new Department { Name = "Geography" });
+            //context.Departments.AddOrUpdate(d => d.Name,
+            //    new Department { Name = "Computer Science" },
+            //    new Department { Name = "Computer Enginner" },
+            //    new Department { Name = "Psychology" },
+            //    new Department { Name = "Biology" },
+            //    new Department { Name = "Geography" });
         }
     }
 }
