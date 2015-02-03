@@ -1,7 +1,7 @@
 ﻿'use strict';
 
-app.controller('DepartmentsController', ['$scope', 'resolvedDepartments', 'Departments',
-    function ($scope, resolvedDepartments, Departments) {
+app.controller('DepartmentsController', ['$scope', 'Validator', 'resolvedDepartments', 'Departments',
+    function ($scope, Validator, resolvedDepartments, Departments) {
 
         console.log('Loading department-controller.');
 
@@ -15,7 +15,11 @@ app.controller('DepartmentsController', ['$scope', 'resolvedDepartments', 'Depar
             },
             function (data) {
                 console.log(data);
-                toastr.error('Something went wrong when trying to save ' + $scope.newDepartment.Name + '.', 'Opps!');
+
+                Validator.
+                        take(data).
+                        toastWarnings().
+                        otherwiseToastDefaultError();
             });
         }
 

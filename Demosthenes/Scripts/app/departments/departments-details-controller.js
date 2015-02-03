@@ -1,25 +1,25 @@
 ﻿'use strict';
 
-app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routeParams', 'resolvedDepartment', 'Departments',
-    function ($scope, $location, $routeParams, resolvedDepartment, Departments) {
+app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routeParams', 'Validator', 'resolvedDepartment', 'Departments',
+    function ($scope, $location, $routeParams, Validator, resolvedDepartment, Departments) {
         console.log('Loading department-details-controller with id ' + $routeParams.id);
 
         $scope.department = resolvedDepartment;
         
         $scope.update = function () {
-            var department         = $scope.department;
-            $scope.department.Name = $scope.updatedDepartment;
-
-            Departments.update(department,
+            Departments.update($scope.department,
                 function (data) {
-                    $scope.department = Departments.get({ Id: $routeParams.id });
-                    toastr.info(department.Name + ' was successfully updated.', 'Done!');
+                    toastr.info($scope.department.Name + ' was successfully updated.', 'Done!');
 
                     $scope.clear();
                 },
                 function (data) {
                     console.log(data);
-                    toastr.error('Something went wrong.', 'Opps!');
+                    
+                    Validator.
+                        take(data).
+                        toastWarnings().
+                        otherwiseToastDefaultError();
                 });
         }
 
@@ -34,12 +34,16 @@ app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routePa
                 },
                 function (data) {
                     console.log(data);
-                    toastr.error('Something went wrong.', 'Opps!');
+
+                    Validator.
+                        take(data).
+                        toastWarnings().
+                        otherwiseToastDefaultError();
                 });
         }
 
         $scope.clear = function () {
-            $scope.updatedDepartment = $scope.deletedDepartment = null;
+            $scope.deletedDepartment = null;
         }
 
     }]);
