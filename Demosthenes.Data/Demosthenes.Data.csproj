@@ -60,9 +60,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Demosthenes.Core\Demosthenes.Core.csproj">
       <Project>{b74d74d7-fee3-4321-a88b-a687a09a6d88}</Project>
