@@ -9,7 +9,12 @@ namespace Demosthenes.Core
     {
         [Key]
         public int Id { get; set; }
+        
+        [MinLength(2)]
+        [MaxLength(255)]
         public string Name { get; set; }
+
+        public string Lead { get; set; }
 
         public virtual ICollection<Professor> Professors { get; set; }
 

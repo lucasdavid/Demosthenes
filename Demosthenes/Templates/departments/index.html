@@ -1,6 +1,6 @@
 ﻿
-<div class="container-fluid">
-    <h2>Departments</h2>
+<div class="container">
+    <h1>Departments</h1>
 
     <div class="text-right">
         <form ng-submit="create()" class="form-inline">
@@ -15,34 +15,36 @@
     <br />
 
     <div class="row">
-        <div ng-repeat="department in departments" class="col-md-3 col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <a href="#departments/{{ department.Id }}">
-                            {{ department.Name }}
-                        </a>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <a href="#departments/{{ department.Id }}" class="btn btn-default">
-                        <span class="glyphicon glyphicon-globe"></span>
+        <div ng-repeat="department in departments" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    <a href="#departments/{{ department.Id }}">
+                        {{ department.Name }}
+                    </a>
+                </h3>
+                <p>
+                    <i>{{ department.Lead }}</i>
+                </p>
+                <p>
+                    <a href="#departments/{{ department.Id }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
                         Details
                     </a>
-                </div>
+                </p>
             </div>
         </div>
-        <div ng-show="newDepartment.Name" class="col-md-3 col-sm-4">
-            <div class="disabled panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ newDepartment.Name }} (unsaved)</h3>
-                </div>
-                <div class="panel-body">
+        <div ng-show="newDepartment.Name" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    {{ newDepartment.Name }}
+                    <small>(unsaved)</small>
+                </h3>
+                <p>
                     <a href="#departments/{{ department.Id }}" class="btn btn-primary disabled">
-                        <span class="glyphicon glyphicon-globe"></span>
+                        <span class="glyphicon glyphicon-zoom-in"></span>
                         Details
                     </a>
-                </div>
+                </p>
             </div>
         </div>
     </div>

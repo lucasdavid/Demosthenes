@@ -40,7 +40,7 @@ namespace Demosthenes.Controllers
 
         // PUT: api/Departments/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutDepartment(UpdateDepartmentViewModel viewmodel)
+        public async Task<IHttpActionResult> PutDepartment(DepartmentUpdateViewModel viewmodel)
         {
             if (!ModelState.IsValid)
             {
@@ -49,6 +49,7 @@ namespace Demosthenes.Controllers
 
             var department  = await db.Departments.FindAsync(viewmodel.Id);
             department.Name = viewmodel.Name;
+            department.Lead = viewmodel.Lead;
 
             db.Entry(department).State = EntityState.Modified;
 
@@ -73,7 +74,7 @@ namespace Demosthenes.Controllers
 
         // POST: api/Departments
         [ResponseType(typeof(Department))]
-        public async Task<IHttpActionResult> PostDepartment(DepartmentNameViewModel viewModel)
+        public async Task<IHttpActionResult> PostDepartment(DepartmentCreateViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -82,7 +83,7 @@ namespace Demosthenes.Controllers
 
             var department = db.Departments.Add(new Department
             {
-                Name = viewModel.Name
+                Name = model.Name
             });
 
             await db.SaveChangesAsync();
