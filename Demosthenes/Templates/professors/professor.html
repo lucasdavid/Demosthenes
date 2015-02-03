@@ -1,90 +1,104 @@
-﻿
-<h2>
-    <a href="#departments"><span class="glyphicon glyphicon-chevron-left"></span></a>
-    {{ professor.Name }}<br />
-    <small>
-        Professor at {{ professor.Department.Name }} department.
-    </small>
-</h2>
+﻿<div class="container">
+    <h1>
+        <a href="#professors"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        {{ professor.Name }}<br />
+        <small>
+            Professor at {{ professor.Department.Name }} department.
+        </small>
+    </h1>
 
-<div role="tabpanel">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="" data-target="#home" aria-controls="home" role="tab" data-toggle="tab">News feed</a>
-        </li>
-        <li role="presentation"><a href="" data-target="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</a></li>
-        <li role="presentation"><a href="" data-target="#courses" aria-controls="courses" role="tab" data-toggle="tab">Courses</a></li>
-        <li role="presentation"><a href="" data-target="#students" aria-controls="students" role="tab" data-toggle="tab">Students</a></li>
-        <li role="presentation"><a href="" data-target="#management" aria-controls="management" role="tab" data-toggle="tab">Management</a></li>
-    </ul>
+    <div id="home">
+        <h2 class="page-header">News feed</h2>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="home">
-            <h3>News feed</h3>
+        <div ng-show="!professor.Posts" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ professor.Name }} hasn't posted anything recently.</p>
         </div>
-        <div role="tabpanel" class="tab-pane fade" id="bio">
-            <h3>Bio</h3>
-
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="courses">
-            <h3>Courses</h3>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="professors">
-            <h3>Professors</h3>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="students">
-            <h3>Students</h3>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="events">
-            <h3>Events</h3>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="companies">
-            <h3>Companies</h3>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="management">
-            <h3>Management</h3>
-            <div class="well">
-                <form ng-valid ng-submit="update()" class="form-inline">
-                    <fieldset>
-                        <legend>Update department name</legend>
-
-                        <div class="form-group">
-                            <input type="text" ng-model="updatedDepartment" placeholder="Department name..." class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-ok"></span>
-                                Update
-                            </button>
-                        </div>
-                    </fieldset>
-                </form>
+    </div>
+    <div id="bio">
+        <h2 class="page-header">Biography</h2>
+        <div class="row">
+            <div class="col-sm-4 col-md-2">
+                <div class="well">
+                    <img src="/Content/Images/default-user-2.png" alt="{{ professor.Name }}'s profile picture" class="img-responsive" />
+                </div>
             </div>
-            <div class="well">
-                <form>
-                    <fieldset>
-                        <legend>Delete department</legend>
-
-                        <div class="form-group">
-                            <input placeholder="Type department name to confirm deletion..." ng-model="deletedDepartment" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <button ng-click="delete()" class="btn btn-danger" ng-class="{'disabled': deletedDepartment!==department.Name}">
-                                <span class="glyphicon glyphicon-remove"></span> Delete
-                            </button>
-                        </div>
-                    </fieldset>
-                </form>
+            <div class="col-sm-8 col-md-4">
+                <h3>
+                    {{ professor.Name }}<br />
+                    <small>Professor at the <a href="#departments/{{ professor.Department.Id }}">{{ professor.Department.Name }}</a> department.</small>
+                </h3>
+                <p>
+                    <strong>Email:</strong> <a href="mailto:{{ professor.Email }}">{{ professor.Email }}</a>
+                </p>
+                <p ng-show="professor.PhoneNumber">
+                    <strong>Phone number:</strong> {{ professor.PhoneNumber }}.
+                </p>
             </div>
         </div>
     </div>
-</div>
+    <div id="courses">
+        <h2 class="page-header">Courses</h2>
+        <div ng-show="!professor.Courses" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ professor.Name }} hasn't lectured any courses lately.</p>
+        </div>
+    </div>
+    <div id="students">
+        <h2 class="page-header">Students</h2>
+        <div ng-show="!professor.Posts" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ professor.Name }} hasn't oriented any students lately.</p>
+        </div>
+    </div>
+    <div id="management">
+        <h2 class="page-header">Management</h2>
+        <div class="well">
+            <form ng-valid ng-submit="update()">
+                <fieldset>
+                    <legend>Update professor's name</legend>
 
-<div>
-    <a href="#professors" class="btn btn-default">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        List of all professors
-    </a>
+                    <div class="form-group">
+                        <input type="text" ng-model="professor.Name" placeholder="Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="professor.Email" placeholder="Email" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="professor.SSN" placeholder="Social Security Number" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="professor.PhoneNumber" placeholder="Phone number" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <select ng-model="professor.DepartmentId" class="form-control">
+                            <option ng-selected="professor.DepartmentId === department.Id" ng-repeat="department in departments" value="{{ department.Id }}">{{ department.Name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            Update
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="well">
+            <form>
+                <fieldset>
+                    <legend>Delete professor</legend>
+
+                    <div class="form-group">
+                        <input placeholder="Type the professor's name to confirm deletion..." ng-model="deletedProfessor" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="delete()" class="btn btn-danger" ng-class="{'disabled': deletedProfessor!==professor.Name}">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>

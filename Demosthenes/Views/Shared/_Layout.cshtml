@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewBag.Title = ViewBag.Title ?? "Demosthenes";
+}
+<!DOCTYPE html>
 <html ng-app="demosthenesApp">
 <head>
     <meta charset="utf-8" />
@@ -26,13 +29,14 @@
         </div>
     </div>
     <br />
-    
-    <div class="container-fluid">
-        @RenderBody()
 
+    @RenderBody()
+
+    <div class="container">
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="text-right">
+            <a href="/Help">API</a> |
+            &copy; @DateTime.Now.Year - Demosthenes
         </footer>
     </div>
 

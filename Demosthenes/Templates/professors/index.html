@@ -1,11 +1,6 @@
-﻿
-<div class="container-fluid">
-    <h2>Professors</h2>
+﻿<div class="container">
+    <h1>Professors</h1>
 
-    <div class="text-right">
-        
-    </div><br />
-    
     <div ng-show="displayCreateForm">
         <div class="well">
             <div class="text-right">
@@ -16,24 +11,26 @@
                     <legend>Register a new professor</legend>
 
                     <div class="form-group">
-                        <label for="newProfessorEmail">Email</label>
-                        <input type="email" ng-model="newProfessor.Email" class="form-control" id="newProfessorEmail" />
+                        <input type="email" ng-model="newProfessor.Email" class="form-control" placeholder="Email" />
                     </div>
                     <div class="form-group">
-                        <label for="newProfessorName">Name</label>
-                        <input type="text" ng-model="newProfessor.Name" class="form-control" id="newProfessorName" />
+                        <input type="text" ng-model="newProfessor.Name" class="form-control" placeholder="Name" />
                     </div>
                     <div class="form-group">
-                        <label for="newProfessorPassword">Password</label>
-                        <input type="password" ng-model="newProfessor.Password" class="form-control" id="newProfessorPassword" />
+                        <input type="text" ng-model="newProfessor.SSN" class="form-control" placeholder="Social Security Number" />
                     </div>
                     <div class="form-group">
-                        <label for="newProfessorConfirmPassword">Confirm password</label>
-                        <input type="password" ng-model="newProfessor.ConfirmPassword" class="form-control" id="newProfessorConfirmPassword" />
+                        <input type="text" ng-model="newProfessor.PhoneNumber" class="form-control" placeholder="Phone number" />
                     </div>
                     <div class="form-group">
-                        <label for="newProfessorDepartmentId">Department</label>
+                        <input type="password" ng-model="newProfessor.Password" class="form-control" placeholder="Password" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" ng-model="newProfessor.ConfirmPassword" class="form-control" placeholder="Confirm password" />
+                    </div>
+                    <div class="form-group">
                         <select ng-model="newProfessor.DepartmentId" class="form-control">
+                            <option value="" disabled selected>Department</option>
                             <option ng-repeat="department in departments" value="{{ department.Id }}">{{ department.Name }}</option>
                         </select>
                     </div>
@@ -74,41 +71,24 @@
         <h4>Empty!</h4> Not a single professor was registered in your database yet.
     </div>
     <div class="row">
-        <div ng-repeat="professor in professors | filter:search" class="col-md-3 col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <a href="#professors/{{ professor.Id }}">
-                            {{ professor.Name }}
-                        </a>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <p>
-                        <strong>Email:</strong> <a href="mailto:{{ professor.Email }}">{{ professor.Email }}</a><br />
-                        <strong>Department:</strong> {{ professor.Department.Name }}
-                    </p>
-                    <p>
-                        <a href="#professors/{{ professor.Id }}" class="btn btn-default">
-                            <span class="glyphicon glyphicon-globe"></span>
-                            Details
-                        </a>
-                    </p>
-                    
-                </div>
-            </div>
-        </div>
-        <div ng-show="newprofessor.Name" class="col-md-3 col-sm-4">
-            <div class="disabled panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ newprofessor.Name }} (unsaved)</h3>
-                </div>
-                <div class="panel-body">
-                    <a href="#professors/{{ professor.Id }}" class="btn btn-primary disabled">
-                        <span class="glyphicon glyphicon-globe"></span>
+        <div ng-repeat="professor in professors | filter:search" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    <a href="#professors/{{ professor.Id }}">
+                        {{ professor.Name }}
+                    </a>
+                </h3>
+                <p>
+                    <strong>Email:</strong> <a href="mailto:{{ professor.Email }}">{{ professor.Email }}</a><br />
+                    <strong>Phone:</strong> {{ professor.PhoneNumber }}<br />
+                    <strong>Department:</strong> <a href="#departments/{{ professor.Department.Id }}">{{ professor.Department.Name }}</a>
+                </p>
+                <p>
+                    <a href="#professors/{{ professor.Id }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
                         Details
                     </a>
-                </div>
+                </p>
             </div>
         </div>
     </div>
