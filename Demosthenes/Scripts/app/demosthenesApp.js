@@ -22,6 +22,9 @@ app.factory('Validator', [function () {
             if (this.valid()) {
                 var modelState = this._data.data.ModelState;
                 for (var err in modelState) {
+                    // Ignore $id attribute.
+                    if (err === '$id') continue;
+                    // Merge current set of errors to result.
                     result = result.concat(modelState[err]);
                 }
             }
