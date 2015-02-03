@@ -12,24 +12,30 @@ using System.Web.Http.Description;
 using Demosthenes.Core;
 using Demosthenes.Data;
 using Demosthenes.ViewModels;
+using Demosthenes.Services;
 
 namespace Demosthenes.Controllers
 {
     public class DepartmentsController : ApiController
     {
-        private DemosthenesContext db = new DemosthenesContext();
+        private DepartmentService _departments;
+
+        public DepartmentsController(DepartmentService departments)
+        {
+            _departments = departments;
+        }
 
         // GET: api/Departments
         public async Task<ICollection<Department>> GetDepartments()
         {
-            return await db.Departments.ToArrayAsync();
+            return await _departments.All();
         }
 
         // GET: api/Departments/5
         [ResponseType(typeof(Department))]
         public async Task<IHttpActionResult> GetDepartment(int id)
         {
-            Department department = await db.Departments.FindAsync(id);
+            var department = await _departments.Find(id);
             if (department == null)
             {
                 return NotFound();
@@ -47,26 +53,23 @@ namespace Demosthenes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var department  = await db.Departments.FindAsync(viewmodel.Id);
+            var department  = await _departments.Find(viewmodel.Id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            // fields that should be updated
             department.Name = viewmodel.Name;
             department.Lead = viewmodel.Lead;
 
-            db.Entry(department).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
+                await _departments.Update(department);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DepartmentExists(department.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -81,12 +84,10 @@ namespace Demosthenes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var department = db.Departments.Add(new Department
+            var department = await _departments.Add(new Department
             {
                 Name = model.Name
             });
-
-            await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = department.Id }, department);
         }
@@ -95,30 +96,29 @@ namespace Demosthenes.Controllers
         [ResponseType(typeof(Department))]
         public async Task<IHttpActionResult> DeleteDepartment(int id)
         {
-            Department department = await db.Departments.FindAsync(id);
-            if (department == null)
+            try
+            {
+                await _departments.Delete(id);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
             {
                 return NotFound();
             }
 
-            db.Departments.Remove(department);
-            await db.SaveChangesAsync();
-
-            return Ok(department);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                _departments.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool DepartmentExists(int id)
-        {
-            return db.Departments.Count(e => e.Id == id) > 0;
         }
     }
 }
