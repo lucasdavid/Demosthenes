@@ -1,0 +1,98 @@
+﻿
+<div class="container">
+    <h1>Courses</h1>
+
+    <div ng-show="displayCreateForm">
+        <div class="well">
+            <div class="text-right">
+                <button ng-click="displayCreateForm = false" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form ng-submit="create()">
+                <fieldset>
+                    <legend>Register a new course</legend>
+
+                    <div class="form-group">
+                        <input type="text" ng-model="newCourse.Title" class="form-control" placeholder="Title" />
+                    </div>
+                    <div class="form-group">
+                        <input type="number" ng-model="newCourse.Credits" class="form-control" placeholder="Number of credits" />
+                    </div>
+                    <div class="form-group">
+                        <select ng-model="newCourse.DepartmentId" class="form-control">
+                            <option value="" disabled selected>Department</option>
+                            <option ng-repeat="department in departments" value="{{ department.Id }}">{{ department.Name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                                Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button ng-click="displayCreateForm = true" ng-show="!displayCreateForm" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Create</button>
+        </div>
+    </div>
+
+    <div ng-show="courses.length === 0" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>Nothing here!</h4><p>Not a single course has been added yet.</p>
+    </div>
+
+    <div class="row">
+        <div ng-repeat="course in courses | filter:search" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    <a href="#courses/{{ course.Id }}">{{ course.Title }}</a>
+                </h3>
+                <p>
+                    <strong>Credits:</strong> {{ course.Credits }}<br />
+                    <span ng-show="course.Department">
+                        <strong>Department:</strong> <a href="#departments/{{ course.Department.Id }}">{{ course.Department.Name }}</a>
+                    </span>
+                </p>
+                <p>
+                    <a href="#courses/{{ course.Id }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                        Details
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div ng-show="newCourse.Title" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    {{ newCourse.Title }}
+                    <small>(unsaved)</small>
+                </h3>
+                <p>
+                    <a href="#courses/{{ course.Id }}" class="btn btn-primary disabled">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                        Details
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

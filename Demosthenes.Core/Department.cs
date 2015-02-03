@@ -10,6 +10,7 @@ namespace Demosthenes.Core
         [Key]
         public int Id { get; set; }
         
+        [Required]
         [MinLength(2)]
         [MaxLength(255)]
         public string Name { get; set; }
@@ -17,6 +18,7 @@ namespace Demosthenes.Core
         public string Lead { get; set; }
 
         public virtual ICollection<Professor> Professors { get; set; }
+        public virtual ICollection<Course>    Courses    { get; set; }
 
         public DateTime DateCreated { get; set; }
 

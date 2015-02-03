@@ -1,0 +1,78 @@
+﻿<div class="container">
+    <h1>
+        <a href="#courses"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        {{ course.Title }}<br />
+        <small>Course #{{ course.Id }}: <a href="#departments/{{ department.Id }}">{{ course.Department.Name }}</a> department</small>
+    </h1>
+
+    <div id="classes">
+        <h2 class="page-header">Classes</h2>
+
+        <div ng-show="!course.Courses" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4><p>Looks like {{ course.Name }} hasn't registered any classes yet.</p>
+        </div>
+
+        <div class="row">
+            <div ng-repeat="class in course.Classes">
+                <h3>{{ class.Id }}</h3>
+                <p>
+                    <a href="#" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                        Details
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="management">
+        <h2 class="page-header">Management</h2>
+        <div class="well">
+            <form ng-valid ng-submit="update()">
+                <fieldset>
+                    <legend>Update course</legend>
+
+                    <div class="form-group">
+                        <input type="text" ng-model="course.Title" placeholder="Course's title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="number" ng-model="course.Credits" placeholder="Course's credits" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <select ng-model="course.DepartmentId" class="form-control">
+                            <option value="" disabled>Department</option>
+                            <option ng-repeat="department in departments" value="{{ department.Id }}"
+                                    ng-selected="course.DepartmentId === department.Id">
+                                {{ department.Name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            Update
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="well">
+            <form>
+                <fieldset>
+                    <legend>Delete course</legend>
+
+                    <div class="form-group">
+                        <input placeholder="Type course name to confirm deletion..." ng-model="deletedCourse" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button ng-click="delete()" class="btn btn-danger" ng-class="{'disabled': deletedCourse!==course.Title}">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
