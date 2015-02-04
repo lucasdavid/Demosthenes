@@ -1,0 +1,110 @@
+﻿
+<div class="container">
+    <h1>Classes</h1>
+
+    <div ng-show="displayCreateForm">
+        <div class="well">
+            <div class="text-right">
+                <button ng-click="displayCreateForm = false" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form ng-submit="create()">
+                <fieldset>
+                    <legend>Register a new class</legend>
+
+                    <div class="form-group">
+                        <select ng-model="newClass.CourseId" class="form-control">
+                            <option value="" disabled selected>Course</option>
+                            <option ng-repeat="course in courses" value="{{ course.Id }}">{{ course.Title }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select ng-model="newClass.ProfessorId" class="form-control">
+                            <option value="" disabled selected>Professor</option>
+                            <option ng-repeat="professor in professors" value="{{ professor.Id }}">{{ professor.Name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" ng-model="newClass.Size" class="form-control" placeholder="Size of the class" />
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-model="newClass.Enrollable" type="checkbox"> Enrollable
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                                Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button ng-click="displayCreateForm = true" ng-show="!displayCreateForm" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Create</button>
+        </div>
+    </div>
+
+    <div ng-show="!classes.length" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>Nothing here!</h4><p>No classes have been added yet.</p>
+    </div>
+
+    <div class="row">
+        <div ng-repeat="class in classes | filter:search" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    <a href="#classes/{{ class.Id }}">{{ class.Course.Title }}</a><br />
+                    <small>#{{ class.Id }}</small>
+                </h3>
+                <p>
+                    <strong>Professor:</strong> <a href="/#/professors/{{ class.Professor.Id }}">{{ class.Professor.Name }}</a><br />
+                    <strong>Credits:</strong> {{ class.Course.Credits }}<br />
+                    <span ng-show="class.Department">
+                        <strong>Department:</strong> <a href="#departments/{{ class.Department.Id }}">{{ class.Department.Name }}</a>
+                    </span>
+                </p>
+                <p>
+                    <a href="#classes/{{ class.Id }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                        Details
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div ng-show="newClass.Title" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    {{ newClass.Title }}
+                    <small>(unsaved)</small>
+                </h3>
+                <p>
+                    <a href="#classes/{{ class.Id }}" class="btn btn-primary disabled">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                        Details
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

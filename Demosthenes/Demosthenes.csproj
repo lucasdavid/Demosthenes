@@ -213,6 +213,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AccountBindingModels.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\ClassViewModels.cs" />
     <Compile Include="ViewModels\CourseViewModels.cs" />
     <Compile Include="ViewModels\DepartmentViewModels.cs" />
     <Compile Include="ViewModels\ProfessorViewModels.cs" />
@@ -292,6 +294,10 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\app\classes\classes-controller.js" />
+    <Content Include="Scripts\app\classes\classes-details-controller.js" />
+    <Content Include="Scripts\app\classes\classes-resource.js" />
+    <Content Include="Scripts\app\classes\classes-route.js" />
     <Content Include="Scripts\app\courses\courses-controller.js" />
     <Content Include="Scripts\app\courses\courses-details-controller.js" />
     <Content Include="Scripts\app\courses\courses-resource.js" />
@@ -1086,6 +1092,8 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Templates\classes\class.html" />
+    <Content Include="Templates\classes\index.html" />
     <Content Include="Templates\courses\course.html" />
     <Content Include="Templates\courses\index.html" />
     <Content Include="Templates\departments\department.html" />

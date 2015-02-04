@@ -35,6 +35,7 @@ namespace Demosthenes
                 "~/Scripts/app/professors/professors-*",
                 "~/Scripts/app/students/students-*",
                 "~/Scripts/app/courses/courses-*",
+                "~/Scripts/app/classes/classes-*",
                 "~/Scripts/app/home/home-*"));
         }
     }
