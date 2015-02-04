@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Demosthenes.Core
 {
@@ -13,6 +14,7 @@ namespace Demosthenes.Core
         [Required]
         [MinLength(2)]
         [MaxLength(255)]
+        [Index(IsUnique = true)]
         public string Name { get; set; }
 
         public string Lead { get; set; }
