@@ -25,7 +25,7 @@ app.controller('CoursesController', ['$scope', 'Validator', 'resolvedCourses', '
         }
 
         $scope.clear = function () {
-            $scope.newCourse = { Title: null, Credits: null, DepartmentId: null }
+            $scope.newCourse = { Title: null, Credits: null, DepartmentId: "" }
         }
 
         $scope.clear();
