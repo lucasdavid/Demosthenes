@@ -3,8 +3,6 @@
 app.controller('ProfessorsController', ['$scope', 'resolvedProfessors', 'Professors', 'resolvedDepartments', 'Validator',
     function ($scope, resolvedProfessors, Professors, resolvedDepartments, Validator) {
 
-        console.log('Loading professor-controller.');
-
         $scope.create = function () {
             Professors.save($scope.newProfessor,
             function (professor) {

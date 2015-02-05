@@ -3,8 +3,6 @@
 app.controller('CoursesController', ['$scope', 'Validator', 'resolvedCourses', 'Courses', 'resolvedDepartments',
     function ($scope, Validator, resolvedCourses, Courses, resolvedDepartments) {
 
-        console.log('Loading course-controller.');
-
         $scope.create = function () {
             Courses.save($scope.newCourse,
             function (course) {

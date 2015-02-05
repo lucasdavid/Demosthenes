@@ -2,7 +2,6 @@
 
 app.controller('CoursesDetailsController', ['$scope', '$location', '$routeParams', 'Validator', 'resolvedCourse', 'Courses', 'resolvedDepartments',
     function ($scope, $location, $routeParams, Validator, resolvedCourse, Courses, resolvedDepartments) {
-        console.log('Loading course-details-controller with id ' + $routeParams.id);
 
         $scope.course      = resolvedCourse;
         $scope.departments = resolvedDepartments;

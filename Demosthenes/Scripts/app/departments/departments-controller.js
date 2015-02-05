@@ -3,8 +3,6 @@
 app.controller('DepartmentsController', ['$scope', 'Validator', 'resolvedDepartments', 'Departments',
     function ($scope, Validator, resolvedDepartments, Departments) {
 
-        console.log('Loading department-controller.');
-
         $scope.create = function () {
             Departments.save($scope.newDepartment,
             function (department) {

@@ -3,7 +3,6 @@
 app.controller('ProfessorsDetailsController', ['$scope', '$location', '$routeParams', 'Validator',
     'resolvedProfessor', 'Professors', 'resolvedDepartments',
     function ($scope, $location, $routeParams, Validator, resolvedProfessor, Professors, resolvedDepartments) {
-        console.log('Loading professor-details-controller with id ' + $routeParams.id);
 
         $scope.professor = resolvedProfessor;
         $scope.departments = resolvedDepartments;

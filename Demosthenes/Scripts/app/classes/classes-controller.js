@@ -2,7 +2,6 @@
 
 app.controller('ClassesController', ['$scope', 'Validator', 'resolvedClasses', 'Classes', 'resolvedCourses', 'resolvedProfessors',
     function ($scope, Validator, resolvedClasses, Classes, resolvedCourses, resolvedProfessors) {
-        console.log('Loading class-controller.');
 
         $scope.classes    = resolvedClasses;
         $scope.courses    = resolvedCourses;

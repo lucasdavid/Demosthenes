@@ -2,7 +2,6 @@
 
 app.config(['$routeProvider',
     function ($routeProvider) {
-        console.log('Loading professors-route.');
 
         $routeProvider.
             when('/professors', {

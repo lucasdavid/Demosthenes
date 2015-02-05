@@ -2,8 +2,6 @@
 
 app.factory('Students', ['$resource', function ($resource) {
 
-    console.log('Loading students-resource.');
-
     return $resource('api/students/:id', {}, {
         'query':   { method: 'GET', isArray: true },
         'get':     { method: 'GET' },

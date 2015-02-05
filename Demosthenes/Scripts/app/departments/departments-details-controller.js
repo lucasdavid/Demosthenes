@@ -2,7 +2,6 @@
 
 app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routeParams', 'Validator', 'resolvedDepartment', 'Departments',
     function ($scope, $location, $routeParams, Validator, resolvedDepartment, Departments) {
-        console.log('Loading department-details-controller with id ' + $routeParams.id);
 
         $scope.department = resolvedDepartment;
         

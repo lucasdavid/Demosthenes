@@ -3,7 +3,6 @@
 app.controller('StudentsDetailsController', ['$scope', '$location', '$routeParams', 'Validator',
     'resolvedStudent', 'Students',
     function ($scope, $location, $routeParams, Validator, resolvedStudent, Students) {
-        console.log('Loading student-details-controller with id ' + $routeParams.id);
 
         $scope.student = resolvedStudent;
 
