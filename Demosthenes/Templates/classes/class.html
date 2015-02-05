@@ -5,6 +5,43 @@
         <small>Class #{{ class.Id }}: <a href="#departments/{{ department.Id }}">{{ class.Course.Department.Name }}</a> department</small>
     </h1>
 
+    <div id="info">
+        <h2 class="page-header">Info</h2>
+        <div class="">
+            <strong>Id</strong> #{{ class.Id }}<br />
+            <strong>Professor:</strong> {{ class.Professor.Name }}<br />
+            <strong>Course:</strong> {{ class.Course.Title }}<br>
+            <strong>Credits:</strong> {{ class.Course.Credits }}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h2 class="page-header">Schedule</h2>
+</div>
+<div class="container-fluid well">
+    <div class="schedule">
+        <div id="infoWeekCalendar">
+            <div class="row">
+                <div ng-repeat="dayOfWeek in daysOfWeek"
+                     class="col-md-2 schedule-cell-container">
+                    <div class="well well-sm schedule-cell">
+                        <h4>{{ dayOfWeek }}</h4>
+                    </div>
+                    <div ng-repeat="timeFrame in timeFrames">
+                        <div class="well well-sm schedule-cell">
+                            {{ timeFrame }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="location">
+        <h2 class="page-header">Location</h2>
+    </div>
+
     <div id="management">
         <h2 class="page-header">Management</h2>
         <div class="well">
@@ -33,16 +70,6 @@
                                 <input ng-model="class.Enrollable" type="checkbox"> Enrollable
                             </label>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <select ng-model="class.DepartmentId" class="form-control">
-                            <option value="" disabled>Department</option>
-                            <option ng-repeat="department in departments" value="{{ department.Id }}"
-                                    ng-selected="class.DepartmentId === department.Id">
-                                {{ department.Name }}
-                            </option>
-                        </select>
                     </div>
 
                     <div class="form-group">
