@@ -1,0 +1,88 @@
+﻿<div class="container">
+    <h1>Schedules</h1>
+
+    <div ng-show="displayCreateForm">
+        <div class="well">
+            <div class="text-right">
+                <button ng-click="displayCreateForm = false" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form ng-submit="create()">
+                <fieldset>
+                    <legend>Register a new schedule</legend>
+
+                    <div class="form-group">
+                        <select ng-model="newSchedule.DayOfWeek" class="form-control">
+                            <option value="" disabled selected>Day of week</option>
+                            <option ng-repeat="dayOfWeek in daysOfWeek" value="{{ daysOfWeek.indexOf(dayOfWeek) }}">{{ dayOfWeek }}</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="addon-from">from</span>
+                                    <input type="time" ng-model="newSchedule.TimeStarted" placeholder="Time started" class="form-control" aria-describedby="addon-from" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="addon-to">To</span>
+                                    <input type="time" ng-model="newSchedule.TimeFinished" placeholder="Time finished" class="form-control" aria-describedby="addon-to" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                                Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button ng-click="displayCreateForm = true" ng-show="!displayCreateForm" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Create</button>
+        </div>
+    </div>
+
+    <div ng-show="!schedules.length" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>Nothing here!</h4><p>No schedules have been added yet.</p>
+    </div>
+
+    <div class="row">
+        <div ng-repeat="schedule in schedules | filter:search" class="col-sm-4">
+            <div class="well">
+                <h3>
+                    {{ daysOfWeek[schedule.DayOfWeek] }}<br />
+                    <small>#{{ schedule.Id }}</small>
+                </h3>
+                <p>
+                    From <strong>{{ schedule.TimeStarted }}</strong><br />
+                    To <strong>{{ schedule.TimeFinished }}</strong>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

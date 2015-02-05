@@ -59,5 +59,6 @@ namespace Demosthenes.Data
         public virtual DbSet<Student>   Students     { get; set; }
         public virtual DbSet<Course>    Courses      { get; set; }
         public virtual DbSet<Class>     Classes      { get; set; }
+        public virtual DbSet<Schedule>  Schedules    { get; set; }
     }
 }

@@ -25,6 +25,8 @@ namespace Demosthenes.Core
         public bool Enrollable { get; set; }
         public int  Size       { get; set; }
 
+        public virtual ICollection<ScheduleClasses> Schedules { get; set; }
+
         public DateTime  DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
         public DateTime? DateDeleted { get; set; }

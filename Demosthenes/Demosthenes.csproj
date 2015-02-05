@@ -218,6 +218,7 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfessorsController.cs" />
+    <Compile Include="Controllers\SchedulesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -228,6 +229,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AccountBindingModels.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\ScheduleViewModels.cs" />
     <Compile Include="ViewModels\ClassViewModels.cs" />
     <Compile Include="ViewModels\CourseViewModels.cs" />
     <Compile Include="ViewModels\DepartmentViewModels.cs" />
@@ -293,6 +295,9 @@
     <Content Include="Scripts\app\classes\classes-details-controller.js" />
     <Content Include="Scripts\app\classes\classes-resource.js" />
     <Content Include="Scripts\app\classes\classes-route.js" />
+    <Content Include="Scripts\app\schedules\schedules-controller.js" />
+    <Content Include="Scripts\app\schedules\schedules-resource.js" />
+    <Content Include="Scripts\app\schedules\schedules-route.js" />
     <Content Include="Scripts\app\courses\courses-controller.js" />
     <Content Include="Scripts\app\courses\courses-details-controller.js" />
     <Content Include="Scripts\app\courses\courses-resource.js" />
@@ -1093,6 +1098,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Templates\schedules\index.html" />
     <Content Include="Templates\classes\class.html" />
     <Content Include="Templates\classes\index.html" />
     <Content Include="Templates\courses\course.html" />

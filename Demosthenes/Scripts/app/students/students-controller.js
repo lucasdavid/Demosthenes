@@ -3,8 +3,6 @@
 app.controller('StudentsController', ['$scope', 'resolvedStudents', 'Students', 'Validator',
     function ($scope, resolvedStudents, Students, Validator) {
 
-        console.log('Loading student-controller.');
-
         $scope.create = function () {
             Students.save($scope.newStudent,
             function (student) {
