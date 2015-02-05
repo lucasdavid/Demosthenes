@@ -1,13 +1,14 @@
 ﻿'use strict';
 
-app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams', 'Validator',
+app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams', 'Validator', 'Calendar',
     'resolvedClass', 'Classes', 'resolvedCourses', 'resolvedProfessors',
-    function ($scope, $location, $routeParams, Validator, resolvedClass, Classes, resolvedCourses, resolvedProfessors) {
-        console.log('Loading class-details-controller with id ' + $routeParams.id);
+    function ($scope, $location, $routeParams, Validator, Calendar, resolvedClass, Classes, resolvedCourses, resolvedProfessors) {
 
         $scope.class = resolvedClass;
         $scope.courses = resolvedCourses;
         $scope.professors = resolvedProfessors;
+        $scope.daysOfWeek = Calendar.daysOfWeek();
+        $scope.timeFrames = Calendar.timeFrames();
         
         $scope.update = function () {
             Classes.update($scope.class,
