@@ -13,6 +13,10 @@
     margin-bottom:4px;
 }
 
+.schedule-cell-default {
+    height:70px;
+}
+
 .schedule-cell-selected {
     background:#0d87e9!important;
     color:#fefefe;
