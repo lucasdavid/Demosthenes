@@ -15,12 +15,21 @@ namespace Demosthenes.Data.Migrations
 
         protected override void Seed(Demosthenes.Data.DemosthenesContext context)
         {
-            //context.Departments.AddOrUpdate(d => d.Name,
-            //    new Department { Name = "Computer Science" },
-            //    new Department { Name = "Computer Enginner" },
-            //    new Department { Name = "Psychology" },
-            //    new Department { Name = "Biology" },
-            //    new Department { Name = "Geography" });
+            try
+            {
+                context.Schedules.AddOrUpdate(s => s.Id,
+                    new Schedule { TimeStarted = new TimeSpan(8, 0, 0), TimeFinished = new TimeSpan(10, 0, 0) },
+                    new Schedule { TimeStarted = new TimeSpan(10, 0, 0), TimeFinished = new TimeSpan(12, 0, 0) },
+                    new Schedule { TimeStarted = new TimeSpan(14, 0, 0), TimeFinished = new TimeSpan(16, 0, 0) },
+                    new Schedule { TimeStarted = new TimeSpan(16, 0, 0), TimeFinished = new TimeSpan(18, 0, 0) },
+                    new Schedule { TimeStarted = new TimeSpan(19, 0, 0), TimeFinished = new TimeSpan(21, 0, 0) },
+                    new Schedule { TimeStarted = new TimeSpan(21, 0, 0), TimeFinished = new TimeSpan(23, 0, 0) }
+                );
+            }
+            catch (Exception)
+            {
+                //
+            }
         }
     }
 }
