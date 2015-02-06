@@ -8,38 +8,113 @@
     <div id="info">
         <h2 class="page-header">Info</h2>
         <div class="">
-            <strong>Id</strong> #{{ class.Id }}<br />
-            <strong>Professor:</strong> {{ class.Professor.Name }}<br />
-            <strong>Course:</strong> {{ class.Course.Title }}<br>
-            <strong>Credits:</strong> {{ class.Course.Credits }}
+            <h3>
+                #{{ class.Id }} <small>Id</small>
+            </h3>
+            <h3>
+                {{ class.Professor.Name }} <small>professor</small>
+            </h3>
+            <h3>
+                {{ class.Course.Title }} <small>course</small>
+            </h3>
+            <h3>
+                {{ class.Course.Credits }} <small>credits</small>
+            </h3>
+            <h3>
+                {{ class.Size }} <small>chairs</small>
+            </h3>
+            <h3>
+                <span ng-show="class.Enrollable">
+                    <span class="glyphicon glyphicon-ok-circle text-success"></span>
+                    open for enrollment.
+                </span>
+                <span ng-hide="class.Enrollable">
+                    <span class="glyphicon glyphicon-remove-circle text-danger"></span>
+                    closed for enrollment.
+                </span>
+                <small>Enrollment</small>
+            </h3>
         </div>
     </div>
 </div>
-<div class="container">
-    <h2 class="page-header">Schedule</h2>
-</div>
-<div class="container-fluid well">
-    <div class="schedule">
-        <div id="infoWeekCalendar">
-            <div class="row">
-                <div ng-repeat="dayOfWeek in daysOfWeek"
-                     class="col-md-2 schedule-cell-container">
-                    <div class="well well-sm schedule-cell">
-                        <h4>{{ dayOfWeek }}</h4>
-                    </div>
-                    <div ng-repeat="timeFrame in timeFrames">
-                        <div class="well well-sm schedule-cell">
-                            {{ timeFrame }}
-                        </div>
-                    </div>
+
+<div id="infoweekcalendar" class="hero">
+    <div class="container">
+        <h2>Schedule</h2>
+    </div>
+    <div class="container-fluid text-center">
+        <div class="row">
+            <div class="col-md-1 schedule-cell-container visible-md visible-lg">
+                <div class="well well-sm schedule-cell">
+                    <h4>Time</h4>
+                </div>
+                <div ng-repeat="schedule in schedules"
+                     class="well well-sm schedule-cell schedule-cell-default">
+                    <span class="lead">{{ schedule.TimeStarted }}</span> to
+                    <small class="small">{{ schedule.TimeFinished }}</small>
                 </div>
             </div>
+            <!--
+                Displays all days, except Sunday.
+                Saturday's column is thiner than the others
+            -->
+            <div ng-repeat="day in daysOfWeek | filter:'!Sunday'"
+                 ng-class="{'col-md-1': day === 'Saturday'}"
+                 class="col-md-2 schedule-cell-container">
+
+                <div class="well well-sm schedule-cell">
+                    <h4>{{ day }}</h4>
+                </div>
+
+                <div ng-repeat="currentSchedule in cartesian[day]"
+                     class="well well-sm schedule-cell schedule-cell-default">
+                    <button type="button"
+                            ng-show="classHas(currentSchedule) === -1"
+                            ng-click="bind(currentSchedule)"
+                            class="btn btn-link btn-lg btn-block"
+                            title="Bind class #{{ currentSchedule.ClassId }} to schedule #{{ currentSchedule.ScheduleId }}, on {{ currentSchedule.DayOfWeek }}.">
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                        Bind
+                    </button>
+                    <button type="button"
+                            ng-click="unbind(currentSchedule)"
+                            ng-show="classHas(currentSchedule) > -1"
+                            class="btn btn-primary btn-lg btn-block">
+                        <span class="glyphicon glyphicon-check"></span>
+                        Binded
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div ng-show="scheduleChanged" class="text-right">
+            <br />
+            <form ng-submit="update()">
+                <div class="form-group">
+                    <button type="button" ng-click="clear()" class="btn btn-default">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Update
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 <div class="container">
     <div id="location">
         <h2 class="page-header">Location</h2>
+
+        <div ng-show="true" class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>Nothing here!</h4>
+            <p>
+                Unfortunately, no location information was provided.
+                Why don't you <a href="">ask for it by clicking here</a>?
+            </p>
+        </div>
     </div>
 
     <div id="management">
@@ -82,7 +157,7 @@
             </form>
         </div>
         <div class="well">
-            <form>
+            <form ng-submit="delete()">
                 <fieldset>
                     <legend>Delete class</legend>
 
@@ -90,7 +165,7 @@
                         <input placeholder="Type class name to confirm deletion..." ng-model="deletedClass" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <button ng-click="delete()" class="btn btn-danger" ng-class="{'disabled': deletedClass!==class.Title}">
+                        <button type="submit" class="btn btn-danger" ng-class="{'disabled': deletedClass!==class.Title}">
                             <span class="glyphicon glyphicon-remove"></span> Delete
                         </button>
                     </div>
