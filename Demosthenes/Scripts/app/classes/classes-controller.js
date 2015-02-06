@@ -1,6 +1,7 @@
 ﻿'use strict';
 
-app.controller('ClassesController', ['$scope', 'Validator', 'resolvedClasses', 'Classes', 'resolvedCourses', 'resolvedProfessors',
+app.controller('ClassesController', ['$scope', 'Validator', 'resolvedClasses', 'Classes',
+    'resolvedCourses', 'resolvedProfessors',
     function ($scope, Validator, resolvedClasses, Classes, resolvedCourses, resolvedProfessors) {
 
         $scope.classes    = resolvedClasses;
