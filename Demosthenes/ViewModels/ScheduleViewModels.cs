@@ -10,9 +10,6 @@ namespace Demosthenes.ViewModels
     public class ScheduleCreateViewModel
     {
         [Required]
-        public DayOfWeek DayOfWeek { get; set; }
-
-        [Required]
         [Display(Name = "Starting")]
         [TimeEqualsOrSmallerThanAttribute("TimeFinished", ErrorMessage="Starting time must be set before finishing time.")]
         public TimeSpan TimeStarted  { get; set; }

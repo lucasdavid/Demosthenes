@@ -56,7 +56,7 @@ namespace Demosthenes.Controllers
             try
             {
                 var schedule = await _schedules.Find(model.Id);
-                schedule.TimeStarted = model.TimeStarted;
+                schedule.TimeStarted  = model.TimeStarted;
                 schedule.TimeFinished = model.TimeFinished;
 
                 await _schedules.Update(schedule);

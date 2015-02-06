@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Demosthenes.Core;
 
 namespace Demosthenes.ViewModels
 {
@@ -28,5 +29,7 @@ namespace Demosthenes.ViewModels
     {
         [Required]
         public int Id { get; set; }
+
+        public ICollection<ScheduleClasses> Schedules { get; set; }
     }
 }

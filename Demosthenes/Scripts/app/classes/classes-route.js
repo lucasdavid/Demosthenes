@@ -31,6 +31,9 @@ app.config(['$routeProvider',
                     }],
                     resolvedCourses: ['Courses', function (Courses) {
                         return Courses.query().$promise;
+                    }],
+                    resolvedSchedules: ['Schedules', function (Schedules) {
+                        return Schedules.query().$promise;
                     }]
                 }
             });

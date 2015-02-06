@@ -66,12 +66,29 @@ app.factory('Calendar', [function () {
 
     return {
         daysOfWeek: function () {
-            return daysOfWeek.slice(); // deep copy daysOfWeek
+            // copies daysOfWeek
+            return daysOfWeek.slice();
         },
-        timeFrames: function () {
-            return [
-                '08:00',
-                'B', 'C'];
+        // Used to create the week calendar.
+        cartesianSchedulesDaysOfWeek: function (schedules, classId) {
+            var result = {};
+
+            for (var currDay = 0; currDay < daysOfWeek.length; currDay++) {
+                var day = daysOfWeek[currDay];
+
+                result[day] = [];
+
+                for (var currSchedule = 0; currSchedule < schedules.length; currSchedule++) {
+                    var id = schedules[currSchedule].Id;
+                    result[day].push({
+                        DayOfWeek: day,
+                        ScheduleId: id,
+                        ClassId: classId
+                    });
+                }
+            }
+
+            return result;
         },
         timeFromString: function (data) {
             return data

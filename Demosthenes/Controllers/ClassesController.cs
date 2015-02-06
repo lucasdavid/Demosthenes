@@ -54,6 +54,7 @@ namespace Demosthenes.Controllers
                 @class.ProfessorId = model.ProfessorId;
                 @class.Enrollable  = model.Enrollable;
                 @class.Size        = model.Size;
+                @class.Schedules = model.Schedules;
 
                 await _classes.Update(@class);
             }
