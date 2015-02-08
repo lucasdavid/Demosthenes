@@ -295,6 +295,7 @@
     <Content Include="Scripts\app\classes\classes-details-controller.js" />
     <Content Include="Scripts\app\classes\classes-resource.js" />
     <Content Include="Scripts\app\classes\classes-route.js" />
+    <Content Include="Scripts\app\classes\classes-schedule-resource.js" />
     <Content Include="Scripts\app\schedules\schedules-controller.js" />
     <Content Include="Scripts\app\schedules\schedules-resource.js" />
     <Content Include="Scripts\app\schedules\schedules-route.js" />

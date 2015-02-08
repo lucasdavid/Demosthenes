@@ -87,7 +87,7 @@
     <Compile Include="Department.cs" />
     <Compile Include="Interfaces\IDateTrackable.cs" />
     <Compile Include="Schedule.cs" />
-    <Compile Include="ScheduleClasses.cs" />
+    <Compile Include="ClassSchedule.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="Professor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

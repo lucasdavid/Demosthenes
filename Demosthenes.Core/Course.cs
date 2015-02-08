@@ -29,6 +29,8 @@ namespace Demosthenes.Core
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }
 
+        public virtual ICollection<Class> Classes { get; set; }
+
         public DateTime  DateCreated { get; set; }
 
         public DateTime? DateUpdated { get; set; }

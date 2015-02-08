@@ -17,14 +17,17 @@ namespace Demosthenes.Data.Migrations
         {
             try
             {
-                context.Schedules.AddOrUpdate(s => s.Id,
-                    new Schedule { TimeStarted = new TimeSpan(8, 0, 0), TimeFinished = new TimeSpan(10, 0, 0) },
-                    new Schedule { TimeStarted = new TimeSpan(10, 0, 0), TimeFinished = new TimeSpan(12, 0, 0) },
-                    new Schedule { TimeStarted = new TimeSpan(14, 0, 0), TimeFinished = new TimeSpan(16, 0, 0) },
-                    new Schedule { TimeStarted = new TimeSpan(16, 0, 0), TimeFinished = new TimeSpan(18, 0, 0) },
-                    new Schedule { TimeStarted = new TimeSpan(19, 0, 0), TimeFinished = new TimeSpan(21, 0, 0) },
-                    new Schedule { TimeStarted = new TimeSpan(21, 0, 0), TimeFinished = new TimeSpan(23, 0, 0) }
-                );
+                if (context.Schedules.Count() == 0)
+                {
+                    context.Schedules.AddOrUpdate(s => s.Id,
+                        new Schedule { TimeStarted = new TimeSpan(8, 0, 0), TimeFinished = new TimeSpan(10, 0, 0) },
+                        new Schedule { TimeStarted = new TimeSpan(10, 0, 0), TimeFinished = new TimeSpan(12, 0, 0) },
+                        new Schedule { TimeStarted = new TimeSpan(14, 0, 0), TimeFinished = new TimeSpan(16, 0, 0) },
+                        new Schedule { TimeStarted = new TimeSpan(16, 0, 0), TimeFinished = new TimeSpan(18, 0, 0) },
+                        new Schedule { TimeStarted = new TimeSpan(19, 0, 0), TimeFinished = new TimeSpan(21, 0, 0) },
+                        new Schedule { TimeStarted = new TimeSpan(21, 0, 0), TimeFinished = new TimeSpan(23, 0, 0) }
+                    );
+                }
             }
             catch (Exception)
             {

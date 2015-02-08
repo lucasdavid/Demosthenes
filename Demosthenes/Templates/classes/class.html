@@ -66,20 +66,21 @@
                     <h4>{{ day }}</h4>
                 </div>
 
-                <div ng-repeat="currentSchedule in cartesian[day]"
+                <div ng-repeat="schedule in schedules"
                      class="well well-sm schedule-cell schedule-cell-default">
                     <button type="button"
-                            ng-show="classHas(currentSchedule) === -1"
-                            ng-click="bind(currentSchedule)"
+                            ng-show="classHas(schedule, day) == -1"
+                            ng-click="bind(schedule, day)"
                             class="btn btn-link btn-lg btn-block"
-                            title="Bind class #{{ currentSchedule.ClassId }} to schedule #{{ currentSchedule.ScheduleId }}, on {{ currentSchedule.DayOfWeek }}.">
+                            title="Click to bind class #{{ class.Id }} to schedule #{{ schedule.Id }}, on {{ day }}.">
                         <span class="glyphicon glyphicon-unchecked"></span>
                         Bind
                     </button>
                     <button type="button"
-                            ng-click="unbind(currentSchedule)"
-                            ng-show="classHas(currentSchedule) > -1"
-                            class="btn btn-primary btn-lg btn-block">
+                            ng-click="unbind(schedule, day)"
+                            ng-show="classHas(schedule, day) > -1"
+                            class="btn btn-primary btn-lg btn-block"
+                            title="Click to unbind class #{{ class.Id }} to schedule #{{ schedule.Id }}, on {{ day }}.">
                         <span class="glyphicon glyphicon-check"></span>
                         Binded
                     </button>

@@ -18,6 +18,6 @@ namespace Demosthenes.Core
         [Index("SCHEDULE_UNIQ_IX", IsUnique = true, Order = 1)]
         public TimeSpan TimeFinished { get; set; }
 
-        public virtual ICollection<ScheduleClasses> Classes { get; set; }
+        public virtual ICollection<ClassSchedule> Classes { get; set; }
     }
 }

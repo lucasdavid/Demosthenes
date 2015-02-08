@@ -39,9 +39,25 @@
     </div>
     <div id="classes">
         <h2 class="page-header">Classes</h2>
-        <div ng-show="!professor.Classes" class="alert alert-info alert-dismissible" role="alert">
+        <div ng-show="!professor.Classes.length" class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4>Nothing here!</h4><p>Looks like {{ professor.Name }} hasn't lectured any classes lately.</p>
+        </div>
+
+        <div class="row">
+            <div ng-repeat="class in professor.Classes" class="col-md-4">
+                <div class="well">
+                    <h3>
+                        <a href="#/classes/{{ class.Id }}">#{{ class.Id }}</a>
+                        <small>{{ class.Course.Title }}</small>
+                    </h3>
+                    <p>
+                        <strong>Size:</strong> {{class.Size}} <br />
+                        <span ng-show="class.Enrollable" class="label label-primary">Enrollable</span>
+                        <span ng-hide="class.Enrollable" class="label label-default">Not enrollable</span>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <div id="students">

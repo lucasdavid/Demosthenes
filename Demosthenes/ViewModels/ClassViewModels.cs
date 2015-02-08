@@ -29,7 +29,20 @@ namespace Demosthenes.ViewModels
     {
         [Required]
         public int Id { get; set; }
+    }
 
-        public ICollection<ScheduleClasses> Schedules { get; set; }
+    public class ClassScheduleViewModel
+    {
+        [Required]
+        [Display(Name = "Class")]
+        public int ClassId { get; set; }
+
+        [Required]
+        [Display(Name = "Schedule")]
+        public int ScheduleId { get; set; }
+
+        [Required]
+        [Display(Name = "Day of week")]
+        public DayOfWeek DayOfWeek { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Demosthenes.Core;
 using Demosthenes.Services;
 using Demosthenes.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Net;
@@ -54,8 +55,7 @@ namespace Demosthenes.Controllers
                 @class.ProfessorId = model.ProfessorId;
                 @class.Enrollable  = model.Enrollable;
                 @class.Size        = model.Size;
-                @class.Schedules = model.Schedules;
-
+                
                 await _classes.Update(@class);
             }
             catch (DbUpdateConcurrencyException)
@@ -107,6 +107,58 @@ namespace Demosthenes.Controllers
 
             await _classes.Delete(@class);
             return Ok(@class);
+        }
+
+        // GET: api/Classes/5/Schedules
+        [Route("api/Classes/{classId}/Schedules")]
+        public async Task<ICollection<ClassSchedule>> GetClassSchedules(int classId)
+        {
+            return await _classes.ClassSchedulesOf(classId);
+        }
+
+        // POST: api/Classes/5/Schedules/5
+        [Route("api/Classes/{classId}/Schedules/{scheduleId}")]
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PostScheduleClass(int classId, int scheduleId, ClassScheduleViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (classId != model.ClassId || scheduleId != model.ScheduleId)
+            {
+                return BadRequest("Primary keys given conflict with keys recovered from the model");
+            }
+
+            await _classes.ScheduleClass(new ClassSchedule
+            {
+                ClassId = model.ClassId,
+                ScheduleId = model.ScheduleId,
+                DayOfWeek = model.DayOfWeek
+            });
+
+            return Ok();
+        }
+
+        // DELETE: api/Classes/5/Schedules/5
+        [Route("api/Classes/{classId}/Schedules/{scheduleId}")]
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> DeleteUnscheduleClass(int classId, int scheduleId, DayOfWeek dayOfWeek)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _classes.UnscheduleClass(new ClassSchedule
+            {
+                ClassId    = classId,
+                ScheduleId = scheduleId,
+                DayOfWeek  = dayOfWeek
+            });
+
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)

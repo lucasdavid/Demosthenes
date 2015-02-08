@@ -7,21 +7,25 @@
 
     <div id="classes">
         <h2 class="page-header">Classes</h2>
-
-        <div ng-show="!course.Courses" class="alert alert-info alert-dismissible" role="alert">
+        <div ng-show="!course.Classes.length" class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4>Nothing here!</h4><p>Looks like {{ course.Name }} hasn't registered any classes yet.</p>
+            <h4>Nothing here!</h4><p>Looks like {{ course.Title }} hasn't have any classes registered yet.</p>
         </div>
 
         <div class="row">
-            <div ng-repeat="class in course.Classes">
-                <h3>{{ class.Id }}</h3>
-                <p>
-                    <a href="#" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-zoom-in"></span>
-                        Details
-                    </a>
-                </p>
+            <div ng-repeat="class in course.Classes" class="col-md-4">
+                <div class="well">
+                    <h3>
+                        <a href="#/classes/{{ class.Id }}">#{{ class.Id }}</a>
+                        <small>{{ course.Title }}</small>
+                    </h3>
+                    <p>
+                        <strong>Professor:</strong> <a href="#/professors/{{ class.Professor.Id }}">{{ class.Professor.Name }}</a><br />
+                        <strong>Size:</strong> {{class.Size}} <br />
+                        <span ng-show="class.Enrollable" class="label label-primary">Enrollable</span>
+                        <span ng-hide="class.Enrollable" class="label label-default">Not enrollable</span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
