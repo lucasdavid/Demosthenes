@@ -10,5 +10,6 @@ namespace Demosthenes.Core
 {
     public class Student : ApplicationUser
     {
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
 }

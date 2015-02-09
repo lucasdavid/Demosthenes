@@ -85,7 +85,9 @@
     <Compile Include="Class.cs" />
     <Compile Include="Course.cs" />
     <Compile Include="Department.cs" />
+    <Compile Include="Enrollment.cs" />
     <Compile Include="Interfaces\IDateTrackable.cs" />
+    <Compile Include="Post.cs" />
     <Compile Include="Schedule.cs" />
     <Compile Include="ClassSchedule.cs" />
     <Compile Include="Student.cs" />

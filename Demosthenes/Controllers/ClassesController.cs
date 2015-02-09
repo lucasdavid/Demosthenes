@@ -1,5 +1,6 @@
 ﻿using Demosthenes.Core;
 using Demosthenes.Services;
+using Demosthenes.Services.Exceptions;
 using Demosthenes.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -159,6 +160,45 @@ namespace Demosthenes.Controllers
             });
 
             return Ok();
+        }
+
+        // GET: api/Classes/5/Student/5
+        [Route("api/Classes/{classId}/Students/{studentId}")]
+        public async Task<ICollection<Enrollment>> GetClassEnrollments(int enrollmentId)
+        {
+            return (await _classes.Find(enrollmentId)).Enrollments;
+        }
+
+        // POST: api/Classes/5/Student/5
+        [Route("api/Classes/{classId}/Students/{studentId}")]
+        public async Task<IHttpActionResult> PostEnroll(int classId, string studentId)
+        {
+            try
+            {
+                await _classes.Enroll(classId, studentId);
+                return Ok();
+            }
+            catch (StudentAlreadyEnrolledException e)
+            {
+                ModelState.AddModelError("enrollment", "Student already enrolled in class " + e.Message + " .");
+                return BadRequest(ModelState);
+            }
+        }
+
+        // DELETE: api/Classes/5/Student/5
+        [Route("api/Classes/{classId}/Students/{studentId}")]
+        public async Task<IHttpActionResult> DeleteUnenroll(int classId, string studentId, int enrollmentId)
+        {
+            try
+            {
+                await _classes.Unenroll(enrollmentId);
+                return Ok();
+            }
+            catch (StudentNotEnrolledException e)
+            {
+                ModelState.AddModelError("unenrollment", "Student is not yet enrolled in class " + e.Message + " .");
+                return BadRequest(ModelState);
+            }
         }
 
         protected override void Dispose(bool disposing)

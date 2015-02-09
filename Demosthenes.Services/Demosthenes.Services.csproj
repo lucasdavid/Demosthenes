@@ -55,6 +55,8 @@
     <Compile Include="ClassService.cs" />
     <Compile Include="CourseService.cs" />
     <Compile Include="DepartmentService.cs" />
+    <Compile Include="Exceptions\StudentNotEnrolledException.cs" />
+    <Compile Include="Exceptions\StudentAlreadyEnrolledException.cs" />
     <Compile Include="Exceptions\ClassDoesntHaveGivenScheduleException.cs" />
     <Compile Include="Exceptions\ClassAlreadyHasGivenScheduleException.cs" />
     <Compile Include="Infrastructure\Service.cs" />

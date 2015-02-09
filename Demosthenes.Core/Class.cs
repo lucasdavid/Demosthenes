@@ -27,8 +27,9 @@ namespace Demosthenes.Core
 
         public virtual ICollection<ClassSchedule> ClassSchedules { get; set; }
 
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
+
         public DateTime  DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
-        public DateTime? DateDeleted { get; set; }
     }
 }

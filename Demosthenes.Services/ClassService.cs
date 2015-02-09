@@ -33,7 +33,7 @@ namespace Demosthenes.Services
 
         public async Task<int> ScheduleClass(ClassSchedule cs)
         {
-            var @class = await FindClassOrHalt(cs.ClassId);           
+            var @class = await FindClassOrHalt(cs.ClassId);
 
             if (@class.ClassSchedules.Any(e => e.ClassId == cs.ClassId && e.ScheduleId == cs.ScheduleId && e.DayOfWeek == cs.DayOfWeek))
             {
@@ -64,6 +64,38 @@ namespace Demosthenes.Services
             return await Update(@class);
         }
 
+        public async Task<int> Enroll(int classId, string studentId)
+        {
+            var @class = await FindClassOrHalt(classId);
+            var student = await FindStudentOrHalt(studentId);
+
+            if (@class.Enrollments.Any(e => e.StudentId == studentId))
+            {
+                throw new StudentAlreadyEnrolledException("{" + student.Id + " -> " + @class.Id + "}");
+            }
+
+            Db.Enrollments.Add(new Enrollment
+            {
+                ClassId = @class.Id,
+                StudentId = student.Id
+            });
+
+            return await Db.SaveChangesAsync();
+        }
+
+        public async Task<int> Unenroll(int enrollmentId)
+        {
+            var enrollment = await Db.Enrollments.FindAsync(enrollmentId);
+
+            if (enrollment == null)
+            {
+                throw new StudentNotEnrolledException("{" + enrollmentId + "}");
+            }
+
+            Db.Enrollments.Remove(enrollment);
+            return await Db.SaveChangesAsync();
+        }
+
         /// <summary>
         /// Searches for a Class of id equals to <paramref name="id"/>. If does not found it, throws KeyNotFoundException.
         /// </summary>
@@ -78,6 +110,16 @@ namespace Demosthenes.Services
             }
 
             return @class;
+        }
+        protected async Task<Student> FindStudentOrHalt(string id)
+        {
+            var student = await Db.Students.FindAsync(id);
+            if (student == null)
+            {
+                throw new KeyNotFoundException("Student {" + id + "} does not exit.");
+            }
+
+            return student;
         }
     }
 }

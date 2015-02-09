@@ -23,9 +23,6 @@ namespace Demosthenes.Core
         public virtual ICollection<Course>    Courses    { get; set; }
 
         public DateTime DateCreated { get; set; }
-
         public DateTime? DateUpdated { get; set; }
-
-        public DateTime? DateDeleted { get; set; }
     }
 }
