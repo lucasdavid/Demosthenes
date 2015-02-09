@@ -1,0 +1,143 @@
+﻿<div id="loadingBanner" ng-hide="done" class="container text-center">
+    <center>
+        <img src="/Content/Images/loading.gif" alt="Wait." class="img-responsive" />
+    </center>
+</div>
+
+<div id="start" ng-show="departmentId === 'start'" class="container">
+    <h1>
+        Enrollment
+        <small>at Demosthenes</small>
+    </h1>
+    <h4>
+        Hi, Lucas! You just entered in the enrollment section. Here, you'll be able to define your next term's classes, check previous schedules, solve doubts etc.
+    </h4>
+    <h4>
+        I'll try to help you, if I can. Shall we start?
+    </h4>
+    <br /><br />
+    <p>
+        <a href="#/enrollment"
+           ng-show="!step" type="button" class="btn btn-primary btn-lg">
+            <span class="glyphicon glyphicon-hand-right"></span>
+            Start enrollment
+        </a>
+    </p>
+</div>
+
+<div ng-hide="departmentId === 'start' || !done">
+    <div id="department" ng-show="!departmentId && !courseId">
+        <div class="container">
+            <h1>Departments <small>expand courses of a given department</small></h1>
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="searchDepartment">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span> Search</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div ng-repeat="department in departments | filter:searchDepartment"
+                     class="col-md-6 col-lg-4">
+                    <div class="well">
+                        <h3>
+                            <a href="#/enrollment/{{ department.Id }}">{{ department.Name }}</a>
+                            <small>#{{department.Id}}</small>
+                        </h3>
+                        <p>
+                            <strong>Professors:</strong>
+                            <span ng-repeat="professor in department.Professors">{{ professor.Name }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="courses" ng-show="departmentId && !courseId">
+        <div class="container">
+            <h1>Courses <small>expand classes of a given course</small></h1>
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-model="searchCourse">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span> Search</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div ng-repeat="course in courses | filter:searchCourse"
+                     class="col-md-6 col-lg-4">
+                    <div class="well">
+                        <h3><a href="#enrollment/{{ departmentId }}/{{ course.Id }}">{{ course.Title }}</a> <small>#{{course.Id}}</small></h3>
+                        <p ng-show="{{ course.Classes.length }}">
+                            <strong># classes:</strong> {{ course.Classes.length }}<br />
+                            <strong>Professors:</strong>
+                            <span ng-repeat="class in course.Classes">
+                                <a href="{{ class.Professor.Id }}">{{ class.Professor.Name }}</a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="classes" ng-show="courseId">
+        <div class="container">
+            <h1>Classes <small>Select classes</small></h1>
+            <div ng-show="!classes.length" class="alert alert-info" role="alert">
+                <h4>Nothing here!</h4><p>No classes were found under this section. <a href="" ng-click="step = 2">Go back</a> and try another.</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="">
+                <div ng-repeat="class in classes | filter:search"
+                     ng-init="saturation = (.7 + class.Enrollments.length / class.Size)">
+                    <div class="well">
+                        <h3>
+                            <span class="badge pull-right" title="Size">{{ class.Enrollments.length }} / {{ class.Size }}</span>
+                            <!--<span title="You need this course in order to graduate in B.S. Computer Science."
+                            class="glyphicon glyphicon-asterisk"></span>-->
+                            {{ class.Course.Title }} <small>#{{ class.Id }}</small>
+                        </h3>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <strong>Department: </strong> <a href="#departments/{{ class.Course.DepartmentId }}">{{ class.Course.Department.Name }}</a><br />
+                                <strong>Professor: </strong> <a href="#professors/{{ class.ProfessorId }}">{{ class.Professor.Name }}</a>
+                                <div class="progress">
+                                    <div title="{{ saturation * 100 }}% of the sits were taken."
+                                         class="progress-bar progress-bar-striped active" role="progressbar" style="width: {{ saturation * 100 }}%"
+                                         aria-valuenow="{{ saturation * class.Size }}" aria-valuemin="0" aria-valuemax="{{ class.Size }}"
+                                         ng-class="{'progress-bar-warning': (saturation >= .7), 'progress-bar-danger': (saturation >= .9)}"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 text-right">
+                                <button class="btn btn-default" title="Enroll in {{ class.Course.Title }} #{{ class.Id }}.">
+                                    <span class="glyphicon glyphicon-pencil"></span> Enroll
+                                </button>
+                                <button class="btn btn-primary" title="Click to unenroll from {{ class.Course.Title }} #{{ class.Id }}.">
+                                    <span class="glyphicon glyphicon-ok"></span> Enrolled
+                                </button>
+                                <button class="btn btn-warning"
+                                        title="You can't enroll in {{ class.Course.Title }} #{{ class.Id }} because a pre-requisite is missing. Click to check the course dependency tree.">
+                                    <span class="glyphicon glyphicon-tree-deciduous"></span> requisite missing
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

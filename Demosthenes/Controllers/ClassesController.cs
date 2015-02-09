@@ -40,6 +40,13 @@ namespace Demosthenes.Controllers
             return Ok(@class);
         }
 
+        // GET: api/Classes/Courses/5
+        [Route("api/Classes/Courses/{id}")]
+        public async Task<ICollection<Class>> GetClassesOfCourse(int id)
+        {
+            return await _classes.OfCourse(id);
+        }
+
         // PUT: api/Classes/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutClass(ClassUpdateViewModel model)

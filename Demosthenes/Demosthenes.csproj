@@ -296,6 +296,9 @@
     <Content Include="Scripts\app\classes\classes-resource.js" />
     <Content Include="Scripts\app\classes\classes-route.js" />
     <Content Include="Scripts\app\classes\classes-schedule-resource.js" />
+    <Content Include="Scripts\app\enrollment\controller.js" />
+    <Content Include="Scripts\app\enrollment\resource.js" />
+    <Content Include="Scripts\app\enrollment\route.js" />
     <Content Include="Scripts\app\schedules\schedules-controller.js" />
     <Content Include="Scripts\app\schedules\schedules-resource.js" />
     <Content Include="Scripts\app\schedules\schedules-route.js" />
@@ -1099,6 +1102,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Templates\enrollment\index.html" />
     <Content Include="Templates\schedules\index.html" />
     <Content Include="Templates\classes\class.html" />
     <Content Include="Templates\classes\index.html" />

@@ -37,6 +37,7 @@ namespace Demosthenes
                 "~/Scripts/app/courses/courses-*",
                 "~/Scripts/app/classes/classes-*",
                 "~/Scripts/app/schedules/schedules-*",
+                "~/Scripts/app/enrollment/*.js",
                 "~/Scripts/app/home/home-*"));
         }
     }

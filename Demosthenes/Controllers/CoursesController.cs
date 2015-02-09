@@ -105,6 +105,14 @@ namespace Demosthenes.Controllers
             return Ok(course);
         }
 
+
+        // GET: api/Courses/Department/5
+        [Route("api/Courses/Departments/{id}")]
+        public async Task<ICollection<Course>> GetCoursesOfDepartment(int id)
+        {
+            return await _courses.OfDepartment(id);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -121,5 +121,17 @@ namespace Demosthenes.Services
 
             return student;
         }
+
+        /// <summary>
+        /// Retrieves all Classes of a given Course.
+        /// </summary>
+        /// <param name="courseId">The id of the Course of which Classes should be retrieved.</param>
+        /// <returns>A collection of Classes.</returns>
+        public async Task<ICollection<Class>> OfCourse(int courseId)
+        {
+            return await Db.Classes
+                .Where(c => c.CourseId == courseId)
+                .ToListAsync();
+        }
     }
 }
