@@ -10,6 +10,5 @@ namespace Demosthenes.Core.Interfaces
     {
         DateTime DateCreated { get; set; }
         DateTime? DateUpdated { get; set; }
-        DateTime? DateDeleted { get; set; }
     }
 }
