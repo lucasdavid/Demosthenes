@@ -8,6 +8,8 @@
     <div id="courses">
         <h2 class="page-header">Courses</h2>
 
+        <div ng-hide="loaded.courses" class="text-center"><center><img src="/Content/Images/loading.gif" alt="Wait." class="img-responsive" width="200" /></center></div>
+
         <div ng-show="department.Courses.length === 0" class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any courses yet.</p>
@@ -36,6 +38,8 @@
     <div id="professors">
         <h2 class="page-header">Professors</h2>
         
+        <div ng-hide="loaded.professors" class="text-center"><center><img src="/Content/Images/loading.gif" alt="Wait." class="img-responsive" width="200" /></center></div>
+
         <div ng-show="department.Professors.length === 0" class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any professors yet.</p>
