@@ -227,13 +227,14 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\AccountBindingModels.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\EnrollmentViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels.cs" />
     <Compile Include="ViewModels\ClassViewModels.cs" />
     <Compile Include="ViewModels\CourseViewModels.cs" />
     <Compile Include="ViewModels\DepartmentViewModels.cs" />
     <Compile Include="ViewModels\ProfessorViewModels.cs" />
+    <Compile Include="ViewModels\StudentViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -277,6 +278,7 @@
     <Content Include="Scripts\angular-csp.css" />
     <Content Include="Scripts\angular-loader.js" />
     <Content Include="Scripts\angular-loader.min.js" />
+    <Content Include="Scripts\angular-local-storage.min.js" />
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-messages.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -297,8 +299,8 @@
     <Content Include="Scripts\app\classes\classes-route.js" />
     <Content Include="Scripts\app\classes\classes-schedule-resource.js" />
     <Content Include="Scripts\app\enrollment\controller.js" />
-    <Content Include="Scripts\app\enrollment\resource.js" />
     <Content Include="Scripts\app\enrollment\route.js" />
+    <Content Include="Scripts\app\home\sign-controller.js" />
     <Content Include="Scripts\app\schedules\schedules-controller.js" />
     <Content Include="Scripts\app\schedules\schedules-resource.js" />
     <Content Include="Scripts\app\schedules\schedules-route.js" />
@@ -1103,6 +1105,7 @@
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Templates\enrollment\index.html" />
+    <Content Include="Templates\home\sign.html" />
     <Content Include="Templates\schedules\index.html" />
     <Content Include="Templates\classes\class.html" />
     <Content Include="Templates\classes\index.html" />
