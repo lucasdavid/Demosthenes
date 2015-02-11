@@ -1,6 +1,7 @@
 ﻿'use strict';
 
-app.controller('CoursesController', ['$scope', 'Validator', 'resolvedCourses', 'Courses', 'resolvedDepartments',
+app.controller('CoursesController',
+    ['$http', '$scope', 'Validator', 'resolvedCourses', 'Courses', 'resolvedDepartments',
     function ($scope, Validator, resolvedCourses, Courses, resolvedDepartments) {
 
         $scope.create = function () {
@@ -13,12 +14,11 @@ app.controller('CoursesController', ['$scope', 'Validator', 'resolvedCourses', '
                 console.log(course);
             },
             function (data) {
-                console.log(data);
-
                 Validator.
                         take(data).
                         toastWarnings().
                         otherwiseToastDefaultError();
+                console.log(data);
             });
         }
 
