@@ -1,4 +1,5 @@
-﻿using Demosthenes.Core.Attributes;
+﻿using Demosthenes.Core;
+using Demosthenes.Core.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,5 +24,22 @@ namespace Demosthenes.ViewModels
     {
         [Required]
         public int Id { get; set; }
+    }
+
+    public class ScheduleResultViewModel
+    {
+        public int Id { get; set; }
+        public TimeSpan TimeStarted { get; set; }
+        public TimeSpan TimeFinished { get; set; }
+
+        static public implicit operator ScheduleResultViewModel(Schedule s)
+        {
+            return new ScheduleResultViewModel
+            {
+                Id = s.Id,
+                TimeStarted = s.TimeStarted,
+                TimeFinished = s.TimeFinished
+            };
+        }
     }
 }

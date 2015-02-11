@@ -5,12 +5,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.ModelBinding;
+using System.Linq;
 
 namespace Demosthenes.Controllers
 {
@@ -38,9 +41,11 @@ namespace Demosthenes.Controllers
         }
 
         // GET: api/Professors
-        public async Task<ICollection<Professor>> GetProfessors()
+        public async Task<ICollection<ProfessorResultViewModel>> GetProfessors()
         {
-            return await _professors.All();
+            return (await _professors.All())
+                .Select(p => (ProfessorResultViewModel)p)
+                .ToList();
         }
 
         // GET: api/Professors/5
@@ -53,9 +58,18 @@ namespace Demosthenes.Controllers
                 return NotFound();
             }
 
-            return Ok(professor);
+            return Ok((ProfessorResultViewModel)professor);
         }
 
+        // GET: api/Professors/Departments/5
+        [Route("api/Professors/Departments/{id}")]
+        public async Task<ICollection<ProfessorResultViewModel>> GetProfessorsOfDepartment(int id)
+        {
+            return (await _professors.OfDepartment(id))
+                .Select(p => (ProfessorResultViewModel)p)
+                .ToList();
+        }
+        
         // PUT: api/Professors/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProfessor(ProfessorUpdateViewModel model)
@@ -103,11 +117,11 @@ namespace Demosthenes.Controllers
 
             var professor = new Professor
             {
-                UserName = model.Email,
-                Email    = model.Email,
-                Name     = model.Name,
-                SSN      = model.SSN,
-                PhoneNumber = model.PhoneNumber,
+                UserName     = model.Email,
+                Email        = model.Email,
+                Name         = model.Name,
+                SSN          = model.SSN,
+                PhoneNumber  = model.PhoneNumber,
                 DepartmentId = model.DepartmentId
             };
 
@@ -118,7 +132,7 @@ namespace Demosthenes.Controllers
                 return GetErrorResult(result);
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = professor.Id }, professor);
+            return CreatedAtRoute("DefaultApi", new { id = professor.Id }, (ProfessorResultViewModel)professor);
         }
 
         // DELETE: api/Professors/5
@@ -132,7 +146,7 @@ namespace Demosthenes.Controllers
             }
 
             await _professors.Delete(professor);
-            return Ok(professor);
+            return Ok((ProfessorResultViewModel)professor);
         }
 
         protected override void Dispose(bool disposing)

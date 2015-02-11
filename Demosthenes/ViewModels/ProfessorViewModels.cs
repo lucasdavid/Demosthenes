@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demosthenes.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,5 +30,26 @@ namespace Demosthenes.ViewModels
         [Required]
         [Display(Name = "Department")]
         public int DepartmentId { get; set; }
+    }
+
+    public class ProfessorResultViewModel : UserResultViewModel
+    {
+        public string SSN { get; set; }
+        public int DepartmentId { get; set; }
+        public DepartmentResultViewModel Department { get; set; }
+
+        static public implicit operator ProfessorResultViewModel(Professor p)
+        {
+            return new ProfessorResultViewModel
+            {
+                Id           = p.Id,
+                Name         = p.Name,
+                Email        = p.Email,
+                PhoneNumber  = p.PhoneNumber,
+                SSN          = p.SSN,
+                DepartmentId = p.DepartmentId,
+                Department   = p.Department
+            };
+        }
     }
 }

@@ -1,18 +1,14 @@
-﻿using System;
+﻿using Demosthenes.Core;
+using Demosthenes.Services;
+using Demosthenes.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Demosthenes.Core;
-using Demosthenes.Data;
-using Demosthenes.ViewModels;
-using Demosthenes.Services;
 
 namespace Demosthenes.Controllers
 {
@@ -26,16 +22,18 @@ namespace Demosthenes.Controllers
         }
 
         // GET: api/Departments
-        public async Task<ICollection<Department>> GetDepartments()
+        public async Task<ICollection<DepartmentResultViewModel>> GetDepartments()
         {
-            return await _departments.All();
+            return (await _departments.All())
+                .Select(e => (DepartmentResultViewModel) e)
+                .ToList();
         }
 
         // GET: api/Departments/5
         [ResponseType(typeof(Department))]
         public async Task<IHttpActionResult> GetDepartment(int id)
         {
-            var department = await _departments.Find(id);
+            var department = (DepartmentResultViewModel) await _departments.Find(id);
             if (department == null)
             {
                 return NotFound();
@@ -45,6 +43,7 @@ namespace Demosthenes.Controllers
         }
 
         // PUT: api/Departments/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutDepartment(DepartmentUpdateViewModel viewmodel)
         {
@@ -53,7 +52,7 @@ namespace Demosthenes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var department  = await _departments.Find(viewmodel.Id);
+            var department = await _departments.Find(viewmodel.Id);
             if (department == null)
             {
                 return NotFound();
@@ -75,6 +74,7 @@ namespace Demosthenes.Controllers
         }
 
         // POST: api/Departments
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Department))]
         public async Task<IHttpActionResult> PostDepartment(DepartmentCreateViewModel model)
         {
@@ -88,10 +88,11 @@ namespace Demosthenes.Controllers
                 Name = model.Name
             });
 
-            return CreatedAtRoute("DefaultApi", new { id = department.Id }, department);
+            return CreatedAtRoute("DefaultApi", new { id = department.Id }, (DepartmentResultViewModel) department);
         }
 
         // DELETE: api/Departments/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Department))]
         public async Task<IHttpActionResult> DeleteDepartment(int id)
         {

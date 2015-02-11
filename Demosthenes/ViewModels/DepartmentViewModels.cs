@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demosthenes.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,5 +20,26 @@ namespace Demosthenes.ViewModels
         public int Id { get; set; }
 
         public string Lead { get; set; }
+    }
+
+    public class DepartmentResultViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Lead { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateUpdated { get; set; }
+
+        static public implicit operator DepartmentResultViewModel(Department d)
+        {
+            return new DepartmentResultViewModel
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Lead = d.Lead,
+                DateCreated = d.DateCreated,
+                DateUpdated = d.DateUpdated
+            };
+        }
     }
 }

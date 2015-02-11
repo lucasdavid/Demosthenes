@@ -9,6 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Linq;
 
 namespace Demosthenes.Controllers
 {
@@ -22,9 +23,11 @@ namespace Demosthenes.Controllers
         }
 
         // GET: api/Classes
-        public async Task<ICollection<Class>> GetClasses()
+        public async Task<ICollection<ClassResultViewModel>> GetClasses()
         {
-            return await _classes.All();
+            return (await _classes.All())
+                .Select(c => (ClassResultViewModel)c)
+                .ToList();
         }
 
         // GET: api/Classes/5
@@ -37,14 +40,16 @@ namespace Demosthenes.Controllers
                 return NotFound();
             }
 
-            return Ok(@class);
+            return Ok((ClassResultViewModel)@class);
         }
 
         // GET: api/Classes/Courses/5
         [Route("api/Classes/Courses/{id}")]
-        public async Task<ICollection<Class>> GetClassesOfCourse(int id)
+        public async Task<ICollection<ClassResultViewModel>> GetClassesOfCourse(int id)
         {
-            return await _classes.OfCourse(id);
+            return (await _classes.OfCourse(id))
+                .Select(c => (ClassResultViewModel)c)
+                .ToList();
         }
 
         // PUT: api/Classes/5
@@ -99,8 +104,7 @@ namespace Demosthenes.Controllers
             };
 
             await _classes.Add(@class);
-
-            return CreatedAtRoute("DefaultApi", new { id = @class.Id }, @class);
+            return CreatedAtRoute("DefaultApi", new { id = @class.Id }, (ClassResultViewModel)@class);
         }
 
         // DELETE: api/Classes/5
@@ -114,14 +118,16 @@ namespace Demosthenes.Controllers
             }
 
             await _classes.Delete(@class);
-            return Ok(@class);
+            return Ok((ClassResultViewModel)@class);
         }
 
         // GET: api/Classes/5/Schedules
         [Route("api/Classes/{classId}/Schedules")]
-        public async Task<ICollection<ClassSchedule>> GetClassSchedules(int classId)
+        public async Task<ICollection<ClassScheduleResultViewModel>> GetClassSchedules(int classId)
         {
-            return await _classes.ClassSchedulesOf(classId);
+            return (await _classes.ClassSchedulesOf(classId))
+                .Select(cs => (ClassScheduleResultViewModel)cs)
+                .ToList();
         }
 
         // POST: api/Classes/5/Schedules/5

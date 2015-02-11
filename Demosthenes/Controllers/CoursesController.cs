@@ -7,6 +7,7 @@ using System.Web.Http.Description;
 using Demosthenes.Core;
 using Demosthenes.Services;
 using Demosthenes.ViewModels;
+using System.Linq;
 
 namespace Demosthenes.Controllers
 {
@@ -20,22 +21,35 @@ namespace Demosthenes.Controllers
         }
 
         // GET: api/Courses
-        public async Task<ICollection<Course>> GetCourses()
+        public async Task<ICollection<CourseResultViewModel>> GetCourses()
         {
-            return await _courses.All();
+            var result = (await _courses.All())
+                .Select(c => (CourseResultViewModel)c)
+                .ToList();
+
+            return result;
         }
 
         // GET: api/Courses/5
         [ResponseType(typeof(Course))]
         public async Task<IHttpActionResult> GetCourse(int id)
         {
-            Course course = await _courses.Find(id);
+            var course = (CourseResultViewModel) await _courses.Find(id);
             if (course == null)
             {
                 return NotFound();
             }
 
             return Ok(course);
+        }
+
+        // GET: api/Courses/Departments/5
+        [Route("api/Courses/Departments/{id}")]
+        public async Task<ICollection<CourseResultViewModel>> GetCoursesOfDepartment(int id)
+        {
+            return (await _courses.OfDepartment(id))
+                .Select(e => (CourseResultViewModel)e)
+                .ToList();
         }
 
         // PUT: api/Courses/5
@@ -87,14 +101,14 @@ namespace Demosthenes.Controllers
                 DepartmentId = model.DepartmentId
             });
 
-            return CreatedAtRoute("DefaultApi", new { id = course.Id }, course);
+            return CreatedAtRoute("DefaultApi", new { id = course.Id }, (CourseResultViewModel)course);
         }
 
         // DELETE: api/Courses/5
         [ResponseType(typeof(Course))]
         public async Task<IHttpActionResult> DeleteCourse(int id)
         {
-            Course course = await _courses.Find(id);
+            var course = await _courses.Find(id);
             if (course == null)
             {
                 return NotFound();
@@ -102,15 +116,7 @@ namespace Demosthenes.Controllers
 
             await _courses.Delete(course);
             
-            return Ok(course);
-        }
-
-
-        // GET: api/Courses/Department/5
-        [Route("api/Courses/Departments/{id}")]
-        public async Task<ICollection<Course>> GetCoursesOfDepartment(int id)
-        {
-            return await _courses.OfDepartment(id);
+            return Ok((CourseResultViewModel) course);
         }
 
         protected override void Dispose(bool disposing)

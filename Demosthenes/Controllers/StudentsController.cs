@@ -3,11 +3,10 @@ using Demosthenes.Services;
 using Demosthenes.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
 using System.Net;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -40,9 +39,11 @@ namespace Demosthenes.Controllers
         }
 
         // GET: api/Students
-        public async Task<ICollection<Student>> GetUsers()
+        public async Task<ICollection<StudentResultViewModel>> GetUsers()
         {
-            return await _students.All();
+            return (await _students.All())
+                .Select(s => (StudentResultViewModel)s)
+                .ToList();
         }
 
         // GET: api/Students/5
@@ -55,7 +56,7 @@ namespace Demosthenes.Controllers
                 return NotFound();
             }
 
-            return Ok(student);
+            return Ok((StudentResultViewModel)student);
         }
 
         // PUT: api/Students/5
@@ -114,7 +115,7 @@ namespace Demosthenes.Controllers
                 return GetErrorResult(result);
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = student.Id }, student);
+            return CreatedAtRoute("DefaultApi", new { id = student.Id }, (StudentResultViewModel)student);
         }
 
         // DELETE: api/Students/5
@@ -128,7 +129,7 @@ namespace Demosthenes.Controllers
             }
 
             await _students.Delete(student);
-            return Ok(student);
+            return Ok((StudentResultViewModel)student);
         }
 
         protected override void Dispose(bool disposing)

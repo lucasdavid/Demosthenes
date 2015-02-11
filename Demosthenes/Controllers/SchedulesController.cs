@@ -26,9 +26,11 @@ namespace Demosthenes.Controllers
         }
 
         // GET: api/Schedules
-        public async Task<ICollection<Schedule>> GetSchedules()
+        public async Task<ICollection<ScheduleResultViewModel>> GetSchedules()
         {
-            return await _schedules.All();
+            return (await _schedules.All())
+                .Select(s => (ScheduleResultViewModel)s)
+                .ToList();
         }
 
         // GET: api/Schedules/5
@@ -41,7 +43,7 @@ namespace Demosthenes.Controllers
                 return NotFound();
             }
 
-            return Ok(schedule);
+            return Ok((ScheduleResultViewModel)schedule);
         }
 
         // PUT: api/Schedules/5
@@ -91,7 +93,7 @@ namespace Demosthenes.Controllers
                 TimeFinished = model.TimeFinished
             });
 
-            return CreatedAtRoute("DefaultApi", new { id = schedule.Id }, schedule);
+            return CreatedAtRoute("DefaultApi", new { id = schedule.Id }, (ScheduleResultViewModel)schedule);
         }
 
         // DELETE: api/Schedules/5
@@ -105,7 +107,7 @@ namespace Demosthenes.Controllers
             }
 
             await _schedules.Delete(schedule);
-            return Ok(schedule);
+            return Ok((ScheduleResultViewModel)schedule);
         }
 
         protected override void Dispose(bool disposing)
