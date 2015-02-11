@@ -12,7 +12,6 @@ app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams
         $scope.class = resolvedClass;
         $scope.courses = resolvedCourses;
         $scope.professors = resolvedProfessors;
-
         $scope.schedules = resolvedSchedules;
         $scope.daysOfWeek = Calendar.daysOfWeek();
 
@@ -52,12 +51,15 @@ app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams
         }
 
         $scope.classHas = function (schedule, day) {
+
             var schedules = $scope.class.ClassSchedules;
 
-            for (var i = 0; i < schedules.length; i++) {
-                if (schedules[i].ScheduleId == schedule.Id
-                    && (schedules[i].DayOfWeek == day || schedules[i].DayOfWeek == $scope.daysOfWeek.indexOf(day))) {
-                    return i;
+            if ($scope.class.$resolved) {
+                for (var i = 0; i < schedules.length; i++) {
+                    if (schedules[i].ScheduleId == schedule.Id
+                        && (schedules[i].DayOfWeek == day || schedules[i].DayOfWeek == $scope.daysOfWeek.indexOf(day))) {
+                        return i;
+                    }
                 }
             }
 
