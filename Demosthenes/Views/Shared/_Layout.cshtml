@@ -11,7 +11,8 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div ng-controller="HomeController"
+         class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -38,9 +39,8 @@
                             <li><a href="#courses"><span class="glyphicon glyphicon-tree-deciduous"></span> Places</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="">Sign in</a>
-                    </li>
+                    <li ng-show="authentication.isAuth"><a href="" ng-click="logOut()">Sign out</a></li>
+                    <li ng-hide="authentication.isAuth"><a href="#/sign">Sign in</a></li>
                 </ul>
             </div>
         </div>
