@@ -3,6 +3,8 @@
 app.controller('DepartmentsController', ['$scope', 'Validator', 'resolvedDepartments', 'Departments',
     function ($scope, Validator, resolvedDepartments, Departments) {
 
+        $scope.departments = resolvedDepartments;
+
         $scope.create = function () {
             Departments.save($scope.newDepartment,
             function (department) {
@@ -13,11 +15,10 @@ app.controller('DepartmentsController', ['$scope', 'Validator', 'resolvedDepartm
             },
             function (data) {
                 console.log(data);
-
                 Validator.
                         take(data).
                         toastWarnings().
-                        otherwiseToastDefaultError();
+                        otherwiseToastError();
             });
         }
 
@@ -26,5 +27,4 @@ app.controller('DepartmentsController', ['$scope', 'Validator', 'resolvedDepartm
         }
 
         $scope.clear();
-        $scope.departments = resolvedDepartments;
     }]);

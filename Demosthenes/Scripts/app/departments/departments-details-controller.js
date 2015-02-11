@@ -1,10 +1,42 @@
 ﻿'use strict';
 
-app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routeParams', 'Validator', 'resolvedDepartment', 'Departments',
-    function ($scope, $location, $routeParams, Validator, resolvedDepartment, Departments) {
+app.controller('DepartmentsDetailsController',
+    ['$http', '$scope', '$location', '$routeParams', 'Validator', 'resolvedDepartment', 'Departments',
+    function ($http, $scope, $location, $routeParams, Validator, resolvedDepartment, Departments) {
 
         $scope.department = resolvedDepartment;
-        
+        $scope.loaded = {};
+
+        $http
+            .get('/api/courses/departments/' + $routeParams.id)
+            .success(function (data, status) {
+                $scope.department.Courses = data;
+                $scope.loaded.courses = true;
+            })
+            .error(function (data) {
+                Validator.
+                    take(data).
+                    toastWarnings().
+                    otherwiseToastError('Loading of courses associated with this department has failed.', 'Opps!');
+            });
+
+        $http
+            .get('/api/professors/departments/' + $routeParams.id)
+            .success(function (data, status) {
+                $scope.department.Professors = data;
+                $scope.loaded.professors = true;
+
+            })
+            .error(function (data) {
+                console.log(data);
+                $scope.loaded.professors = true;
+
+                Validator.
+                    take(data).
+                    toastWarnings().
+                    otherwiseToastError('Loading of professors associated with this department has failed.', 'Opps!');
+            });
+
         $scope.update = function () {
             Departments.update($scope.department,
                 function (data) {
@@ -14,11 +46,11 @@ app.controller('DepartmentsDetailsController', ['$scope', '$location', '$routePa
                 },
                 function (data) {
                     console.log(data);
-                    
+
                     Validator.
                         take(data).
                         toastWarnings().
-                        otherwiseToastDefaultError();
+                        otherwiseToastError();
                 });
         }
 
