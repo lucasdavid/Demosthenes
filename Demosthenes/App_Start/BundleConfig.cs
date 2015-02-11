@@ -29,16 +29,17 @@ namespace Demosthenes
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/angular.js",
                 "~/Scripts/angular-route.js",
+                "~/Scripts/angular-local-storage.min.js",
                 "~/Scripts/angular-resource.js",
                 "~/Scripts/app/demosthenesApp.js",
-                "~/Scripts/app/departments/departments-*",
-                "~/Scripts/app/professors/professors-*",
-                "~/Scripts/app/students/students-*",
-                "~/Scripts/app/courses/courses-*",
-                "~/Scripts/app/classes/classes-*",
-                "~/Scripts/app/schedules/schedules-*",
+                "~/Scripts/app/departments/*.js",
+                "~/Scripts/app/professors/*.js",
+                "~/Scripts/app/students/*.js",
+                "~/Scripts/app/courses/*.js",
+                "~/Scripts/app/classes/*.js",
+                "~/Scripts/app/schedules/*.js",
                 "~/Scripts/app/enrollment/*.js",
-                "~/Scripts/app/home/home-*"));
+                "~/Scripts/app/home/*.js"));
         }
     }
 }
