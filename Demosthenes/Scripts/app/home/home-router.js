@@ -7,5 +7,9 @@ app.config(['$routeProvider',
             when('/', {
                 templateUrl: '/Templates/home/index.html',
                 controller: 'HomeController',
+            }).
+            when('/sign', {
+                templateUrl: '/Templates/home/sign.html',
+                controller: 'SignController'
             });
     }]);
