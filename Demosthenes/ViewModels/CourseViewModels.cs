@@ -34,11 +34,17 @@ namespace Demosthenes.ViewModels
         public short Credits { get; set; }
         public int DepartmentId { get; set; }
         public DepartmentResultViewModel Department { get; set; }
+        public ICollection<CourseDependencyResultViewModel> Dependencies { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
 
         static public implicit operator CourseResultViewModel(Course c)
         {
+            if (c == null)
+            {
+                return null;
+            }
+
             return new CourseResultViewModel
             {
                 Id           = c.Id,
@@ -47,7 +53,25 @@ namespace Demosthenes.ViewModels
                 DepartmentId = c.DepartmentId,
                 Department   = c.Department,
                 DateCreated  = c.DateCreated,
-                DateUpdated  = c.DateUpdated
+                DateUpdated  = c.DateUpdated,
+                Dependencies = c.Dependencies.Select(d => (CourseDependencyResultViewModel)d).ToList()
+            };
+        }
+    }
+
+    public class CourseDependencyResultViewModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public ICollection<CourseDependencyResultViewModel> Dependencies { get; set; }
+
+        static public implicit operator CourseDependencyResultViewModel(Course c)
+        {
+            return new CourseDependencyResultViewModel
+            {
+                Id           = c.Id,
+                Title        = c.Title,
+                Dependencies = c.Dependencies.Select(d => (CourseDependencyResultViewModel)d).ToList()
             };
         }
     }

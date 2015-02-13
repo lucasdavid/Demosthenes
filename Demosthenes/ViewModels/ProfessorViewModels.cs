@@ -36,19 +36,24 @@ namespace Demosthenes.ViewModels
     {
         public string SSN { get; set; }
         public int DepartmentId { get; set; }
-        public DepartmentResultViewModel Department { get; set; }
+        public string DepartmentName { get; set; }
 
         static public implicit operator ProfessorResultViewModel(Professor p)
         {
+            if (p == null)
+            {
+                return null;
+            }
+
             return new ProfessorResultViewModel
             {
-                Id           = p.Id,
-                Name         = p.Name,
-                Email        = p.Email,
-                PhoneNumber  = p.PhoneNumber,
-                SSN          = p.SSN,
-                DepartmentId = p.DepartmentId,
-                Department   = p.Department
+                Id             = p.Id,
+                Name           = p.Name,
+                Email          = p.Email,
+                PhoneNumber    = p.PhoneNumber,
+                SSN            = p.SSN,
+                DepartmentId   = p.DepartmentId,
+                DepartmentName = p.Department.Name
             };
         }
     }
