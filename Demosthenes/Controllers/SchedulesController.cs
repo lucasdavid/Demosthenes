@@ -28,7 +28,7 @@ namespace Demosthenes.Controllers
         // GET: api/Schedules
         public async Task<ICollection<ScheduleResultViewModel>> GetSchedules()
         {
-            return (await _schedules.All())
+            return (await _schedules.AllOrdered())
                 .Select(s => (ScheduleResultViewModel)s)
                 .ToList();
         }
@@ -47,6 +47,7 @@ namespace Demosthenes.Controllers
         }
 
         // PUT: api/Schedules/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutSchedule(ScheduleUpdateViewModel model)
         {
@@ -60,6 +61,7 @@ namespace Demosthenes.Controllers
                 var schedule = await _schedules.Find(model.Id);
                 schedule.TimeStarted  = model.TimeStarted;
                 schedule.TimeFinished = model.TimeFinished;
+                schedule.DayOfWeek    = model.DayOfWeek;
 
                 await _schedules.Update(schedule);
             }
@@ -79,6 +81,7 @@ namespace Demosthenes.Controllers
         }
 
         // POST: api/Schedules
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Schedule))]
         public async Task<IHttpActionResult> PostSchedule(ScheduleCreateViewModel model)
         {
@@ -90,13 +93,15 @@ namespace Demosthenes.Controllers
             var schedule = await _schedules.Add(new Schedule
             {
                 TimeStarted  = model.TimeStarted,
-                TimeFinished = model.TimeFinished
+                TimeFinished = model.TimeFinished,
+                DayOfWeek    = model.DayOfWeek
             });
 
             return CreatedAtRoute("DefaultApi", new { id = schedule.Id }, (ScheduleResultViewModel)schedule);
         }
 
         // DELETE: api/Schedules/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Schedule))]
         public async Task<IHttpActionResult> DeleteSchedule(int id)
         {

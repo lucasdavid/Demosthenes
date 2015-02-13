@@ -39,7 +39,7 @@ namespace Demosthenes.Controllers
         }
 
         // GET: api/Students
-        public async Task<ICollection<StudentResultViewModel>> GetUsers()
+        public async Task<ICollection<StudentResultViewModel>> GetStudents()
         {
             return (await _students.All())
                 .Select(s => (StudentResultViewModel)s)
@@ -60,6 +60,7 @@ namespace Demosthenes.Controllers
         }
 
         // PUT: api/Students/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutStudent(UpdateBindingModel model)
         {
@@ -93,6 +94,7 @@ namespace Demosthenes.Controllers
         }
 
         // POST: api/Students
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> PostStudent(RegisterBindingModel model)
         {
@@ -119,6 +121,7 @@ namespace Demosthenes.Controllers
         }
 
         // DELETE: api/Students/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> DeleteStudent(string id)
         {

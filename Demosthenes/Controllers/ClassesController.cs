@@ -58,53 +58,54 @@ namespace Demosthenes.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
+                try
+                {
+                    var @class = await _classes.Find(model.Id);
+                    @class.CourseId = model.CourseId;
+                    @class.ProfessorId = model.ProfessorId;
+                    @class.Enrollable = model.Enrollable;
+                    @class.Size = model.Size;
 
-            try
-            {
-                var @class = await _classes.Find(model.Id);
-                @class.CourseId    = model.CourseId;
-                @class.ProfessorId = model.ProfessorId;
-                @class.Enrollable  = model.Enrollable;
-                @class.Size        = model.Size;
-                
-                await _classes.Update(@class);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_classes.Exists(model.Id))
-                {
-                    return NotFound();
+                    await _classes.Update(@class);
+                    return StatusCode(HttpStatusCode.NoContent);
                 }
-                else
+                catch (NullReferenceException)
                 {
-                    throw;
+                    ModelState.AddModelError("NullReferenceException", "Class {" + model.Id + "} doesn't exist.");
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return BadRequest(ModelState);
         }
 
         // POST: api/Classes
         [ResponseType(typeof(Class))]
         public async Task<IHttpActionResult> PostClass(ClassCreateViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-            
-            var @class = new Class
-            {
-                CourseId    = model.CourseId,
-                ProfessorId = model.ProfessorId,
-                Enrollable  = model.Enrollable,
-                Size        = model.Size
-            };
+                var c = new Class
+                {
+                    CourseId = model.CourseId,
+                    ProfessorId = model.ProfessorId,
+                    Enrollable = model.Enrollable,
+                    Size = model.Size,
+                    Term = model.Term,
+                    Year = model.Year
+                };
 
-            await _classes.Add(@class);
-            return CreatedAtRoute("DefaultApi", new { id = @class.Id }, (ClassResultViewModel)@class);
+                try
+                {
+                    await _classes.Add(c);
+                    return CreatedAtRoute("DefaultApi", new { id = c.Id }, (ClassResultViewModel)c);
+                }
+                catch (Exception)
+                {
+                    //
+                }
+            }
+
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/Classes/5
@@ -123,95 +124,46 @@ namespace Demosthenes.Controllers
 
         // GET: api/Classes/5/Schedules
         [Route("api/Classes/{classId}/Schedules")]
-        public async Task<ICollection<ClassScheduleResultViewModel>> GetClassSchedules(int classId)
+        public async Task<ICollection<ScheduleResultViewModel>> GetSchedules(int classId)
         {
-            return (await _classes.ClassSchedulesOf(classId))
-                .Select(cs => (ClassScheduleResultViewModel)cs)
+            return (await _classes.SchedulesOf(classId))
+                .Select(cs => (ScheduleResultViewModel)cs)
                 .ToList();
         }
 
         // POST: api/Classes/5/Schedules/5
         [Route("api/Classes/{classId}/Schedules/{scheduleId}")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PostScheduleClass(int classId, int scheduleId, ClassScheduleViewModel model)
+        public async Task<IHttpActionResult> PostScheduleClass(ClassScheduleViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                try
+                {
+                    await _classes.ScheduleClass(model.ClassId, model.ScheduleId);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    //
+                }
             }
 
-            if (classId != model.ClassId || scheduleId != model.ScheduleId)
-            {
-                return BadRequest("Primary keys given conflict with keys recovered from the model");
-            }
-
-            await _classes.ScheduleClass(new ClassSchedule
-            {
-                ClassId = model.ClassId,
-                ScheduleId = model.ScheduleId,
-                DayOfWeek = model.DayOfWeek
-            });
-
-            return Ok();
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/Classes/5/Schedules/5
         [Route("api/Classes/{classId}/Schedules/{scheduleId}")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> DeleteUnscheduleClass(int classId, int scheduleId, DayOfWeek dayOfWeek)
+        public async Task<IHttpActionResult> DeleteUnscheduleClass(int classId, int scheduleId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await _classes.UnscheduleClass(new ClassSchedule
-            {
-                ClassId    = classId,
-                ScheduleId = scheduleId,
-                DayOfWeek  = dayOfWeek
-            });
-
+            await _classes.UnscheduleClass(classId, scheduleId);
             return Ok();
-        }
-
-        // GET: api/Classes/5/Student/5
-        [Route("api/Classes/{classId}/Students/{studentId}")]
-        public async Task<ICollection<Enrollment>> GetClassEnrollments(int enrollmentId)
-        {
-            return (await _classes.Find(enrollmentId)).Enrollments;
-        }
-
-        // POST: api/Classes/5/Student/5
-        [Route("api/Classes/{classId}/Students/{studentId}")]
-        public async Task<IHttpActionResult> PostEnroll(int classId, string studentId)
-        {
-            try
-            {
-                await _classes.Enroll(classId, studentId);
-                return Ok();
-            }
-            catch (StudentAlreadyEnrolledException e)
-            {
-                ModelState.AddModelError("enrollment", "Student already enrolled in class " + e.Message + " .");
-                return BadRequest(ModelState);
-            }
-        }
-
-        // DELETE: api/Classes/5/Student/5
-        [Route("api/Classes/{classId}/Students/{studentId}")]
-        public async Task<IHttpActionResult> DeleteUnenroll(int classId, string studentId, int enrollmentId)
-        {
-            try
-            {
-                await _classes.Unenroll(enrollmentId);
-                return Ok();
-            }
-            catch (StudentNotEnrolledException e)
-            {
-                ModelState.AddModelError("unenrollment", "Student is not yet enrolled in class " + e.Message + " .");
-                return BadRequest(ModelState);
-            }
         }
 
         protected override void Dispose(bool disposing)

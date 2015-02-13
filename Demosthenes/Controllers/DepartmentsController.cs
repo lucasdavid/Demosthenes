@@ -88,7 +88,14 @@ namespace Demosthenes.Controllers
                 Name = model.Name
             });
 
-            return CreatedAtRoute("DefaultApi", new { id = department.Id }, (DepartmentResultViewModel) department);
+            try {
+                var result = (DepartmentResultViewModel) department;
+                return CreatedAtRoute("DefaultApi", new { id = department.Id }, result);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // DELETE: api/Departments/5

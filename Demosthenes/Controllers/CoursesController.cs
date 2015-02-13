@@ -53,6 +53,7 @@ namespace Demosthenes.Controllers
         }
 
         // PUT: api/Courses/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutCourse(CourseUpdateViewModel model)
         {
@@ -86,6 +87,7 @@ namespace Demosthenes.Controllers
         }
 
         // POST: api/Courses
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Course))]
         public async Task<IHttpActionResult> PostCourse(CourseCreateViewModel model)
         {
@@ -105,6 +107,7 @@ namespace Demosthenes.Controllers
         }
 
         // DELETE: api/Courses/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Course))]
         public async Task<IHttpActionResult> DeleteCourse(int id)
         {

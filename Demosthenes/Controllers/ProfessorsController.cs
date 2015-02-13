@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.ModelBinding;
-using System.Linq;
 
 namespace Demosthenes.Controllers
 {
@@ -71,6 +70,7 @@ namespace Demosthenes.Controllers
         }
         
         // PUT: api/Professors/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProfessor(ProfessorUpdateViewModel model)
         {
@@ -107,6 +107,7 @@ namespace Demosthenes.Controllers
         }
 
         // POST: api/Professors
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Professor))]
         public async Task<IHttpActionResult> PostProfessor(ProfessorRegisterViewModel model)
         {
@@ -136,6 +137,7 @@ namespace Demosthenes.Controllers
         }
 
         // DELETE: api/Professors/5
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(Professor))]
         public async Task<IHttpActionResult> DeleteProfessor(string id)
         {
