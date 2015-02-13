@@ -40,18 +40,22 @@
                 </div>
             </form>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div ng-repeat="department in departments | filter:searchDepartment"
-                     class="col-md-6 col-lg-4">
+                     class="col-md-6">
                     <div class="well">
-                        <h3>
-                            <a href="#/enrollment/{{ department.Id }}">{{ department.Name }}</a>
+                        <h4>
                             <small>#{{department.Id}}</small>
-                        </h3>
+                            <a href="#/enrollment/{{ department.Id }}">
+                                {{ department.Name }}
+                            </a><br />
+                            <small>{{ department.Lead }}</small>
+                        </h4>
                         <p>
-                            <strong>Professors:</strong>
-                            <span ng-repeat="professor in department.Professors">{{ professor.Name }}</span>
+                            <span class="label label-info">{{ department.CoursesCount }} courses</span>
+                            <span class="label label-info">{{ department.ProfessorsCount }} professors</span>
+                            
                         </p>
                     </div>
                 </div>
@@ -73,12 +77,12 @@
                 </div>
             </form>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div ng-repeat="course in courses | filter:searchCourse"
-                     class="col-md-6 col-lg-4">
+                     class="col-md-12">
                     <div class="well">
-                        <h3><a href="#enrollment/{{ departmentId }}/{{ course.Id }}">{{ course.Title }}</a> <small>#{{course.Id}}</small></h3>
+                        <h5><a href="#enrollment/{{ departmentId }}/{{ course.Id }}">{{ course.Title }}</a> <small>#{{course.Id}}</small></h5>
                         <p ng-show="{{ course.Classes.length }}">
                             <strong># classes:</strong> {{ course.Classes.length }}<br />
                             <strong>Professors:</strong>
