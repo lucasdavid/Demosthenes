@@ -173,11 +173,8 @@ app.factory('Validator', [function () {
 
             return this;
         },
-        // Deprecated
         otherwiseToastDefaultError: function () {
-            if (!this.valid()) {
-                toastr.error('Sorry, something went terribly wrong!', 'Error!');
-            }
+            return this.otherwiseToastError();
         },
         otherwiseToastError: function (message, title) {
             if (!this.valid()) {
@@ -193,11 +190,20 @@ app.factory('Validator', [function () {
 // Util for classes' schedules.
 app.factory('Calendar', [function () {
     var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var terms = ['Spring', 'Summer', 'Fall', 'Winter'];
+    var years = [1980, new Date().getFullYear() + 2];
 
     return {
         daysOfWeek: function () {
-            // copies daysOfWeek
             return daysOfWeek.slice();
+        },
+        terms: function () {
+            return terms.slice();
+        },
+        years: function () {
+            var result = [];
+            for (var i = years[0]; i <= years[1]; i++) { result.push(i); }
+            return result;
         },
         // Used to create the week calendar.
         cartesianSchedulesDaysOfWeek: function (schedules, classId) {
