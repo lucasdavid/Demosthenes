@@ -25,15 +25,6 @@ app.config(['$routeProvider',
                 resolve: {
                     resolvedClass: ['Classes', '$route', function (Classes, $route) {
                         return Classes.get({ Id: $route.current.params.id });
-                    }],
-                    resolvedProfessors: ['Professors', function (Professors) {
-                        return Professors.query().$promise;
-                    }],
-                    resolvedCourses: ['Courses', function (Courses) {
-                        return Courses.query().$promise;
-                    }],
-                    resolvedSchedules: ['Schedules', function (Schedules) {
-                        return Schedules.query().$promise;
                     }]
                 }
             });

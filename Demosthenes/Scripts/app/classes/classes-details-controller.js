@@ -1,19 +1,24 @@
 ﻿'use strict';
 
-app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams', 'Validator', 'Calendar',
-     'Classes', 'ClassSchedules',
-     'resolvedClass', 'resolvedCourses', 'resolvedProfessors', 'resolvedSchedules',
+app.controller('ClassesDetailsController',
+    ['$scope', '$location', '$routeParams', 'Validator', 'Calendar',
+     'Classes', 'Courses', 'Professors', 'Schedules', 'ClassSchedules', 'resolvedClass',
     function ($scope, $location, $routeParams, Validator, Calendar,
-        Classes, ClassSchedules,
-        resolvedClass, resolvedCourses, resolvedProfessors, resolvedSchedules) {
+        Classes, Courses, Professors, Schedules, ClassSchedules, resolvedClass) {
 
         var id = $routeParams.id;
-
-        $scope.class = resolvedClass;
-        $scope.courses = resolvedCourses;
-        $scope.professors = resolvedProfessors;
-        $scope.schedules = resolvedSchedules;
+        $scope.loaded     = {};
+        $scope.class      = resolvedClass;
+        $scope.courses    = Courses.query();
+        $scope.professors = Professors.query();
+        $scope.schedules  = Schedules.query();
         $scope.daysOfWeek = Calendar.daysOfWeek();
+        $scope.terms      = Calendar.terms();
+        $scope.years      = Calendar.years();
+
+        $scope.schedules.$promise.then(function () {
+            $scope.loaded.schedules = true;
+        });
 
         $scope.update = function () {
             Classes.update($scope.class,
@@ -33,11 +38,11 @@ app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams
 
         $scope.delete = function () {
             // Ignores request, unless user has consciously specified class's name.
-            if ($scope.deletedClass !== $scope.class.Title) { return; }
+            if ($scope.deletedClass !== $scope.class.Course.Title) { return; }
 
             Classes.delete($scope.class,
                 function (data) {
-                    toastr.success($scope.class.Title + ' was successfully removed.', 'Success!');
+                    toastr.success($scope.class.Course.Title + ' was successfully removed.', 'Success!');
                     $location.path('/classes');
                 },
                 function (data) {
@@ -45,19 +50,18 @@ app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams
 
                     Validator.
                         take(data).
-                        toastWarnings().
+                        toastErrors().
                         otherwiseToastDefaultError();
                 });
         }
 
-        $scope.classHas = function (schedule, day) {
+        $scope.classHas = function (schedule) {
 
-            var schedules = $scope.class.ClassSchedules;
+            var schedules = $scope.class.Schedules;
 
             if ($scope.class.$resolved) {
                 for (var i = 0; i < schedules.length; i++) {
-                    if (schedules[i].ScheduleId == schedule.Id
-                        && (schedules[i].DayOfWeek == day || schedules[i].DayOfWeek == $scope.daysOfWeek.indexOf(day))) {
+                    if (schedules[i].Id == schedule.Id) {
                         return i;
                     }
                 }
@@ -66,35 +70,34 @@ app.controller('ClassesDetailsController', ['$scope', '$location', '$routeParams
             return -1;
         }
 
-        $scope.bind = function (schedule, day) {
+        $scope.bind = function (schedule) {
             var cs = {
                 ClassId: id,
-                ScheduleId: schedule.Id,
-                DayOfWeek: day
+                ScheduleId: schedule.Id
             };
 
-            ClassSchedules.schedule(cs, function (data) {
-                $scope.class.ClassSchedules.push(cs);
-            }, function (data) {
-                console.log(data);
-                Validator.
-                    take(data).
-                    toastWarnings().
-                    otherwiseToastDefaultError();
-            });
+            ClassSchedules.schedule(cs,
+                function (data) {
+                    $scope.class.Schedules.push(schedule);
+                }, function (data) {
+                    console.log(data);
+                    Validator.
+                        take(data).
+                        toastWarnings().
+                        otherwiseToastDefaultError();
+                });
         }
 
-        $scope.unbind = function (schedule, day) {
+        $scope.unbind = function (schedule) {
             var cs = {
                 classId: id,
-                scheduleId: schedule.Id,
-                DayOfWeek: day
+                scheduleId: schedule.Id
             };
 
             ClassSchedules.unschedule(cs, function (data) {
-                var index = $scope.classHas(schedule, day);
+                var index = $scope.classHas(schedule);
                 if (index > -1) {
-                    $scope.class.ClassSchedules.splice(index, 1);
+                    $scope.class.Schedules.splice(index, 1);
                 }
             }, function (data) {
                 console.log(data);
