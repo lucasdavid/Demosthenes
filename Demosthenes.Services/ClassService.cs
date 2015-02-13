@@ -14,54 +14,65 @@ namespace Demosthenes.Services
     {
         public ClassService(DemosthenesContext db) : base(db) { }
 
-        public async Task<ICollection<ClassSchedule>> ClassSchedulesOf(int classId)
+        /// <summary>
+        /// Retrieves all Classes of a given Course.
+        /// </summary>
+        /// <param name="courseId">The id of the Course of which Classes should be retrieved.</param>
+        /// <returns>A collection of Classes.</returns>
+        public async Task<ICollection<Class>> OfCourse(int courseId)
         {
-            return await Db.ClassSchedules
-                .Where(e => e.ClassId == classId)
+            return await Db.Classes
+                .Where(c => c.CourseId == courseId)
                 .ToListAsync();
         }
 
-        public async Task<int> ScheduleClass(int classId, int scheduleId, DayOfWeek dayOfWeek)
+        public async Task<ICollection<Schedule>> SchedulesOf(int classId)
         {
-            return await ScheduleClass(new ClassSchedule
-            {
-                ClassId = classId,
-                ScheduleId = scheduleId,
-                DayOfWeek = dayOfWeek
-            });
+            return await Db.Schedules
+                .Where(s => s.Classes.Any(c => c.Id == classId))
+                .ToListAsync();
         }
 
-        public async Task<int> ScheduleClass(ClassSchedule cs)
+        public async Task<int> ScheduleClass(int classId, int scheduleId)
         {
-            var @class = await FindClassOrHalt(cs.ClassId);
+            var c = await FindClassOrHalt(classId);
+            var s = await FindScheduleOrHalt(scheduleId);
 
-            if (@class.ClassSchedules.Any(e => e.ClassId == cs.ClassId && e.ScheduleId == cs.ScheduleId && e.DayOfWeek == cs.DayOfWeek))
-            {
-                throw new ClassAlreadyHasGivenScheduleException("Class {" + @class.Id
-                    + "}, schedule {" + cs.ScheduleId
-                    + "}, day {" + cs.DayOfWeek + "}");
-            }
-
-            @class.ClassSchedules.Add(cs);
-            return await Update(@class);
+            return await ScheduleClass(c, s);
         }
 
-        public async Task<int> UnscheduleClass(ClassSchedule cs)
+        public async Task<int> ScheduleClass(Class c, Schedule s)
         {
-            var @class = await FindClassOrHalt(cs.ClassId);
-            cs = @class
-                .ClassSchedules
-                .FirstOrDefault(e => e.ClassId == cs.ClassId && e.ScheduleId == cs.ScheduleId && e.DayOfWeek == cs.DayOfWeek);
-
-            if (cs == null)
+            if (c.Schedules.Any(curr => curr.Id == s.Id))
             {
-                throw new ClassDoesntHaveGivenScheduleException("Class {" + @class.Id
-                    + "}, schedule {" + cs.ScheduleId
-                    + "}, day {" + cs.DayOfWeek + "}");
+                throw new ClassAlreadyHasGivenScheduleException("{" + c.Id + "} -> {" + s.Id + "}");
             }
 
-            @class.ClassSchedules.Remove(cs);
-            return await Update(@class);
+            c.Schedules.Add(s);
+            return await Update(c);
+        }
+
+        public async Task<int> UnscheduleClass(int classId, int scheduleId)
+        {
+            var c = await FindClassOrHalt(classId);
+            var s = await FindScheduleOrHalt(scheduleId);
+
+            return await UnscheduleClass(c, s);
+        }
+
+        public async Task<int> UnscheduleClass(Class c, Schedule s)
+        {
+            var schedule = c.Schedules
+                .Where(curr => curr.Id == s.Id)
+                .FirstOrDefault();
+
+            if (schedule == null)
+            {
+                throw new ClassDoesntHaveGivenScheduleException("Class {" + c.Id + "}, schedule {" + s.Id + "}");
+            }
+
+            c.Schedules.Remove(schedule);
+            return await Update(c);
         }
 
         public async Task<int> Enroll(int classId, string studentId)
@@ -121,17 +132,15 @@ namespace Demosthenes.Services
 
             return student;
         }
-
-        /// <summary>
-        /// Retrieves all Classes of a given Course.
-        /// </summary>
-        /// <param name="courseId">The id of the Course of which Classes should be retrieved.</param>
-        /// <returns>A collection of Classes.</returns>
-        public async Task<ICollection<Class>> OfCourse(int courseId)
+        protected async Task<Schedule> FindScheduleOrHalt(int id)
         {
-            return await Db.Classes
-                .Where(c => c.CourseId == courseId)
-                .ToListAsync();
+            var s = await Db.Schedules.FindAsync(id);
+            if (s == null)
+            {
+                throw new KeyNotFoundException("Student {" + id + "} does not exit.");
+            }
+
+            return s;
         }
     }
 }
