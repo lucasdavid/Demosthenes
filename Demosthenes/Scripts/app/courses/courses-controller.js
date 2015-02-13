@@ -2,7 +2,9 @@
 
 app.controller('CoursesController',
     ['$http', '$scope', 'Validator', 'resolvedCourses', 'Courses', 'resolvedDepartments',
-    function ($scope, Validator, resolvedCourses, Courses, resolvedDepartments) {
+    function ($http, $scope, Validator, resolvedCourses, Courses, resolvedDepartments) {
+        $scope.courses     = resolvedCourses;
+        $scope.departments = resolvedDepartments;
 
         $scope.create = function () {
             Courses.save($scope.newCourse,
@@ -27,6 +29,4 @@ app.controller('CoursesController',
         }
 
         $scope.clear();
-        $scope.courses     = resolvedCourses;
-        $scope.departments = resolvedDepartments;
     }]);
