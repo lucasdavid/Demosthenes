@@ -8,6 +8,12 @@ namespace Demosthenes.Core
 {
     public class Department : IDateTrackable
     {
+        public Department()
+        {
+            Professors = new List<Professor>();
+            Courses    = new List<Course>();
+        }
+
         [Key]
         public int Id { get; set; }
         

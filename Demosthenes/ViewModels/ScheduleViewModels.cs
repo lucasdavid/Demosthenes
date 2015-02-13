@@ -11,13 +11,17 @@ namespace Demosthenes.ViewModels
     public class ScheduleCreateViewModel
     {
         [Required]
-        [Display(Name = "Starting")]
+        [Display(Name = "Time started")]
         [TimeEqualsOrSmallerThanAttribute("TimeFinished", ErrorMessage="Starting time must be set before finishing time.")]
         public TimeSpan TimeStarted  { get; set; }
         
         [Required]
-        [Display(Name="Finishing")]
+        [Display(Name="Time finished")]
         public TimeSpan TimeFinished { get; set; }
+
+        [Required]
+        [Display(Name = "Day of week")]
+        public DayOfWeek DayOfWeek { get; set; }
     }
 
     public class ScheduleUpdateViewModel : ScheduleCreateViewModel
@@ -31,6 +35,7 @@ namespace Demosthenes.ViewModels
         public int Id { get; set; }
         public TimeSpan TimeStarted { get; set; }
         public TimeSpan TimeFinished { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
 
         static public implicit operator ScheduleResultViewModel(Schedule s)
         {
@@ -38,7 +43,8 @@ namespace Demosthenes.ViewModels
             {
                 Id = s.Id,
                 TimeStarted = s.TimeStarted,
-                TimeFinished = s.TimeFinished
+                TimeFinished = s.TimeFinished,
+                DayOfWeek = s.DayOfWeek
             };
         }
     }

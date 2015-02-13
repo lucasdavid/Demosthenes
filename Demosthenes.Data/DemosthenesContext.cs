@@ -54,14 +54,13 @@ namespace Demosthenes.Data
             return new DemosthenesContext();
         }
 
-        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Post>       Posts       { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<Professor> Professors { get; set; }
-        public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Class> Classes { get; set; }
-        public virtual DbSet<Schedule> Schedules { get; set; }
-        public virtual DbSet<ClassSchedule> ClassSchedules { get; set; }
+        public virtual DbSet<Professor>  Professors  { get; set; }
+        public virtual DbSet<Student>    Students    { get; set; }
+        public virtual DbSet<Course>     Courses     { get; set; }
+        public virtual DbSet<Class>      Classes     { get; set; }
+        public virtual DbSet<Schedule>   Schedules   { get; set; }
         public virtual DbSet<Enrollment> Enrollments { get; set; }
     }
 }

@@ -11,6 +11,11 @@ namespace Demosthenes.Core
     [Table("Professors")]
     public class Professor : ApplicationUser
     {
+        public Professor()
+        {
+            Classes = new List<Class>();
+        }
+
         [Required]
         [RegularExpression(@"\d{3}-\d{3}-\d{4}")]
         public string SSN { get; set; }

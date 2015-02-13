@@ -10,6 +10,11 @@ namespace Demosthenes.Core
 {
     public class Student : ApplicationUser
     {
+        public Student()
+        {
+            Enrollments = new List<Enrollment>();
+        }
+
         public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
 }
