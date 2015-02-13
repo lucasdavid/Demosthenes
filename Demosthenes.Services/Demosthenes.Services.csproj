@@ -52,9 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnrollmentService.cs" />
     <Compile Include="ClassService.cs" />
     <Compile Include="CourseService.cs" />
     <Compile Include="DepartmentService.cs" />
+    <Compile Include="Exceptions\EnrollmentLimitOverflowException.cs" />
+    <Compile Include="Exceptions\NonEnrollableClassException.cs" />
+    <Compile Include="Exceptions\ScheduleConflictBetweenClassesException.cs" />
     <Compile Include="Exceptions\StudentNotEnrolledException.cs" />
     <Compile Include="Exceptions\StudentAlreadyEnrolledException.cs" />
     <Compile Include="Exceptions\ClassDoesntHaveGivenScheduleException.cs" />
