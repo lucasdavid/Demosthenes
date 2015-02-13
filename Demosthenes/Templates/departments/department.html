@@ -15,8 +15,9 @@
             <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any courses yet.</p>
         </div>
 
-        <div class="row">
-            <div ng-repeat="course in department.Courses" class="col-sm-4">
+        <div class="row" ng-init="courseQuantity = 3">
+            <div ng-repeat="course in department.Courses | limitTo: courseQuantity"
+                 class="col-sm-4">
                 <div class="well">
                     <h3>
                         <a href="#courses/{{ course.Id }}">{{ course.Title }}</a>
@@ -32,6 +33,12 @@
                     </p>
                 </div>
             </div>
+            <div ng-show="courseQuantity != department.Courses.length" class="col-sm-12 text-center">
+                <button ng-click="courseQuantity = department.Courses.length" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                    All
+                </button>
+            </div>
         </div>
     </div>
 
@@ -45,8 +52,8 @@
             <h4>Nothing here!</h4><p>Looks like {{ department.Name }} hasn't registered any professors yet.</p>
         </div>
 
-        <div class="row">
-            <div ng-repeat="professor in department.Professors | filter:search" class="col-sm-4">
+        <div class="row" ng-init="professorQuantity = 3">
+            <div ng-repeat="professor in department.Professors | filter:search | limitTo: professorQuantity" class="col-sm-4">
                 <div class="well">
                     <h3>
                         <a href="#professors/{{ professor.Id }}">
@@ -64,6 +71,12 @@
                         </a>
                     </p>
                 </div>
+            </div>
+            <div ng-show="professorQuantity != department.Professors.length" class="col-sm-12 text-center">
+                <button ng-click="professorQuantity = department.Professors.length" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                    All
+                </button>
             </div>
         </div>
     </div>

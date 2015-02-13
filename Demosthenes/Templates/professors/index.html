@@ -1,4 +1,4 @@
-﻿<div class="container">
+﻿<div class="container-fluid">
     <h1>Professors</h1>
 
     <div ng-show="displayCreateForm">
@@ -71,7 +71,7 @@
         <h4>Empty!</h4> Not a single professor was registered in our database yet.
     </div>
     <div class="row">
-        <div ng-repeat="professor in professors | filter:search" class="col-sm-4">
+        <div ng-repeat="professor in professors | filter:search" class="col-sm-6 col-md-4 col-lg-3">
             <div class="well">
                 <h3>
                     <a href="#professors/{{ professor.Id }}">

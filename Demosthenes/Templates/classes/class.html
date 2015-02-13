@@ -1,4 +1,4 @@
-﻿<div class="container">
+﻿<div class="container-fluid">
     <h1>
         <a href="#classes"><span class="glyphicon glyphicon-chevron-left"></span></a>
         {{ class.Course.Title }}<br />
@@ -11,10 +11,16 @@
                 #{{ class.Id }} <small>Id</small>
             </h3>
             <h3>
-                {{ class.Professor.Name }} <small>professor</small>
+                {{ terms[class.Term] }}, {{ class.Year }}
+                <small>Term</small>
             </h3>
             <h3>
-                {{ class.Course.Title }} <small>course</small>
+                <a href="#professors/{{ class.Professor.Id }}">{{ class.Professor.Name }}</a>
+                 <small>professor</small>
+            </h3>
+            <h3>
+                <a href="#courses/{{ class.Course.Id }}">{{ class.Course.Title }}</a>
+                 <small>course</small>
             </h3>
             <h3>
                 {{ class.Course.Credits }} <small>credits</small>
@@ -39,73 +45,41 @@
 
 <br /><br /><br /><br /><br /><br />
 <div id="infoweekcalendar" class="hero">
-    <div class="container">
+    <div class="container-fluid">
         <h2>Schedule</h2>
-    </div>
-    <div class="container-fluid text-center">
-        <div class="row">
-            <div class="col-md-1 col-md-offset-2 schedule-cell-container visible-md visible-lg">
-                <div class="well well-sm schedule-cell">
-                    <h4>Time</h4>
-                </div>
-                <div ng-repeat="schedule in schedules"
-                     class="well well-sm schedule-cell schedule-cell-default">
-                    <span class="lead">{{ schedule.TimeStarted }}</span> to
-                    <small class="small">{{ schedule.TimeFinished }}</small>
-                </div>
-            </div>
-            <!--
-                Displays all days, except Sunday.
-                Saturday's column is thiner than the others
-            -->
-            <div ng-repeat="day in daysOfWeek"
-                 class="col-md-1 schedule-cell-container">
-
-                <div class="well well-sm schedule-cell">
-                    <h4>{{ day }}</h4>
-                </div>
-
-                <div ng-repeat="schedule in schedules"
-                     class="well well-sm schedule-cell schedule-cell-default">
-                    <button type="button"
-                            ng-show="classHas(schedule, day) == -1"
-                            ng-click="bind(schedule, day)"
-                            class="btn btn-link btn-lg btn-block"
-                            title="Click to bind class #{{ class.Id }} to schedule #{{ schedule.Id }}, on {{ day }}.">
-                        <span class="glyphicon glyphicon-unchecked"></span>
-                        Bind
-                    </button>
-                    <button type="button"
-                            ng-click="unbind(schedule, day)"
-                            ng-show="classHas(schedule, day) > -1"
-                            class="btn btn-primary btn-lg btn-block"
-                            title="Click to unbind class #{{ class.Id }} to schedule #{{ schedule.Id }}, on {{ day }}.">
-                        <span class="glyphicon glyphicon-check"></span>
-                        Binded
-                    </button>
-                </div>
-            </div>
+    
+        <div id="loadingBanner" ng-hide="loaded.schedules" class="container text-center">
+            <center>
+                <img src="/Content/Images/loading.gif" alt="Wait." class="img-responsive" />
+            </center>
         </div>
-        <div ng-show="scheduleChanged" class="text-right">
-            <br />
-            <form ng-submit="update()">
-                <div class="form-group">
-                    <button type="button" ng-click="clear()" class="btn btn-default">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        Reset
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        Update
-                    </button>
+        <div class="row">
+            <div ng-repeat="schedule in schedules"
+                 class="col-sm-2">
+                <div class="well well-sm schedule-cell schedule-cell-default">
+                    <a href=""
+                       ng-show="classHas(schedule) == -1"
+                       ng-click="bind(schedule)"
+                       title="Click to bind class #{{ class.Id }} to schedule #{{ schedule.Id }}, on {{ daysOfWeek[schedule.DayOfWeek] }}.">
+                        <span class="glyphicon glyphicon-unchecked"></span></a>
+                    <a href=""
+                       ng-click="unbind(schedule)"
+                       ng-show="classHas(schedule) > -1"
+                       class="btn btn-primary"
+                       title="Click to unbind class #{{ class.Id }} to schedule #{{ schedule.Id }}, on {{ daysOfWeek[schedule.DayOfWeek] }}.">
+                        <span class="glyphicon glyphicon-check"></span></a>
+
+                    <span class="lead">{{ schedule.TimeStarted }}</span> to
+                    <small class="small">{{ schedule.TimeFinished }}</small>, on
+                    <span class="lead">{{ daysOfWeek[schedule.DayOfWeek] }}</span>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 <br /><br /><br /><br /><br /><br />
-<div class="container">
+<div class="container-fluid">
     <div id="location">
         <h2 class="page-header">Location</h2>
 
@@ -125,11 +99,12 @@
             <form ng-valid ng-submit="update()">
                 <fieldset>
                     <legend>Update class #{{ class.Id }}</legend>
-
                     <div class="form-group">
                         <select ng-model="class.CourseId" class="form-control">
                             <option value="" disabled selected>Course</option>
-                            <option ng-repeat="course in courses" value="{{ course.Id }}">{{ course.Title }}</option>
+                            <option ng-repeat="course in courses"
+                                    ng-selected="class.CourseId == course.Id"
+                                    value="{{ course.Id }}">{{ course.Title }}</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -137,11 +112,35 @@
                             <option value="" disabled selected>Professor</option>
                             <option ng-repeat="professor in professors"
                                     ng-selected="professor.Id == class.ProfessorId"
-                                    value="{{ professor.Id }}">{{ professor.Name }}</option>
+                                    value="{{ professor.Id }}">
+                                {{ professor.Name }}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <input type="number" ng-model="class.Size" class="form-control" placeholder="Size of the class" />
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <select ng-model="class.Term" class="form-control">
+                                    <option value="" disabled>Term</option>
+                                    <option ng-repeat="term in terms"
+                                            ng-selected="terms.indexOf(term) == class.Term"
+                                            value="{{ term }}">{{ term }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <select ng-model="class.Year" class="form-control">
+                                    <option value="" disabled>Year</option>
+                                    <option ng-repeat="year in years"
+                                            ng-selected="year == class.Year"
+                                            value="{{ year }}">{{ year }}</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
@@ -169,7 +168,7 @@
                         <input placeholder="Type class name to confirm deletion..." ng-model="deletedClass" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-danger" ng-class="{'disabled': deletedClass!==class.Title}">
+                        <button type="submit" class="btn btn-danger" ng-class="{'disabled': deletedClass !== class.Course.Title}">
                             <span class="glyphicon glyphicon-remove"></span> Delete
                         </button>
                     </div>

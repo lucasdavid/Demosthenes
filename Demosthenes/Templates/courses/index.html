@@ -1,5 +1,5 @@
 ﻿
-<div class="container">
+<div class="container-fluid">
     <h1>Courses</h1>
 
     <div ng-show="displayCreateForm">
@@ -59,13 +59,14 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4>Nothing here!</h4><p>Not a single course has been added yet.</p>
     </div>
-
+</div>
+<div class="container-fluid">
     <div class="row">
-        <div ng-repeat="course in courses | filter:search" class="col-sm-4">
+        <div ng-repeat="course in courses | filter:search" class="col-sm-6 col-md-4 col-lg-3">
             <div class="well">
-                <h3>
+                <h5>
                     <a href="#courses/{{ course.Id }}">{{ course.Title }}</a>
-                </h3>
+                </h5>
                 <p>
                     <strong>Credits:</strong> {{ course.Credits }}<br />
                     <span ng-show="course.Department">

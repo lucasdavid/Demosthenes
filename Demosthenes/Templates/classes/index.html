@@ -1,5 +1,5 @@
 ﻿
-<div class="container">
+<div class="container-fluid">
     <h1>Classes</h1>
 
     <div ng-show="displayCreateForm">
@@ -26,6 +26,25 @@
                     <div class="form-group">
                         <input type="number" ng-model="newClass.Size" class="form-control" placeholder="Size of the class" />
                     </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <select ng-model="newClass.Term" class="form-control">
+                                    <option value="" disabled selected>Term</option>
+                                    <option ng-repeat="term in terms" value="{{ term }}">{{ term }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <select ng-model="newClass.Year" class="form-control">
+                                    <option value="" disabled selected>Year</option>
+                                    <option ng-repeat="year in years" value="{{ year }}">{{ year }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
@@ -71,12 +90,12 @@
     </div>
 
     <div class="row">
-        <div ng-repeat="class in classes | filter:search" class="col-sm-4">
+        <div ng-repeat="class in classes | filter:search" class="col-sm-6 col-md-4 col-lg-3">
             <div class="well">
-                <h3>
+                <h4>
                     <a href="#classes/{{ class.Id }}">{{ class.Course.Title }}</a><br />
                     <small>#{{ class.Id }}</small>
-                </h3>
+                </h4>
                 <p>
                     <strong>Professor:</strong> <a href="/#/professors/{{ class.Professor.Id }}">{{ class.Professor.Name }}</a><br />
                     <strong>Credits:</strong> {{ class.Course.Credits }}<br />

@@ -12,7 +12,7 @@
 </head>
 <body>
     <div ng-controller="HomeController"
-         class="navbar navbar-default navbar-fixed-top">
+         class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -39,7 +39,20 @@
                             <li><a href="#courses"><span class="glyphicon glyphicon-tree-deciduous"></span> Places</a></li>
                         </ul>
                     </li>
-                    <li ng-show="authentication.isAuth"><a href="" ng-click="logOut()">Sign out</a></li>
+                    <li ng-show="authentication.isAuth"
+                        role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-expanded="false">
+                            {{ authentication.UserName }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#profile">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Profile</a></li>
+                            <li><a href="" ng-click="logOut()">
+                                <span class="glyphicon glyphicon-log-out"></span>
+                                Sign out</a></li>
+                        </ul>
+                    </li>
                     <li ng-hide="authentication.isAuth"><a href="#/sign">Sign in</a></li>
                 </ul>
             </div>

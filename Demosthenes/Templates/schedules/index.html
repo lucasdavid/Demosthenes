@@ -1,4 +1,4 @@
-﻿<div class="container">
+﻿<div class="container-fluid">
     <h1>Schedules</h1>
 
     <div ng-show="displayCreateForm">
@@ -27,6 +27,12 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <select ng-model="newSchedule.DayOfWeek" class="form-control">
+                            <option value="" disabled>Day of week</option>
+                            <option ng-repeat="day in daysOfWeek" value="{{ day }}">{{ day }}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success">
@@ -66,11 +72,12 @@
     </div>
 
     <div class="row">
-        <div ng-repeat="schedule in schedules | filter:search" class="col-sm-4">
+        <div ng-repeat="schedule in schedules | filter:search" class="col-sm-6 col-md-4 col-lg-3">
             <div class="well">
                 <strong>#{{ schedule.Id }}</strong>
                 From <span class="lead">{{ schedule.TimeStarted }}</span>
                 to <span class="lead">{{ schedule.TimeFinished }}</span>
+                on <span class="lead">{{ daysOfWeek[schedule.DayOfWeek] }}</span>
             </div>
         </div>
     </div>
